@@ -9,6 +9,8 @@
 % Numerelli nel tondino (Wingdings®-style)
 \usepackage{pifont}
 
+\usepackage{comment}
+
 % Personalizzazioni dei parametri LaTeX (formato titoli...). Sono spostati più in su rispetto allo standard, lo preferisco così
 \usepackage[font={small,it}]{caption}
 %~ Titoli dei capitoli più in sù
@@ -57,10 +59,10 @@
 \usepackage[american]{circuitikz}
 
 % Watermark (rimovibile dopo la bozza)
-\usepackage{draftwatermark}
-\SetWatermarkText{\textbf{BOZZA}}
-\SetWatermarkScale{6}
-\SetWatermarkColor[gray]{.9}
+%\usepackage{draftwatermark}
+%\SetWatermarkText{\textbf{BOZZA}}
+%\SetWatermarkScale{6}
+%\SetWatermarkColor[gray]{.9}
 
 % Link dall'indice (e agli url)
 \usepackage[hidelinks]{hyperref}
@@ -128,7 +130,7 @@ Elettronica per le Radiofrequenze", a cura di Ing. M. Mincica e Ing. A. Fonte;
 \item ``Microwave Engineering" - D. Pozar
 \end{itemize}
 
-\textbf{Immagini} realizzate con Digikey\textregistered Scheme-It\textregistered ~ed Inkscape
+\textbf{Immagini} realizzate con Digikey\textsuperscript{\textregistered{}} Scheme-It\textsuperscript{\textregistered{}} ed Inkscape
 
 \textbf{Impaginazione} in \LaTeX
 
@@ -543,19 +545,17 @@ $$
 	
 	\begin{multicols}{2}
 		\begin{center}
-			In ingresso...
-		
 			\includegraphics{img/dimensionamento-CA}
 		\end{center}
-	Solitamente, sia la resistenza vista dalla base che le resistenze di polarizzazione sono molto maggiori di $R_S$, quindi basta verificare che $\frac{1}{\omega_0 C_A} \ll R_S$
-	\columnbreak
-	
+                \columnbreak
+		In ingresso... Solitamente, sia la resistenza vista dalla base che le resistenze di polarizzazione sono molto maggiori di $R_S$, quindi basta verificare che $\frac{1}{\omega_0 C_A} \ll R_S$
+        \end{multicols}	
+	\begin{multicols}{2}
 	\begin{center}
-		In uscita...
-		
 		\includegraphics[width=0.55\linewidth]{img/dimensionamento-CA-out}
 	\end{center}
-	È sufficiente che $C_A$ sia trascurabile rispetto al carico, dunque $\frac{1}{\omega_0 C_A} \ll R_L$
+        \columnbreak
+			In uscita... È sufficiente che $C_A$ sia trascurabile rispetto al carico, dunque $\frac{1}{\omega_0 C_A} \ll R_L$
 	\end{multicols}
 	
 	\paragraph{Dimensionamento di $C_E$}
@@ -1899,7 +1899,7 @@ $$
 	In definitiva...
 	
 	\begin{align*}
-	&V_u(t) = g_m \frac{{V_{RF}}_m}{2} cos(\omega_{RF}t) \cdot 2\sum_{n=1}^{\infty} \frac{sin(n\frac{\pi}{2})}{n\frac{\pi}{2}} cos(\omega_{OL} t)\\
+	&V_u(t) = R_L g_m \frac{{V_{RF}}_m}{2} cos(\omega_{RF}t) \cdot 2\sum_{n=1}^{\infty} \frac{sin(n\frac{\pi}{2})}{n\frac{\pi}{2}} cos(\omega_{OL} t)\\
 	&{V_{u_m}} = g_m R_L ~ \frac{{v_{RF}}_m}{2} \cdot 2 \frac{2}{\pi} \cdot \frac{1}{2} = \frac{g_m R_L V_{{RF}_m}}{\pi}\\
 	&P_{IF} = \frac{V_{u_m}^2}{2 R_L} =
 	\frac{g_m^2 R_L^2 V_{{RF}_m}^2}{2 \pi^2 R_L}
@@ -2006,7 +2006,7 @@ Caratterizzando un quadripolo sarà utile trattare le connessioni con il resto de
 		\item $v_f = \frac{c}{\sqrt{\varepsilon_r}}$ è la velocità di propagazione lungo la linea.
 	\end{multicols}
 	\end{itemize}
-	Si può ricavare, inoltre, l'impedenza vista in ogni punto della linea in un punto generico $\ell$:
+	Si può ricavare, inoltre, l'impedenza vista in un punto generico della linea $\ell$:
 	\[Z(\ell) = Z_0 \frac{Z_L + jZ_0 tg(\beta \ell)}{Z_0 + jZ_L tg(\beta \ell)}\]
 %$$\Gamma = \frac{V^-}{V^+} = \frac{Z_L - Z_0}{Z_L + Z_0}$$
 Poiché la linea è senza perdite, la potenza media lungo la linea è costante con $\ell$, ed è pratico calcolarla per $\ell = 0$:
@@ -2377,7 +2377,7 @@ Tramite analoghi passaggi si ricava l'espressione del coefficiente di riflession
 {1-\left|\frac{a_2}{b_2} \right|^2}
 {1-\left|\frac{b_1}{a_1} \right|^2}
 =\]
-Dato che $\frac{a_2}{b_2} = \Gamma_{L}$, $\frac{a_1}{b_1} = \Gamma_{IN}$, $\frac{b_2}{a_1} = \frac{S_{21}}{1-S_{22}\Gamma_{L}}$:
+Dato che $\frac{a_2}{b_2} = \Gamma_{L}$, $\frac{b_1}{a_1} = \Gamma_{IN}$, $\frac{b_2}{a_1} = \frac{S_{21}}{1-S_{22}\Gamma_{L}}$:
 
 \begin{equation}\label{eq:gp}
 G_P = 
@@ -4386,7 +4386,7 @@ In certi casi può essere utile, per eliminare disturbi interni al PLL, scegliere
 		\centering
 		\includegraphics[width=0.45\linewidth]{img/PLL-XOR-waveform}
 		\includegraphics[width=0.45\linewidth]{img/PLL-XOR-charat}
-		\caption{Si sono indicate con $V'_REF$ e $V'_OUT$
+		\caption{Si sono indicate con $V'_{REF}$ e $V'_{OUT}$
 			le ``versioni squadrate'' dei rispettivi segnali.}
 		\label{fig:pll-xor-waveform}
 	\end{figure}
@@ -5138,7 +5138,7 @@ razionalmente ampio (caso delle trasmissioni ionosferiche).
 
 \paragraph{Modulatore AM ad alto livello}
 Questa soluzione impiega un amplificatore in classe D nel quale il segnale modulante viene
-utilizzato per quella si chiama ``modulazione per caratteristica di collettore".
+utilizzato per quella che si chiama ``modulazione per caratteristica di collettore".
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[height=15em]{img/Modulatori-AM-highlevel}
@@ -5157,7 +5157,7 @@ dell'amplificatore di potenza a bassa frequenza, necessario per pilotare il
 primario del trasformatore. Infatti una aliquota considerevole della tensione $V_{CC}$ e, di conseguenza,
 un altrettanto considerevole contributo alla potenza erogata, proviene, attraverso l'accoppiamento a
 trasformatore, dal segnale modulante il quale deve essere opportunamente amplificato.
-L'amplificatore di potenza a bassa frequenza (APBF) nella figura dovrà, a sua volta, essere ad alta
+L'amplificatore di potenza a bassa frequenza (APLF) nella figura dovrà, a sua volta, essere ad alta
 efficienza per non influire negativamente sull'efficienza globale del sistema.
 
 \subsection{Modulatori SSB}
@@ -5258,7 +5258,7 @@ La realizzabilità è semplice, ma il parametro circuitale è soggetto a dispersion
 Il segnale viene prima integrato e poi usato per modulare in fase un oscillatore (tipicamente quarzato). Questa soluzione si realizza molto bene con un PLL e non si ha deriva sull'oscillazione grazie all'accuratezza introdotta dal quarzo.
 
 \subsubsection{Compensazione della deriva della portante}
-Per quanto riguarda i modulatori diretti, si può implementare un sistema per la correzione delle derive della frequenza della, che prende il nome di CAF (Controllo Automatico della Frequenza).
+Per quanto riguarda i modulatori diretti, si può implementare un sistema per la correzione delle derive della frequenza portante, che prende il nome di CAF (Controllo Automatico della Frequenza).
 % la quale funziona però solo sotto certe condizioni per altro facilmente verificabili. 
 Si osservi che le derive termiche e quelle dovute all'invecchiamento costituiscono un disturbo a bassissima frequenza che risulta sempre separato da quello del segnale modulante. Indichiamo con $\varepsilon(t)$ tale disturbo e con $\varepsilon(f)$ il suo spettro.
 L'obiettivo è di richiudere il modulatore di frequenza diretto in reazione in modo da annullare il disturbo. Si farà uso di alcuni blocchi particolari:
@@ -5627,7 +5627,7 @@ Invece, l'oscillatore locale \ding{173} produrrà una frequenza fissa pari a 35MH
 Potrebbe ancora verificarsi il problema della frequenza immagine sulla seconda conversione: è opportuno verificare che ciò non accada. Il filtro AFI \ding{172} deve essere in grado di reiettare la seconda frequenza immagine $f_{IM_2}$. È un filtro a frequenza fissa con $Q>100$ per cui:
 \[ B_{AFI_1} = 340 kHz = \frac{f_{IF_1}}{Q} = \frac{34Mhz}{100}
 \]
-La $f_{IM_2}$ è chiaramente fuori dalla banda del filtro che presenterà dei fianchi molto ripidi (Q>100) e, pertanto verrà pesantemente attenuata. Per una valutazione esatta bisognerebbe, comunque, conoscere con precisione la tipologia e l'ordine del filtro utilizzato.
+La $f_{IM_2}$ è chiaramente fuori dalla banda del filtro che presenterà dei fianchi molto ripidi ($Q>100$) e, pertanto verrà pesantemente attenuata. Per una valutazione esatta bisognerebbe, comunque, conoscere con precisione la tipologia e l'ordine del filtro utilizzato.
 
 Potrebbe accadere (anche se è estremamente raro) che due conversioni non siano sufficienti, in tal
 caso si può arrivare a 3 o più. L'attuale disponibilità di filtri monolitici a frequenza centrale fissa e a
@@ -5657,7 +5657,7 @@ Il problema della frequenza immagine non sussiste, però al primo stadio si pone 
 
 Questa architettura soffre però di alcuni problemi:
 \begin{itemize}
-	\item Il filtro di canale soffre di rumore flicker. I Il che è problematico perché compare già al primo stadio, a differenza del supereterodina dove lo ritroviamo solo nell'ultimo stadio in bassa frequenza, quando il segnale è già stato ``rinforzato". Per ridurre il problema bisognerebbe amplificare immediatamente, a radiofrequenza, ed è ormai noto che amplificatori con alto guadagno sulle alte frequenze siano scarsamente efficienti;
+	\item Il filtro di canale soffre di rumore flicker. Il che è problematico perché compare già al primo stadio, a differenza del supereterodina dove lo ritroviamo solo nell'ultimo stadio in bassa frequenza, quando il segnale è già stato ``rinforzato". Per ridurre il problema bisognerebbe amplificare immediatamente, a radiofrequenza, ed è ormai noto che amplificatori con alto guadagno sulle alte frequenze siano scarsamente efficienti;
 	\item 
 	Si ha accoppiamento dell'oscillatore locale con l'ingresso del ricevitore che è sintonizzato sulla stessa frequenza. Essendo il primo un segnale di notevole potenza e l'accoppiamento controllato da fenomeni aleatori (tipo la posizione del ricevitore, l'orientamento dell'antenna, ecc,) questo fenomeno può produrre in uscita al mixer una tensione \textit{quasi continua} (DC offset) nociva alla corretta demodulazione:
 	\\
@@ -6160,7 +6160,8 @@ Un ricevitore FM non stereo sarà comunque in grado di ascoltare il segnale trasm
 %
 %Lo strumento consente di diminuire la risoluzione in frequenza (es. fino a poche centinaia di $\mu Hz \Rightarrow T = \nicefrac{1}{\Delta F} = 4000 s$. $N_{max} = f_c \cdot 4000 = 1024 MSa$).
 %Impossibile gestire questo numero di campioni: si fa un filtraggio antialiasing a frequenza più bassa (solitamente filtro numerico) e si fa una decimazione dei campioni ( = si campiona a frequenza più bassa).
-	
+
+\begin{comment}
 \chapter{Formulario}
 \section{Parametri Y}
 	\begin{align*}
@@ -6273,4 +6274,6 @@ Un ricevitore FM non stereo sarà comunque in grado di ascoltare il segnale trasm
 	&r_i = \sqrt{\frac{(1+N_i)N_i - N_i|\Gamma_{ON}|^2}{(1+N_i)^2}}\\
 	&NF = NF_{MIN} + \frac{4r_n|\Gamma_{S}-\Gamma_{ON}|^2}{(1-|\Gamma_{S}|^2) |1+\Gamma_{ON}|^2}\\
 	\end{align*}
+\end{comment}
+
 \end{document}
