@@ -1,0 +1,822 @@
+\chapter{Trasmettitori}
+\label{ch:trasmettitori}
+Lo stadio trasmettitore di un sistema di ricetrasmissione deve essere in grado di effettuare almeno le seguenti operazioni sul segnale in banda base:
+\begin{itemize}
+	\item utilizzarlo per modulare in ampiezza e/o in fase la portante;
+	\item filtrare eventuali componenti spurie frutto della modulazione;
+	\item amplificare il segnale modulato per portarlo al livello di potenza richiesto dalle specifiche della particolare applicazione;
+	\item trasmetterlo utilizzando un'antenna con un diagramma di radiazione appropriato.
+\end{itemize}
+Talvolta l'operazione di modulazione e quella di amplificazione di potenza vengono effettuate contemporaneamente all'interno di un unico stadio: in questo caso si parla di modulazione ad alto livello. Quando, invece, si può individuare uno stadio di modulazione separato da quello di amplificazione, allora si parla di modulazione a basso livello. Lo schema a blocchi di massima di un trasmettitore che utilizza un modulatore a basso livello è rappresentato in figura. Nella fattispecie, si tratta di un trasmettitore a conversione diretta, in quanto la modulazione avviene alla stessa frequenza della portante di trasmissione. Nel caso in cui vi sia, prima dell'antenna, un mixer utilizzato per una traslazione in alto della frequenza, allora si parla di trasmettitori a doppia conversione o, più in generale, a conversione multipla.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/AP}
+	\caption{}
+	\label{fig:aprf}
+\end{figure}
+
+Mentre l'architettura dello stadio di modulazione dipende, ovviamente, dal tipo di modulazione	utilizzata, l'amplificatore di potenza presenta alcune caratteristiche comuni a tutti gli stadi di	potenza e, quindi, indipendenti dal tipo di modulazione. Come si vedrà nel seguito, comunque, il	fatto che la modulazione agisca sull'ampiezza del segnale o sul suo argomento (modulazioni ad	inviluppo costante) pone delle condizioni imprescindibili sulla scelta dell'amplificatore di potenza.
+
+\section{Amplificatori di potenza}
+In un sistema di ricetrasmissione il power amplifier (PA) è presente esclusivamente in trasmissione.
+Le potenze che esso sarà chiamato a gestire, nel caso in cui si tratti di un amplificatore allo stato
+solido, vanno da qualche mW (10dBm) fino a centinaia di Watt (20dB$\div$50dBm). Per potenze
+superiori si utilizzano componentistica e soluzioni circuitali diverse il cui studio non è contemplato
+tra gli obiettivi del presente corso.
+I problemi nuovi che sorgono in amplificatori destinati a trattare potenze da alcune decine di mW
+in su sono abbastanza diversi da quelli che caratterizzano gli amplificatori per piccoli segnali. Ne daremo nel seguito una rapida rassegna facendo riferimento all'utilizzo di transistori bipolari, sebbene questi ultimi possano essere sostituiti da transistori MOS oppure da MESFET, cosa che accade sempre più spesso.
+
+\subsection{Definizioni}
+\paragraph{Efficienza di conversione}
+\[  \eta = \frac{P_U}{P_E} \]
+È il rapporto fra la potenza utile in uscita $P_U$ e la potenza erogata dall'alimentazione $P_E$. Fornisce una misura del rendimento con cui la potenza dall'alimentazione viene convertita in potenza utile trasmessa. Ovviamente si ha sempre $\eta \leq 1$.
+
+\[P_{E} = P_{DISS} + P_{U} \Rightarrow P_{DISS} = P_{U} \frac{1-\eta}{\eta}  \]	
+
+È opportuno osservare che un elevato valore dell'efficienza di conversione oltre che risultare
+vantaggioso dal punto di vista del consumo di potenza e dell'autonomia delle batterie, ha come
+conseguenza la riduzione della dissipazione sul componente attivo con evidenti vantaggi sul suo
+costo e su quello di eventuali sistemi necessari ad asportare il calore generato al suo interno
+onde evitarne il danneggiamento irreversibile.
+
+\paragraph{Fattore di utilizzo}
+\[\theta_U = \frac{P_U}{V_{CE_{max}} I_{C_{max}}}\]
+
+È il rapporto tra la potenza utile ed il prodotto tra i valori massimi istantanei della tensione $V_{CE}$ e della corrente di collettore.\\
+Sebbene quest'ultimo prodotto abbia le dimensioni di una potenza, non rappresenta alcuna potenza effettivamente osservabile nell'amplificatore. Infatti non esiste alcun istante del ciclo di funzionamento in cui $V_{CE}$ e $I_{C}$ assumono contemporaneamente il loro valore massimo.
+\\
+$\theta_U$ ha il significato di fattore di merito: più esso è grande e più, a parità di potenza utile in uscita, il transistore sarà chiamato a sopportare tensioni/correnti massime più piccole.
+Di fatto questo significa che il transistore avrà un costo inferiore	poiché ad esso saranno richieste prestazioni più limitate. I transistori per applicazioni di	potenza possono sopportare dissipazioni di centinaia di Watt.
+
+\paragraph{Classe di funzionamento}
+Come si vedrà nel seguito per motivi di efficienza si può ricorrere a soluzioni circuitali nelle quali il transistore si trova in zona attiva solo per una frazione del periodo. Si definisce \textbf{l'angolo di circolazione $\theta$} come la metà della frazione di periodo, misurata il radianti,
+durante il quale il transistore è in zona attiva. A seconda del valore di $\theta$ si parlerà di
+amplificatore in classe A ($\theta = \pi$), in classe B ($\theta = \nicefrac{\pi}{2}$), in classe
+AB ($\nicefrac{\pi}{2}<\theta<\pi$) oppure in classe C ($0<\theta<\nicefrac{\pi}{2}$).
+
+Nel seguito esamineremo alcune configurazioni circuitali e modalità di funzionamento tra le più
+diffuse e, per ciascuna, calcoleremo i parametri prima definiti. Si continuerà a fare riferimento al
+caso di amplificatori a transistori bipolari, ma con semplici modifiche può applicarsi al caso di componenti attivi diversi.
+
+\subsection{Amplificatori in classe A}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.5\linewidth]{img/AP-classA}
+\caption{}
+\label{fig:ap-classa}
+\end{figure}
+
+Si tratta di una configurazione ben nota e sempre utilizzata dagli amplificatori per piccolo segnale.
+In figura \ref{fig:ap-classa} è rappresentato il circuito corrispondente con una rete di polarizzazione	semplificata dalla eliminazione della resistenza di emettitore $R_E$ che è stata omessa, sia per
+semplicità di calcolo, sia perché l'obiettivo che ci prefiggiamo è quello di verificare quale sia la
+massima efficienza di conversione conseguibile con questa soluzione: la $R_E$ , dissipando potenza in
+continua non utile alla trasmissione, non può far altro che ridurre l'efficienza.
+Possiamo immaginare valori tipici della corrente di collettore nel range delle centinaia di
+milliampere o maggiori. Nei transistori di potenza il guadagno di corrente $h_{FE}$ è piccolo rispetto a quello degli amplificatori per piccolo segnale.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.6\linewidth]{img/caratteristica-classeA}
+\caption{}
+\label{fig:caratteristica-classea}
+\end{figure}
+
+Infatti, per sopportare elevati valori di corrente dovranno avere aree attive molto grandi e, su superfici così ampie, è più difficile garantire spessori di base molto piccoli, requisito necessario ad un alto valore di $h_{FE}$ che, in genere, è nell'intervallo 10 $\div$ 100. A questi valori di corrente di collettore il ruolo stabilizzante della $R_E$ è svolto già parzialmente dalla resistenza parassita di dispersione.
+
+Dall'analisi della maglia di ingresso e con l'utilizzo della caratteristica di ingresso del componente attivo si ricava il valore della corrente di base a riposo $I_{BQ}$.
+La retta di carico statico è verticale e, in continua, $V_{CE_Q} = V_{CC}$, pertanto il valore di $I_{B_Q}$ fissa il punto di riposo.
+A partire dal punto di riposo una variazione di $v_{CE}(t)$ determina una variazione di $i_C (t)$ che fa
+muovere il punto istantaneo di lavoro sulla retta di carico dinamica rappresentata in figura. Se la sollecitazione è simmetrica lo spostamento lungo la retta sarà simmetrico. Finché il transistore è in zona attiva si considereranno costanti i suoi parametri differenziali e pari ai loro valori medi.
+L'escursione massima della $V_{CE} (t)$ e della $I_C(t)$ dipendono dall'inclinazione della retta di carico
+dinamico, quindi dal valore della $R_L$. Ipotizzando trascurabile la tensione di saturazione $V_{CE_{sat}}$ si può facilmente dimostrare che il valore di $R_L$ per cui si può consegnare al carico la massima potenza è $R_L = \frac{V_{CE_Q}}{I_{C_Q}}$.
+
+Sotto queste condizioni calcoliamo l'efficienza di conversione $\eta$ precisando che $P_U$, potenza utile sul carico, è relativa alla frequenza di trasmissione di prima armonica. Ai fini del calcolo non si considerano né eventuali componenti in continua né quelle derivante da componenti armoniche di ordine superiore rispetto alla fondamentale:
+
+\[ P_{L_{MAX}} = \frac{V_{CE_Q}^2}{2R_L} = \frac{V_{CE_Q}I_{C_Q}}{2} \]
+
+Se trascuriamo la potenza dissipata in base e sulle resistenze di polarizzazione di base (comunque
+piccola rispetto alle altre potenze in gioco), $P_E$ dipende solo dalla corrente $I_{C_Q}$ e dalla tensione di alimentazione. Infatti, una eventuale componente variabile (comunque non presente a causa del blocco introdotto dall'induttanza RFC) essendo a valor medio nullo non produrrebbe alcun contributo alla potenza media erogata dalla batteria.
+
+$$P_E = V_{CE_Q} I_{C_Q}$$
+
+$$ \eta = \frac{V_{CE_Q}I_{C_Q}}{2} \frac{1}{V_{CE_Q} I_{C_Q}} = \frac{1}{2}$$
+
+La massima efficienza di conversione è del 50\%, dunque (nella migliore delle ipotesi) metà della potenza erogata dall'alimentazione viene effettivamente sfruttata. A causa di fattori quali $V_{CE_{sat}}\neq 0$ e la presenza di elementi reattivi che riducono l'ampiezza utile della retta di carico (che assume, per essere più precisi, la forma di un'ellisse), $\eta$ è destinato a decrescere, arrivando tipicamente al $10\div12\%$.\\
+Inoltre, poiché la potenza erogata dalla batteria è indipendente dal segnale, se l'ampiezza diminuisce si ottiene un valore minore di $\eta$. Di fatto l'efficienza dipende dall'ampiezza del segnale.
+
+Calcoliamo, adesso, il fattore di utilizzo a partire dalla sua definizione:
+\[ \theta_U = \frac{P_U}{V_{CE_{max}} I_{C_{max}}}=
+\frac{V_{CC}^2}{2 R_L} \frac{1}{2V_{CC} 2I_{C_Q}}=
+\frac{V_{CC}}{8R_L} \frac{R_L}{V_{CC}} = \frac{1}{8}\]
+
+\subsection{Amplificatori in classe B}
+
+Per migliorare l'efficienza di conversione bisogna esplorare modalità di funzionamento diverse da
+quelle tipiche della classe A, cercando di rendere l'erogazione di potenza da parte delle batterie
+indipendente dalla presenza o meno del segnale.
+Esaminiamo nel seguito un esempio di
+amplificatore in cui i singoli componenti attivi operano in classe B ($\theta = \nicefrac{\pi}{2}$). Si tratta di una configurazione tra le più diffuse negli stadi di potenza che va sotto il nome di amplificatore push-pull.
+
+\subsubsection{Push-Pull}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.5\linewidth]{img/AP-classB}
+\caption{}
+\label{fig:ap-classb}
+\end{figure}
+
+Risulta evidente che i due transistori non potranno essere contemporaneamente in zona attiva poiché sono caratterizzati dallo stesso valore della tensione base-emettitore e, di conseguenza, quando questa è positiva risulterà \ding{172} in zona attiva e \ding{173} in interdizione, quando è negativa il
+viceversa.
+
+Analizziamo la situazione a riposo, ovvero per $v_S = 0$. I transistori risultano ambedue interdetti: se ipotizziamo per assurdo che \ding{172} sia in zona attiva
+(e \ding{173} interdetto) avremo corrente in $R_L$ e, di conseguenza $$ V_{E1} > 0 
+~~\Rightarrow~~
+V_{B1} = V_{E1} + V_\gamma > 0$$
+
+La corrente di base risulterà $I_{B1} = - \frac{V_{B1}}{R_S} < 0$ ovvero corrente di base negativa in un transistore NPN in zona attiva: conclusione ovviamente non accettabile.\\
+Si può fare lo stesso ragionamento con ipotesi \ding{172} interdetto e \ding{173} in zona attiva, pertanto l'unica soluzione possibile è che ambedue i transistori risultino interdetti.
+
+In definitiva, a riposo:
+$$
+\begin{aligned}
+v_u & = 0\\
+I_C & = 0
+\end{aligned}
+~~\Rightarrow~~
+\mbox{punto di riposo}
+~~~
+\begin{aligned}
+V_{CE_1} & = V_{CC}\\
+I_{C_{Q1}} & = 0
+\end{aligned}
+$$
+
+Lo stesso vale per il transistore 2:
+$$
+\begin{aligned}
+V_{CE_2} & = -V_{CC}\\
+I_{C_{Q2}} & = 0
+\end{aligned}
+$$
+
+Esaminiamo adesso cosa accade alle variazioni. Nella figura seguente sono indicate la tensione $V_S$ e le correnti di collettore (quella del transistore \ding{173} è rappresentata con segno opposto a quello convenzionale e risulta, pertanto positiva).
+
+Nel semiperiodo positivo conduce \ding{172} e \ding{173} è interdetto. Il transistore \ding{172} funziona in configurazione inseguitore di emettitore e, se $R_L (h_{fe} +1 ) \gg h_{ie} + R_S$, risulta $V_U \simeq V_S$.
+
+La corrente sul carico è $I_L = I_{C_1}$.
+
+Nel semiperiodo negativo \ding{173} conduce e \ding{172} è interdetto. Il transistore \ding{173} funziona in configurazione inseguitore di emettitore e, se $R_L (h_{fe} +1) \gg h_{ie} + R_S$, risulta ancora:
+$V_U \simeq V_S$.
+
+La corrente sul carico è $I_L = -I_{C_2}$.
+Ciascun transistore funziona in classe B.
+Il punto istantaneo di lavoro del transistore \ding{172} percorre la traiettoria tracciata a tratto continuo nella
+figura seguente:
+
+Calcoliamo adesso l'efficienza di conversione $\eta$. Anche in questo caso la calcoliamo in corrispondenza della massima escursione consentita al punto istantaneo di funzionamento senza entrare in zona di saturazione. Il calcolo viene fatto ancora una volta supponendo trascurabile la tensione di saturazione $V_{CE_{SAT}}$. Con $I_{C_{max}} = \frac{V_{CC}}{R_L} $:
+
+\[P_U = \frac{I_{C_{max}}^2}{2}R_L = \frac{V_{CC}^2}{2R_L}\]
+
+Per quanto riguarda la potenza erogata, bisogna tener conto che l'alimentazione è duale:
+
+\[P_E = 2 V_{CC} \bar{I}_{C_1}\]
+
+$\bar{I}_{C_1}$ è il valor medio della sinusoide raddrizzata:
+\[\bar{I}_{C_1} = \frac{I_{C_{max}}}{\pi} = \frac{V_{CC}}{\pi R_L}\]
+\[ \eta = \frac{\frac{V_{CC}^2}{2R_L}}{2 V_{CC} \bar{I}_{C_1}}  = \frac{\pi}{4} \simeq 0.78 = 78 \% \]
+
+In conclusione: in classe B l'efficienza di conversione massima migliora del $28\%$ rispetto a quella
+ottenibile in classe A, mentre la potenza dissipata sui due transistori, a parità di potenza utile,
+risulta più che dimezzata (meno di $\nicefrac{1}{4}$ su ciascun transistore rispetto alla classe A).
+
+Passiamo al calcolo del fattore di utilizzo:
+
+\[\begin{aligned}
+V_{CE_{max}} & = V_{CC}\\
+I_{CE_{max}} & = \frac{V_{CC}}{R_L}\\
+\Rightarrow ~~ \theta & = \frac{V_{CC}^2}{2 R_L} \frac{R_L}{2 V_{CC}^2} = \frac{1}{4} = 0.25
+\end{aligned}\]
+
+Il fattore di utilizzo aumenta, ma non è direttamente
+confrontabile con quello della classe A poiché bisogna tenere conto del fatto che, nel push-pull, sono necessari 2 transistori invece che 1.
+
+\subsubsection{Push-Pull a transistor omologhi}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.7\linewidth]{img/AP-classB-omologhi}
+\caption{}
+\label{fig:ap-classb-omologhi}
+\end{figure}
+
+
+Una seconda possibile architettura in classe B fa uso di soli transistor di tipo NPN e necessita di una sola batteria per funzionare. Per raggiungere questo obiettivo si utilizzano due Balun che permettono a $Q_2$ di svolgere il lavoro del PNP nella precedente configurazione.\\
+Durante la semionda positiva la tensione base emettitore di $Q_1$ è positiva mentre quella di $Q_2$ è negativa (quindi sarà interdetto). La corrente nella maglia di uscita di $Q_1$ scorre ovviamente nel senso della batteria e quindi in senso antiorario, inducendo, grazie al secondo Balun, una semionda positiva amplificata sul carico.\\
+Durante la semionda negativa, invece, $Q_1$ è spento e $Q_2$ è in conduzione. La corrente nella maglia di uscita di $Q_2$ scorre stavolta in senso orario (sempre seguendo il verso della batteria) e ciò induce una semionda negativa sul carico.\\
+Questa configurazione non introduce miglioramenti nell'efficenza o nel fattore di utilizzo in quanto l'amplificazione di potenza è perfettamente analoga a quella di un push-pull ma risulta comunque utile in casi di singola alimentazione, o per tecnologie integrate dove non si dispone di transistori PNP.
+
+\[ P_U = \frac{{V_{CC}}^2}{2{R_L}'} \]
+\[ P_E = V_{CC} \bar{I_C} = V_{CC} 2 \frac{V_{CC}}{\pi {R_L}'} \]
+\[ \eta = \frac{{V_{CC}}^2}{2{R_L}'} \frac{{R_L}'}{ 2{V_{CC}}^2 } \]
+
+$R_L'$ è la resistenza vista dai collettori di $Q_1$ e $Q_2$ sull'uscita: dato che i balun sono rispettivamente 2:1 sull'ingresso e 1:2 sull'uscita la $R_L$ sarà demagnificata di un fattore 4 sul lato sinistro del secondo balun. Questo risulta in ogni caso uno schema di principio e deve essere corredato di opportune reti di polarizzazione per $Q_1$ e $Q_2$ per garantire il funzionamento in zona attiva.
+
+\subsection{Amplificatori in classe C}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.7\linewidth]{img/AP-classC}
+\caption{}
+\label{fig:ap-classc}
+\end{figure}
+
+
+Passiamo adesso ad esaminare il caso del funzionamento in classe C. In realtà il circuito e la conseguente analisi che seguiranno sarebbero applicabili a qualunque classe di funzionamento, al variare della tensione di polarizzazione $E_B$.\\
+Ciononostante la topologia circuitale utilizzata trova applicazione pratica (a fini dell'efficienza di conversione) quasi esclusivamente nel caso di funzionamento in classe C, e ne prende il nome. 
+
+%Per ottenere il funzionamento in classe C dobbiamo fare in modo che risulti ? < ?/2.
+%... ci si possono mettere tutti
+
+Nell'ipotesi di $C_A$ di valore sufficientemente elevato e caduta trascurabile su $R_S$ si ottiene:
+\[
+\begin{aligned}
+V_B &= V_S(t) + E_B\\
+V_S(t) &= V_{S_M} cos ( \omega_0 t )
+\end{aligned}
+\]
+
+Se immaginiamo la caratteristica di ingresso del transistore caratterizzata da un valore della
+tensione di soglia $V_T$ al di sotto del quale le correnti di base e di collettore risultano nulle (il
+discorso può essere esteso a transistori MOS), si può osservare quanto segue:
+
+\[
+\begin{aligned}
+&E_B + V_{S_M } < V_T& & \mbox{Dispositivo sempre spento}\\
+&E_B < V_T < E_B + V_{S_M }& & \mbox{Classe C}\\
+&E_B - V_{S_M } < V_T < E_B & & \mbox{Classe AB}\\
+&E_B = V_T& & \mbox{Classe B}\\
+&E_B - V_{S_M} > V_T& & \mbox{Classe A}\\
+\end{aligned}
+\]
+
+%Con riferimento alla tensione in ingresso $V_S = V_{S_M}cos(\omega_0t)$ la corrente di collettore avrà il seguente andamento:
+%
+%\[I_C = 
+%\begin{cases}
+%\begin{aligned}
+%&g_m (V_{BE} - V_T)& &V_{BE} \ge V_T&\\
+%&0& &V_{BE} \le V_T&
+%\end{aligned}
+%\end{cases}
+%\]
+
+Possiamo, in maniera compatta, esprimere la corrente di collettore come:
+\[I_C = I_0 + I_{CM} cos(\omega_0t) ~~~~ |\omega_0t|<\theta \]
+
+\begin{figure}[tbh]
+\centering
+\includegraphics[width=0.5\linewidth]{img/AP-classC-andamento}
+\caption{}
+\label{fig:ap-classc-andamento}
+\end{figure}
+
+Otteniamo così una forma d'onda tagliata, dove il valore massimo è $I_M = I_0 + I_{CM}$ e l'uscita è zero per $I_{CM}cos(\theta) + I_0 = 0$, ovvero per un angolo uguale a quello di conduzione.  Manipolando queste due relazioni si ottiene un'espressione di $I_C$ dipendente solo dall'angolo di conduzione e da $I_M$:
+
+\[I_{CM} = I_M - I_0\]
+\[I_0 + (I_M - I_0)cos(\theta) = 0 \Rightarrow I_0 = - \frac{I_Mcos(\theta)}{1-cos(\theta)}\] 
+\[I_M = I_{CM} - \frac{I_Mcos(\theta)}{1-cos(\theta)} \Rightarrow 
+I_{CM} = I_M \frac{1}{1-cos(\theta)}  \]
+
+\[I_C = 
+\begin{cases}
+\begin{aligned}
+&I_M \frac{cos(\omega_0t)-cos(\theta)}{1-cos(\theta)}& &|\omega_0t|\le \theta &\\
+&0& &altrove&
+\end{aligned}
+\end{cases}
+\]
+
+%Dal bilancio delle correnti al nodo di collettore risulta:
+%
+%\[
+%I_{RFC} - I_C - I_{C_A} = 0
+%~~~
+%\Rightarrow
+%~~~
+%I_{C_A} = I_{RFC} - I_C
+%\]
+
+La $I_C$ è quindi periodica e consta di una componente continua, $I_{C_0}$, e di una componente alternativa, $i_C$. L'induttanza RFC è un blocco per le radiofrequenze e le rispettive armoniche, quindi è attraversata
+solo dalla componente continua $I_{C_0}$ , infatti la corrente $I_{C_A}$ che attraversa il condensatore avrà
+componente continua nulla.\\
+%$I_C$ è periodica, quindi sviluppabile in serie di Fourier con un termine continuo $I_{C_0}$ più tutte le
+%armoniche.
+Risulta:
+$I_{RFC} = I_{C_0} = \bar{I}_C$ ossia il valor medio della $I_C$ coincide con la corrente erogata dalla batteria
+
+Detta $i_C(t)$ la componente a valor medio nullo della corrente di collettore, risulta:
+$$
+\begin{aligned}
+I_C     &=I_{C_0} + i_C\\
+I_{RFC} &=I_{C_0}\\
+I_{C_A} &=I_{RFC} -I_C = -i_C (t)
+\end{aligned}
+$$
+Ovvero la corrente nel condensatore $C_A$ è l'opposto della componente variabile della corrente di
+collettore.
+Il gruppo RLC viene dimensionato in modo da risuonare alla frequenza della fondamentale e,
+pertanto, alla frequenza di risonanza, LC è un circuito aperto.
+$$\omega_0 = \frac{1}{\sqrt{LC}}$$
+La prima armonica della $I_{C_A}$ passa tutta nel carico $R_L$. Le armoniche successive si ripartiscono nei tre rami R, L e C in proporzione inversa al modulo dell'impedenza di ciascun ramo. Ad esempio, per
+quanto riguarda la 3 a armonica si ha:
+$$
+3 \omega_0 L = 9 \frac{1}{3 \omega_0 C}
+$$
+Pertanto la corrente in C predomina su quella in L (è 9 volte maggiore). Per le armoniche superiori
+la differenza è ulteriormente accentuata a favore della componente che scorre i C rispetto a quella
+che scorre in L. Se si tiene conto del valore del fattore di qualità Q definito come:
+$$
+Q = \omega_0 R_L C = \frac{R_L}{\frac{1}{\omega_0 C}}
+$$
+Risulta evidente che, se Q è abbastanza elevato (almeno 10), allora le componenti armoniche della tensione ai capi del gruppo
+RLC risultano evanescenti rispetto alla fondamentale e, pertanto, la tensione sul carico è quasi
+sinusoidale. Procediamo dunque al calcolo dell'efficienza:
+
+\[\eta = \frac{P_U}{P_E}\]
+\[P_U = \frac{V_{U_{1_M}}^2}{2R_L} = \frac{(I_{C_{1_M}} R_L)^2}{2R_L} = \frac{{I_{C_{1_M}}^2 R_L}}{2}\]
+\[P_E = V_{CC}I_{C_0}\]
+
+Dato che la $I_C$ è periodica è possibile svilupparla in serie di Fourier. Si ottengono, con conti che non riportiamo, le seguenti espressioni del valor medio e dalla prima armonica:
+\[ I_{C_0} = I_M \frac{sin(\theta)-\theta cos(\theta)}{\pi \left[1-cos(\theta)\right]} \]
+\[ I_{C_{1_M}} = I_M \frac{2\theta-sin(2\theta)}{2\pi \left[1-cos(\theta)\right]} \]
+\[\eta = \frac{I_{C_{1_M}}^2 R_L}{2V_{CC}I_{C_0}} = \frac{R_L}{2V_{CC}} \left( I_M \frac{2\theta-sin(2\theta)}{2\pi \left[1-cos(\theta)\right]} \right)^2 
+\frac{\pi \left[1-cos(\theta)\right]}{I_M\left[sin(\theta)-\theta cos(\theta)\right]}
+\]
+\[\eta = \frac{I_M}{8\pi} \frac{\left[2\theta - sin(\theta)\right]^2}{1-cos(\theta)} \frac{R_L}{V_{CC}\left[sin(\theta)-\theta cos(\theta)\right]} \]
+
+Si noti che non è possibile far aumentare troppo la tensione di uscita. La massima ampiezza dovrà essere $V_{CC}$: con un'ampiezza più grande infatti il BJT passa in interdizione dato che sul collettore ho una tensione continua pari a $V_{CC}$ sommata alla forma d'onda in uscita.
+
+\[ V_{U_{1_M}} =  I_{C_{1_M}} R_L \le V_{CC}\]
+\[I_{M_{MAX}} \frac{2\theta-sin(2\theta)}{2\pi \left[1-cos(\theta)\right]} = \frac{V_{CC}}{R_L} \Rightarrow 
+I_{M_{MAX}} = \frac{V_{CC}}{R_L} \frac{2\pi \left[1-cos(\theta)\right]}{2\theta-sin(2\theta)}
+\]
+
+Possiamo calcolare dunque l'efficienza massima in funzione di $\theta$:
+\[\eta_{MAX} =  \frac{V_{CC}}{R_L} \frac{2\pi \left[1-cos(\theta)\right]}{2\theta-sin(2\theta)} \frac{\left[2\theta - sin(\theta)\right]^2}{8\pi \left[1-cos(\theta)\right]} \frac{R_L}{V_{CC}\left[sin(\theta)-\theta cos(\theta)\right]}\]
+\[\eta_{MAX} = \frac{2\theta - sin(2\theta)}{4\left[ sin(\theta) - \theta cos(\theta)\right]}\]
+
+Si noti che se $\theta = \pi$ (classe A) si ha $\eta_{MAX} = 0.5$: il risultato è consistente con quanto ricavato precedentemente. Possiamo adesso ricavare anche il $\theta_{u_{MAX}}$:
+
+\[I_{C_{MAX}} = I_M\]
+\[V_{CE_{MAX}} = 2V_{CC} \]
+\[\theta_{u_{MAX}} = \frac{2\theta - sin(2\theta)}{8\pi\left[  1-cos(\theta)\right]}\]
+
+%Se $\theta \rightarrow 0$ allora $\theta_{u_{MAX}} \rightarrow 0$: stiamo usando un angolo di conduzione così piccolo che la potenza viene fornita al carico in istanti infinitesimi e $I_{C_{MAX}}$ aumenta moltissimo portando a 0 $\theta_{u_{MAX}}$. Un buon compromesso tra efficienza e fattore di utilizzo è $\theta = \frac{\pi}{3}$. A causa delle capacità parassite un amplificat
+
+
+
+%Si osservi che $\theta_U = \frac{P_U}{V_{CE_{max}} I_{C_{max}}}$, a parità di $P_U$, se $\theta_U \rightarrow 0, \Rightarrow V_{CE_{max}} I_{C_{max}} \rightarrow \infty$
+
+\begin{figure}[tbh]
+\centering
+\includegraphics[width=0.5\linewidth]{img/AP-classC-andamento-3}
+\caption{}
+\label{fig:ap-classc-andamento-3}
+\end{figure}
+
+
+Per $\theta \rightarrow 0$ si ha $\theta_U \rightarrow 0$, ovvero il transistore è chiamato a sopportare tensioni e/o correnti che tendono all'infinito. Poiché
+ciò non è ammissibile, è necessario utilizzare valori di $\theta$ significativamente maggiori di 0. Questo
+stato di cose è chiaramente comprensibile se si osserva che il transistore trasmette potenza al carico
+solo negli intervalli di tempo in cui è $I_C \neq 0$. Se lo deve fare in tempi che rappresentano frazioni
+trascurabili del periodo, allora il picco di corrente dovrà avere valore massimo estremamente
+elevato (al limite la corrente dovrebbe essere una delta di Dirac se l'angolo di circolazione tendesse
+a zero): questo spiega come mai il fattore di utilizzo tenda a zero al diminuire di $\theta$ oltre un certo
+limite.
+
+Un buon compromesso si ha per $\theta \simeq 60^\circ$ che fornisce un $\eta_{max} \simeq 85\%$.
+
+Gli amplificatori in classe C vengono utilizzati per potenze fino ad alcune centinaia di Watt e
+frequenze prossime al GHz.
+Nel campo delle microonde (da qualche GHz in su) non si trovano amplificatori in classe C perché
+gli effetti capacitivi intrinseci non permettono, di fatto, di interdire il transistore.
+Contrariamente a quanto accade per gli amplificatori in classe A e B, quelli in classe C non
+possono essere utilizzati per amplificare segnali modulati in ampiezza poiché il loro comportamento
+nei riguardi dell'ampiezza del segnale di ingresso non è lineare. Dimostriamo che questo è vero:
+
+\[V_S(t) = V_{S_M} cos(\omega_0 t)\]
+\[V_{BE}(t) = E_B +  V_{S_M} cos(\omega_0 t)\]
+\[I_C(t) = g_m (E_B +  V_{S_M} cos(\omega_0 t) - V_T )\]
+Valutiamo due casi particolari:
+\[I_C(0) = g_m(E_B + V_{S_M} - V_T ) = I_M \]
+\[I_C(\theta) = g_m(E_B + V_{S_M}cos(\theta) - V_T ) = 0 \Rightarrow cos(\theta) = \frac{V_T - E_B}{V_{S_M}}\]
+\[V_{U_{1_M}} = I_{C_{1_M}} R_L = R_L I_M \frac{2\theta-sin(2\theta)}{2\pi \left[1-cos(\theta)\right]} \]
+
+Sostituendo in quest'ultima espressione il valore di $cos(\theta)$ ricavato poco fa:
+
+\[V_{U_{1_M}} = R_L g_m(E_B + V_{S_M} - V_T )\frac{2\theta-sin(2\theta)}{2\pi\frac{V_{S_M}-V_T-E_B}{V_{S_M}}} = g_m R_L \frac{2\theta - sin(2\theta)}{2\pi}V_{S_M}\]
+
+Sembrerebbe una funzione lineare di $V_{S_M}$ ma anche $\theta$ è dipendente da $V_{S_M}$ quindi l'uscita risulta pesantemente non lineare rispetto all'ingresso se non per due casi particolari: se $\theta = \frac{\pi}{2}$ (classe B) l'angolo di conduzione non è determinato dall'ampiezza di $V_S$ e se $\theta = \pi$ (classe A) invece amplifico direttamente tutto il segnale e non ci sono distorsioni. Questo risultato implica che non è possibile realizzare un'amplificazione di un segnale modulato in ampiezza con un amplificatore in classe C. 
+
+\subsection{Amplificatori in classe D}
+L'amplificatore in classe D fa parte di una classe di amplificatori detti \textit{ad alta efficienza}, capaci,
+almeno in linea teorica, di lavorare con efficienza di conversione unitaria. Per fare ciò si deve
+ridurre al minimo la potenza dissipata sul componente attivo, facendo in modo, al limite, che
+$V_{CE} (t) I_C (t) = 0$ per ogni t. Quindi quando il dispositivo attivo è in conduzione ($I_C \neq 0$) la tensione ai
+suoi capi deve essere nulla, mentre quando la tensione è diversa da zero esso deve risultare
+interdetto (corrente nulla). In altre parole il suo comportamento deve essere simile a quello di un
+interruttore.
+Lo schema di principio di un amplificatore in classe D è rappresentato in figura \ref{fig:ap-classd}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.55\linewidth]{img/AP-classD}
+\caption{}
+\label{fig:ap-classd}
+\end{figure}
+
+La tensione che aziona l'interruttore è un'onda quadra derivata da una sinusoide:
+$V_0 \cos ( \omega_0 t )$. Il gruppo RLC serie risuona alla pulsazione $\omega_0$ e si suppone sia caratterizzato da un valore di Q abbastanza elevato (almeno 10).
+$$
+\begin{aligned}
+Q & =\frac{\omega_0 L}{R_L} = \frac{1}{\omega_0 C R_L}\\
+T_0 &= \frac{2 \pi}{\omega_0} \mbox{ periodo di commutazione del tasto fra le posizioni \ding{172} e \ding{173}}
+\end{aligned}
+$$
+
+\begin{multicols}{2}
+\null\vfill
+La tensione $V_C$ risulta, pertanto, un'onda quadra di ampiezza $V_{CC}$ e valor medio $\nicefrac{V_{CC}}{2}$. Il suo andamento è rappresentato nella figura. Si osservi che alla frequenza della fondamentale il
+gruppo LC risuona serie e, pertanto, si comporta come un corto circuito. Ciò significa che la componente di prima armonica di $V_C$ e quella della tensione ai capi del carico $R_L$ sono uguali.
+\vfill\null
+\columnbreak
+\centering
+\includegraphics[width=0.8\linewidth]{img/sinusiode-rect}
+\end{multicols}
+
+Alle armoniche superiori, nella serie tra L e C prende il sopravvento la componente induttiva che,
+già alla terza armonica, assume un valore di reattanza 9 volte maggiore rispetto a quello della
+componente capacitiva il cui effetto decresce ulteriormente al crescere dell'ordine dell'armonica.
+Sviluppando in serie di Fourier la tensione $V_C (t)$ si ottiene:
+
+$$V_C = \left[ \frac{1}{2} +
+\sum_{n=1}^{\infty} \frac{\sin \left( n \frac{\pi}{2} \right)}{n \frac{\pi}{2}} \cos (n \omega_0 t) \right] V_{CC}$$
+
+La componente continua viene bloccata dal condensatore C e, pertanto, il suo effetto sul carico è
+nullo. La prima armonica della tensione di uscita, in base a quanto prima osservato, risulta:
+
+$$V_{U_{1M}} = V_{CC} \frac{2}{\pi}$$
+
+Se si calcolano le componenti armoniche superiori si ottiene, per esempio, per la terza armonica:
+
+\[V_{C_{3M}} = V_{CC} \frac{2}{3 \pi} \Rightarrow V_{U_{3M}} = 
+V_{CC} \frac{2}{3 \pi} \frac{R_L}{\frac{1}{3j\omega_0 C} + 3j\omega_0 L + R_L}
+\]
+
+Posso trascurare nella frazione $\frac{1}{3j\omega_0 C}$ perché, se $\omega_0 L = \frac{1}{\omega_0 C}$, aumentando $\omega_0$ a $3\omega_0$ l'impedenza induttiva diventa 9 volte più grande di quella capacitiva. Posso anche trascurare $R_L$ perché $\omega_0 L = Q R_L$ e a $3\omega_0$ c'è un fattore 30 di differenza.
+
+\[V_{U_{3M}} = \frac{R_L}{9\omega_0 L} \frac{2V_{CC}}{\pi}\]
+
+Con $Q=10$ si ottiene allora:
+\[V_{U_{3M}} = \frac{1}{90} \frac{2V_{CC}}{\pi} = \frac{1}{90} V_{U_{1M}} \]
+
+Possiamo quindi trascurare tranquillamente le armoniche successive a $\omega_0$ nel bilancio di potenza. Vediamo, adesso, come realizzare il commutatore utilizzando dei componenti attivi che lavoreranno
+in commutazione. Una possibile soluzione è rappresentata in figura:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.7\linewidth]{img/AP-classD-2}
+\caption{}
+\label{fig:ap-classd-2}
+\end{figure}
+
+La $V_{BE_1}$ e la $V_{BE_2}$ sono sempre in opposizione di fase: se l'ampiezza della tensione di controllo $V_0$ è sufficiente, alternativamente, uno dei due transistori è interdetto e l'altro è in saturazione. $V_0$ sarà una sinusoide oppure un'onda quadra (la sua forma non ha effetti diretti sul funzionamento del sistema purchè l'ampiezza sia in grado di commutare opportunamente i transistori). Nella realtà i tempi di commutazione non saranno mai nulli, quindi si avrà comunque dissipazione di potenza sui
+transistori negli intervalli di tempo in cui corrente e tensione risulteranno contemporaneamente
+diversi da zero. Con questi sistemi non si ottiene quindi un'efficienza di conversione effettiva del
+100\%. Un buon risultato è considerato un valore di $\eta$ = 80\% a frequenze di qualche centinaio di
+MHz.
+Sebbene in prima approssimazione se il commutatore si comporta in maniera ideale ci si potrebbe
+aspettare un'efficienza di conversione unitaria, in realtà bisogna ricordare
+che, ai fini della potenza utile, anche quella dissipata sul carico, ma alla frequenza delle armoniche,
+è da considerarsi persa. Infatti nella definizione di potenza utile si fa, correttamente, riferimento
+alla sola potenza di prima armonica sul carico. Pertanto, è opportuno calcolare l'efficienza di
+conversione tenendo conto di questa considerazione.
+
+$$
+\begin{aligned}
+\eta &= \frac{P_U}{P_E}\\
+P_U  &= \frac{V_{U_1M}^2}{2 R_L} = \frac{4 V_{CC}^2}{2\pi^2 R_L}\\
+P_E  &= \frac{1}{T} \int_{0}^{T} V_{CC} I_{CC}(t) dt
+= \frac{V_{CC}}{T} \int_{0}^{T} I_{CC}(t) dt
+\end{aligned}
+$$
+
+Per metà periodo, quando il transistore \ding{172} è interdetto, $I_{CC}(t)$ è nulla e la corrente che attraversa il carico si richiude attraverso il transistore \ding{173} che è in saturazione. Per un calcolo rigoroso della potenza erogata bisognerebbe valutare tutte le armoniche della corrente $I_{CC} (t)$ e calcolare di conseguenza l'integrale che fornisce la potenza media erogata. Ma, se consideriamo trascurabili le armoniche superiori della corrente rispetto alla prima ($Q\rightarrow\infty$), allora la corrente nel carico risulta sinusoidale e, durante il semiperiodo in cui il transistore \ding{172} conduce, la corrente $I_{CC}(t)$ è un arco di sinusoide coincidente con la corrente nel carico $R_L$. Si ottiene, pertanto, quanto di seguito rappresentato:
+
+$$
+\begin{aligned}
+& \frac{1}{T} \int_{0}^{T} I_{CC}(t) dt = 
+\frac{V_{U_{1_M}}}{\pi R_L}\\
+P_E  &= \frac{V_{CC} V_{U_{1_M}}}{R_L \pi}=
+\frac{V_{CC}}{R_L \pi} \frac{2 V_{CC}}{\pi}\\
+\eta &= \frac{2 V_{CC}^2}{R_L \pi^2} \frac{R_L \pi^2}{2 V_{CC}^2} = 1
+\end{aligned}
+$$
+
+\[\theta_u = \frac{V_{U_{1_M}}}{2R_L} \frac{1}{V_{CC}I_{CC}} = \frac{1}{\pi}\]
+
+\section{Modulatori}
+\subsection{Modulatori AM}
+Un segnale modulato in ampiezza può essere posto nella seguente forma:
+
+\[V_{AM} (t) = V_{AM_M} \left[ 1 + m_A x(t)\right]cos(\omega_0t)\]
+
+La modulazione AM può essere realizzata con due approcci: con un modulatore a basso livello, dove il segnale viene modulato e poi inviato a un amplificatore di potenza, oppure con un modulatore ad alto livello, dove la modulazione avviene direttamente sull'amplificatore di potenza.
+
+\paragraph{Modulatore AM a basso livello}
+Lo schema a blocchi è descritto nella figura seguente. L'uscita modulata a basso livello deve
+essere inviata ad un amplificatore di potenza che, in base a quanto affermato durante la trattazione degli amplificatori di potenza, dovrà operare in classe A o in classe B.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.6\linewidth]{img/Modulatori-AM-lowlevel}
+\caption{}
+\label{fig:modulatori-am-lowlevel}
+\end{figure}
+
+Questa soluzione è caratterizzata dai seguenti aspetti negativi: l'efficienza di conversione non sarà
+mai quella massima possibile in classe A o in classe B poiché questo risultato è conseguibile solo se
+l'ampiezza del segnale è costantemente pari a quella massima accettabile dall'amplificatore senza
+andare in saturazione e/o interdizione. Ovviamente un segnale modulato in ampiezza non può
+soddisfare ad ogni istante tale condizione (altrimenti sarebbe di ampiezza costante!). In ogni caso il
+limite del 50\% e del 78\% rispettivamente per le due classi suddette risulta invalicabile.
+Questi aspetti negativi sono controbilanciati da un aspetto positivo: si tratta di una soluzione a larga
+banda poiché, contrariamente al caso della classe C e D, non vengono impiegati filtri selettivi.
+Questo rende la soluzione a basso livello idonea ad applicazioni in multiplexer frequenziale (molti
+canali trasmessi contemporaneamente con grande occupazione di banda), oppure nel caso in cui si
+debba di continuo cambiare frequenza di trasmissione spaziando su un range di frequenza
+razionalmente ampio (caso delle trasmissioni ionosferiche).
+
+\paragraph{Modulatore AM ad alto livello}
+Questa soluzione impiega un amplificatore in classe D nel quale il segnale modulante viene
+utilizzato per quella che si chiama ``modulazione per caratteristica di collettore".
+\begin{figure}[hbt]
+\centering
+\includegraphics[height=15em]{img/Modulatori-AM-highlevel}
+\caption{}
+\label{fig:modulatori-am-highlevel}
+\end{figure}
+\begin{align*}
+V_{OUT_{1_M}}&=V_{AM_M}\left[ 1 + m_A x(t)\right]cos(\omega_0t)\\
+V_{AM_M} &= V_{CC} \\
+m_A |x(t)|  & < 1
+\end{align*}
+Questa soluzione consente di usare un amplificatore ad alta efficienza di conversione. Da osservare,
+infine, che l'efficienza è virtualmente unitaria indipendentemente dall'ampiezza del segnale
+modulante. Il problema, di fatto, viene, però, spostato sulla realizzazione ad alta efficienza
+dell'amplificatore di potenza a bassa frequenza, necessario per pilotare il
+primario del trasformatore. Infatti una aliquota considerevole della tensione $V_{CC}$ e, di conseguenza,
+un altrettanto considerevole contributo alla potenza erogata, proviene, attraverso l'accoppiamento a
+trasformatore, dal segnale modulante il quale deve essere opportunamente amplificato.
+L'amplificatore di potenza a bassa frequenza (APLF) nella figura dovrà, a sua volta, essere ad alta
+efficienza per non influire negativamente sull'efficienza globale del sistema.
+
+\subsection{Modulatori SSB}
+Un segnale modulato SSB ha la seguente forma:
+\[V_{SSB}(t) = x(t) cos(\omega t) + q(t) sin(\omega t) \]
+
+Una forma alternativa di questa espressione può essere:
+\[V_{SSB} (t) = \sqrt{x(t)^2 + q(t)^2} \left[ cos\left[ \theta (t)\right] cos(\omega_0 t) + sin\left[ \theta (t)\right] sin(\omega_0 t) \right] = \sqrt{x(t)^2 + q(t)^2} cos\left[ \omega_0 t - \theta (t) \right] \]
+
+$q(t)$ si ottiene passando il segnale $x(t)$ in un filtro di Hilbert.
+
+\[H(\omega) = -j sgn(\omega)\]
+
+Per realizzarlo occorrono dei filtri RC polifase che non analizziamo. 
+\paragraph{Modulatore SSB a basso livello}
+Il modulatore avrà la seguente forma. L'uscita di questo schema a blocchi verrà poi mandata a un APRF (in classe A o B) per la trasmissione in antenna. Per realizzare il blocco che sfasa l'oscillazione di riferimento di $\pi/2$ ci sono due possibili soluzioni. 
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.6\linewidth]{img/Modulatori-SSB-lowlevel}
+\caption{}
+\label{fig:modulatori-ssb-lowlevel}
+\end{figure}
+
+\subparagraph{Soluzione a banda stretta}
+Si fa uso di due squadre RC con la stessa frequenza di polo $f_p = \frac{1}{2\pi R C}$. Alla frequenza $f_p$ si avrà $V_{U_1}$ sfasata di $\pi/4$ gradi rispetto all'oscillazione di riferimento mentre $V_{U_2}$ sarà sfasata di $-\pi/4$ gradi rispetto alla stessa oscillazione. I due segnali saranno complessivamente sfasati di $\pi/2$. Questa è detta soluzione a banda stretta perché funziona solo per oscillazioni in ingresso con frequenza pari a $f_p$.
+
+\subparagraph{Soluzione a banda larga}
+Si fa uso stavolta di un oscillatore a frequenza $2f_0$, di un inverter e di due divisori di frequenza. Come si vede in figura si ottengono facilmente due oscillazioni sfasate di $\pi/2$.
+
+Lo svantaggio di questa soluzione rispetto alla prima è che si deve partire da una frequenza doppia
+rispetto a quella desiderata e questo si paga in termini di massima velocità richiesta al circuito e di
+consumi.
+
+\begin{figure}[hbt]
+\centering
+\hspace{\fill}
+\raisebox{-.5\height}{\includegraphics[height=8em]{img/Modulatori-SSB-lowlevel-sfasatore-1}}
+\hspace{\fill}
+\raisebox{-.5\height}{\includegraphics[height=5em]{img/Modulatori-SSB-lowlevel-sfasatore-2}}
+\hspace{\fill}
+\caption{Soluzioni per ottenere due segnali in quadratura: a banda stretta (a sinistra) ed a banda larga (a destra)}
+\label{fig:modulatori-ssb-lowlevel-sfasatore}
+\end{figure}
+
+\paragraph{Modulatore SSB ad alto livello}
+Una soluzione alternativa è quella denominata a ``eliminazione e ricostruzione dell'inviluppo".
+In questo caso dal segnale modulato SSB a basso livello vegono estratti l'inviluppo, $\sqrt{x(t)^2 + q(t)^2}$, utilizzato
+per una modulazione per caratteristica di collettore di un classe D e un'onda quadra con fase
+\[\theta(t) = arctan\left[\frac{q(t)}{x(t)}\right]  \]
+Essa viene utilizzata per comandare il commutatore. Lo schema circuitale è rappresentato in figura e il segnale SSB amplificato viene "ricostruito" sull'uscita $V_U$.
+\[V_U (t) = \left[ V_{CC} + \sqrt{x(t)^2 + q(t)^2} \right] \frac{2}{\pi} cos\left[\omega_0 t - \theta (t)\right] \]
+
+\begin{figure}[tbh]
+\centering
+\includegraphics[width=0.7\linewidth]{img/Modulatori-SSB-highlevel}
+\caption{Modulatore SSB ad alto livello}
+\label{fig:modulatori-ssb-highlevel}
+\end{figure}
+
+
+\subsection{Modulatori in frequenza}
+Un segnale linearmente modulato in frequenza dal segnale $x(t)$ ha la seguente forma:
+\[
+V_{FM}(t) = V_{FM_M} \cos \bigg[ \omega_{RF}t
++\underbrace{\omega_D \int_{0}^{t}x(\tau) d \tau}_\text{$\theta(t)$} \bigg]
+\]
+
+Per convenzione si assume che $\omega_D \ll \omega_{RF}$ e $|x(t)|<1$. Si definiscono dunque le seguenti grandezze:
+\begin{multicols}{2}
+\begin{itemize}
+	\item \textbf{Fase istantanea: }
+	\inline{\varphi_i=\omega_{RF}t+\theta(t)}
+	
+	\item \textbf{Pulsazione istantanea: }
+	\\\inline{\omega_i = \omega_{RF} + \dot\theta=\omega_{RF}+\omega_Dx(t)}
+	
+	\item \textbf{Massima deviazione di frequenza: }
+	\inline{f_D = \frac{\omega_D}{2\pi}}
+	\columnbreak
+	
+	\item \textbf{banda del segnale modulante\\$x(t)$: }
+	$B m$
+	
+	\item \textbf{Indice di modulazione}\\
+	\inline{D = \frac{f_D}{B_m} = \frac{\omega_D}{2\pi B_m}}
+	
+\end{itemize}
+\end{multicols}
+
+Questa è una modulazione a inviluppo costante, quindi si possono usare indifferentemente amplificatori in classe A, B, C, D.
+
+\paragraph{Modulatori diretti}
+La frequenza è proporzionale ad una grandezza circuitale.
+Tipicamente è la capacita di un varicap (diodo polarizzato in inversa con C $\propto$ V) come visto nei capitoli precedenti con l'oscillatore di Clapp.
+La realizzabilità è semplice, ma il parametro circuitale è soggetto a dispersione delle caratteristiche, sensibilità alle condizioni ambientali e all'invecchiamento. Questo fa sì che a questa soluzione se ne affianchino altre più accurate e con meno non idealità.
+
+\paragraph{Modulatori indiretti}
+Il segnale viene prima integrato e poi usato per modulare in fase un oscillatore (tipicamente quarzato). Questa soluzione si realizza molto bene con un PLL e non si ha deriva sull'oscillazione grazie all'accuratezza introdotta dal quarzo.
+
+\subsubsection{Compensazione della deriva della portante}
+Per quanto riguarda i modulatori diretti, si può implementare un sistema per la correzione delle derive della frequenza portante, che prende il nome di CAF (Controllo Automatico della Frequenza).
+% la quale funziona però solo sotto certe condizioni per altro facilmente verificabili. 
+Si osservi che le derive termiche e quelle dovute all'invecchiamento costituiscono un disturbo a bassissima frequenza che risulta sempre separato da quello del segnale modulante. Indichiamo con $\varepsilon(t)$ tale disturbo e con $\varepsilon(f)$ il suo spettro.
+L'obiettivo è di richiudere il modulatore di frequenza diretto in reazione in modo da annullare il disturbo. Si farà uso di alcuni blocchi particolari:
+\begin{itemize}
+\item Un accoppiatore direzionale che permette di smistare la potenza sulle due porte di uscita mantenendo l'adattamento;
+\item Un discriminatore di frequenza la cui tensione di uscita è proporzionale allo scostamento della frequenza istantanea rispetto ad una frequenza di riferimento $\omega_{RIF}$, con un certo coefficiente di proporzionalità $K_D$;
+\end{itemize}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.7\linewidth]{img/Modulatori-FM-AFC}
+\caption{}
+\label{fig:caf}
+\end{figure}
+
+L'espressione del segnale nei vari nodi dell'anello è riportata nel seguito per ciascun nodo:
+
+\begin{align*}
+V_1(t) &= x(t) + V_6(t)\\
+V_2(t) &= V_{2_M} cos\left[ \omega_0t + \omega_D\left( \int_{0}^{t} x(\tau) + V_6(\tau) + \epsilon(\tau) d\tau\right)\right]
+\end{align*}
+
+Poiché si richiede un modulatore lineare, si mantiene l'indice di modulazione D (e quindi lo scostamento di frequenza) molto ridotto rispetto allo standard. Dovendo poi trasmettere il segnale è necessario inserire il moltiplicatore di frequenza. L'uscita sarà:
+%$\epsilon$ è l'errore sulla portante, ed ha contenuto frequenziale prevalentemente alle basse frequenze. $V_3$ è identica a $V_2$ ma con frequenza N volte maggiore (si realizza con un PLL)
+$$V_3(t) = V_{3_M} \cos\left[ N\omega_0t + N\omega_D\left( \int_{0}^{t} x(\tau) + V_6(\tau) + \epsilon(\tau) d\tau\right)\right]$$
+Lo scostamento di frequenza che si ottiene è N volte maggiore di quello in uscita al modulatore:
+\[
+f_D = \frac{\omega_D}{2\pi}N
+\qquad\Rightarrow\qquad
+D' = N D
+\]
+Nell'anello di controllo viene usato come riferimento un oscillatore quarzato con pulsazione $\omega_Q$:
+$$V_4(t) = V_{4_m} \cos\left\lbrace 
+\omega_Qt-\left[
+N\omega_0t + N\omega_D\left( \int_{0}^{t} x(\tau) + V_6(\tau) + \epsilon(\tau) d\tau\right)\right]
+\right\rbrace
+$$
+L'uscita del mixer va in ingresso ad un discriminatore (demodulatore) di frequenza, con pulsazione di riferimento pari a $\omega_{RIF}=\omega_Q-N\omega_0$. Si ottiene:
+%
+%$V_4$ ha una componente a frequenza $\omega_Q - N\omega_0$ e una a frequenza $\omega_Q + N \omega_0$. Filtrando la seconda si ottiene:
+%V3 è come V2 ma con argomento dell'oscillazione moltiplicato N volte (è un PLL)
+%$$V_3(t) = V_{3_m} cos( N\omega_0't + N\omega_D'\left[ \int_{0}^{t} x(\tau) + V_6(\tau) + \epsilon(\tau) d\tau\right])$$
+%v4 ha una componente somma e una differenza. pesco solo quella differenza:
+%$$\omega_I = \omega_Q -
+%N\omega_0 - N\omega_D\left[x(\tau) + V_6(\tau) + \epsilon(\tau)\right]$$
+%Se scelgo per il discriminatore di frequenza $\omega_{RIF} = \omega_Q - N \omega_0'$ allora:
+$$V_5(t) = - K_D N \omega_D\left[ x(t) + V_6(t) + \epsilon(t) \right]$$
+%$$\mbox{Filtro passa basso - sbatto via x: } V_6(t) = - K_D N \omega_D\left[V_6(t) + \epsilon(t) \right]$$
+Filtrando infine passa basso per eliminare $x(t)$:
+\begin{align*}
+&V_6(t) = - K_D N \omega_D\left[V_6(t) + \epsilon(t) \right]
+\\
+&V_6(t) = - \frac{K_D N \omega_D}{1+K_DN\omega_D} ~ \epsilon(t)
+\\
+&V_6(\tau) + \epsilon(\tau) = \epsilon(\tau) \left[ 1 - \frac{K_D N \omega_D}{1+K_DN\omega_D} \right] = \epsilon(\tau) \frac{1}{1+K_DN\omega_D}\\
+&V_3(t) = V_{3_M} \cos\left[ N\omega_0t + N\omega_D\left( \int_{0}^{t} x(\tau) + \epsilon(\tau) \frac{1}{1+K_DN\omega_D} d\tau\right)\right]
+\end{align*}
+L'errore quindi è ridotto di un fattore $1+K_DN\omega_D$. Questo funziona correttamente sotto due ipotesi:
+\begin{itemize}
+\item Deve esserci separazione in banda tra $x(t)$ e $\epsilon(t)$, altrimenti è impossibile isolare l'errore;
+\item Il discriminatore di frequenza e l'oscillatore al quarzo devono essere privi di errore.
+\end{itemize}
+
+%La moltiplicazione per N non è strettamente necessaria ma ci si mette perché poi serve.
+\paragraph{Linearizzazione del modulatore}
+Un oscillatore di Clapp si comporta in modo lineare soltanto per piccoli scostamenti dalla frequenza centrale. Come già accennato, nel sistema CAF si utilizza un indice di modulazione molto inferiore a quello previsto dallo standard e si provvede successivamente, con appositi moltiplicatori, a riportare il segnale nella forma corretta per la trasmissione.
+
+Lo standard FM prevede:
+\begin{itemize}
+\item Intervallo di portanti $f_0 = 88\div108 MHz$;
+\item Banda del segnale modulante $B_M = 15kHz$;
+\item Occupazione spettrale $B_C = 180kHz$
+\end{itemize}
+
+Secondo la relazione data da Carson, $D = \frac{B_C}{2B_m} -1 = 5$. Supponiamo che il valore di N sia molto elevato ($N=1024$), ricaviamo che la portante a cui deve lavorare il modulatore è $f_0' = \frac{f_0}{N} \approx 100kHz$: la condizione di banda stretta è poco rispettata e cade la validità della relazione di Carson sulla banda occupata. In altri termini il segnale modulante non risulta sufficientemente ``lento" rispetto alla portante.
+
+\begin{figure}[hb]
+\centering
+\includegraphics[height=5em]{img/Modulatori-FM-linearizzazione}
+\caption{}
+\label{fig:modulazionefmpiumeglio}
+\end{figure}
+
+Se invece poniamo $N=32$  si ha $f_0' = \frac{f_0}{N} \approx 3.375MHz$ e $f_D' = \frac{f_D}{N} = \frac{D B_M}{N} = 2.34kHz$. La portante è accettabile, ma si ha uno scostamento di frequenza ancora troppo elevato.
+%Si impone D = 5 (in uscita), f out = 108Mhz
+%$$f_D' = \frac{f_D}{N} = 73.54Hz$$
+%$$D' = \frac{73.24}{B_M} = 4.88 \cdot 10^{-3}$$
+%$$\omega_D = N \omega_D' $$
+%Questa soluzione non funziona perché il modulatore non è a banda stretta? Boh, forse si vede dal D'. I discorsi sulla banda di Carson non è che tengano più tantissimo (righe con energia non nulla troppo "sparpagliate").
+%(15kHz di segnale modulante intorno a 105kHz)
+%\subsection{soluzione che forse funziona}
+%Proviamo a modificare l'architettura come segue: imponiamo $f_0 = \nicefrac{f_0''}{32}$ e $f_D' = \frac{f_D}{1024}$. In questo modo si 
+%In uscita dal primo stadio abbiamo:
+%\begin{align*}
+%&f_0 = \frac{108MHz}{32} = 3.375MHz\\
+%&f_D = \frac{f_D}{1024} = 73.24Hz\\
+%&D   = ....
+%\end{align*}
+%$$f_0' = \frac{108Mhz}{32}  = 3.375MHz$$
+%$$f_D' = \frac{f_D}{1024} = 73.24 Hz$$
+%$$D' =\nicefrac{f_D'}{B_M} = 4.88\cdot 10^{-3}$$
+%$$\nicefrac{f_D'}{f_0'} = 1.9 \cdot 10^{-5}$$
+%Questo modulatore è a banda stretta. In uscita dal secondo stadio:
+%$$f_D^{''} = 73.24 Hz \cdot 32 = 2344 Hz$$
+%$$f_0^{''} =  108 MHz$$
+%$$D^{''} = \frac{f_D^{''}}{B_M} = 0.156$$
+%Ok, ma D'' non è 5 e fD non è quella che volevo. No x32 perché sennò cresce f0 che va già bene. Allora si mixa con fo'' = 108+3.75 = 111.75MHz. e pesco la freq differenza
+Si adotta, allora, la soluzione descritta in figura in cui ad una prima moltiplicazione per $N = 32$ segue una traslazione in basso mediante un mixer ed una successiva moltiplicazione per $N=32$.
+
+\begin{figure}[hb]
+\centering
+\includegraphics[height=5em]{img/Modulatori-FM-linearizzazione-2}
+\caption{}
+\label{fig:modulazionefmpiumeglio-2}
+\end{figure}
+
+In uscita, al solito, imponiamo $f_0 = 108Mhz$ e $D = 5$. Attraversando a ritroso il moltiplicatore si ricava $f_{0}' = \frac{f_0}{32} = 3.375Mhz$ e $D' = \frac{D}{32} = 0.156$.
+
+Il mixer, invece, effettua solamente una traslazione in frequenza, agendo sulla portante e lasciando inalterato l'indice di modulazione ($D'' = D' = 0.156$). Poiché il mixer trasla in basso vale la relazione $f' =  f''- f_{OL}$.
+
+Sul modulatore FM vorremmo utilizzare la portante ricavata poco fa, ponendo $N=32$ ($f''' = \frac{f_0}{32} = 3.375MHz$), dunque si impone $f_0''=f_0'''\cdot 32 = f_0$. Allora la frequenza del mixer sarà $f_{OL} = f_0''-f_0'=
+f_0 - \frac{f_0}{32} \approx 104MHz$.
+
+Quindi il modulatore di frequenza lavora con un indice di modulazione $D''' = \frac{D''}{32} = \frac{D}{1024}$ e dunque con scostamento di frequenza $f_D''' = \frac{f_D}{1024} = 73.24Hz$.
+
+%ingresso al mixer
+%$$V_M cos \left[ \omega_0^{''} t + \omega_D^{''} \int_{0}^{t} x(\tau) d\tau \right]$$
+%
+%uscita dal mixer ( i segni sono un po' a simpatia)
+%$$V_M cos \left[ \cancel{\omega_0^{''}} t + \omega_D^{''} \int_{0}^{t} x(\tau) d\tau  - \cancel{\omega_0^{''}t} + 3.375Mhz \cdot t \right]$$
+%
+%E quindi la portante è a 3.375Mhz ossia $\frac{f0}{32}$, D rimane costante perché non dipende da f0, e pure fD. Se moltiplico per 32 ora ottengo quello che mi serve:
+%$$f_0 out = 3.375MHz \cdot 32 = 108Mhz$$
+%$$D out = 0.156 \cdot 32 = 5$$
+%$$f_D out = f_D \cdot 32 = 75kHz$$
+
+

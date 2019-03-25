@@ -1,0 +1,43 @@
+\chapter{Introduzione}
+L'obiettivo del Corso di Elettronica per le Telecomunicazioni è l'analisi e la sintesi del cosiddetto \textit{front-end radio}, ossia tutta la parte di un sistema di radiocomunicazione che opera in ``alta frequenza''.
+\\
+I sistemi radio operano in un intervallo di frequenze molto esteso, che può andare dalle decine di kHz (per la comunicazione radiotelevisiva) fino ai GHz (per le comunicazioni WiFi) ed oltre. Tradizionalmente ognuna di queste decadi ha un proprio nome, riportato in figura \ref{fig:lunghezzedonda}.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/raster/lunghezzedonda}
+	\caption{}
+	\label{fig:lunghezzedonda}
+\end{figure}
+
+
+Come è noto la frequenza $f$ e la lunghezza d'onda $\lambda$ sono legate dalla relazione $f=\frac{c}{\lambda}$, dove c è la velocità della luce nel mezzo di propagazione del fenomeno. Con il termine \textit{microonde} si va ad identificare quella gamma di frequenze la cui lunghezza d'onda diventa comparabile con quella dei componenti in uso.
+Considerando onde che viaggiano nel vuoto ($v = 3\cdot10^8~ \nicefrac{m}{s}$), otteniamo che a 300 MHz corrispondono onde con $\lambda = 1m$. Siccome fino agli anni 60 le dimensioni tipiche dei circuiti e dei componenti elettronici erano di qualche centimetro, si parlava di microonde già per frequenze superiori a 500MHz. Al giorno d'oggi le dimensioni dei dispositivi si sono molto ridotte, fino all'ordine del $\mu m$ per dispositivi integrati, e si comincia a parlare di microonde con frequenze superiori ad alcuni GHz.
+
+L'applicazione dei sistemi di radiocomunicazione è il trasferimento di un'informazione a distanza senza fili. L'informazione, nella sua accezione più generale, è rappresentata da una grandezza fisica $s(t)$ che varia in funzione del tempo. Tale grandezza, prima di essere trasmessa a distanza mediante le onde elettromagnetiche, deve subire una serie di elaborazioni che la rendono idonea alla trasmissione. Innanzi tutto è necessario trasformare la grandezza fisica in un segnale elettrico, funzione assolta dal blocco denominato trasduttore.
+
+Tipicamente il segnale elettrico $e(t)$ in banda base è contenuto in un range frequenziale che va da da qualche Hz a qualche MHz. Un segnale a queste frequenze non è adatto ad essere trasmesso a distanza in quanto sarebbero necessarie antenne di dimensioni paragonabili o maggiori alla lunghezza d'onda e quindi di diverse decine di metri. Il segnale elettrico deve essere dunque traslato a frequenze maggiori attraverso una combinazione con un segnale a radiofrequenza, operazione effettuata da un sottosistema denominato modulatore. Prima di arrivare all'antenna che trasmetterà il segnale modulato è necessario amplificarlo adeguatamente. A seconda delle applicazioni il segnale trasmesso avrà una potenza che potrà variare da poche decine di milliWatt fino a diverse centinaia di kiloWatt ed oltre. 
+
+\begin{figure}[hb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/schema-tlc-tx}
+	\caption{}
+	\label{fig:schema-tlc-tx}
+\end{figure}
+
+Il segnale trasmesso raggiunge il ricevitore con una potenza molto inferiore a quella di trasmissione a causa dell'attenuazione geometrica e delle perdite nel mezzo di trasmissione. In alcuni casi il segnale ricevuto avrà una potenza di poche decine di femtoWatt: tanto basta ad ottenere una ricezione intelligibile, ovvero ad essere in grado di ricostruire l'informazione trasmessa con una probabilità di errore accettabile.
+
+L'antenna si presenta come un generatore di segnale con una impedenza interna, che va a pilotare uno stadio di amplificazione.
+Il primo blocco attivo in ricezione è perciò un amplificatore a radiofrequenza a basso rumore.
+Il segnale amplificato, che è ancora un segnale \textit{in alta frequenza}, è adesso sufficientemente robusto da essere elaborato dal blocco successivo che ha la funzione di riportarlo in banda-base (eventualmente dopo una o più traslazioni in basso in frequenza). Questa operazione avviene
+all'interno del demodulatore.
+
+Dopo un'elaborazione in banda-base il segnale può esser eventualmente riportato nella forma della
+grandezza di origine.
+
+\begin{figure}[hb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/schema-tlc-rx}
+	\caption{}
+	\label{fig:schema-tlc-rx}
+\end{figure}

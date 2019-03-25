@@ -1,0 +1,388 @@
+\chapter{Oscillatori a radiofrequenza}
+
+Gli oscillatori sono sistemi in grado di generare autonomamente senza sollecitazioni esterne una forma d'onda periodica. Se la forma d'onda è sinusoidale si parla di oscillatori sinusoidali.
+%	La teoria degli oscillatori è basata sul Teorema di Scomposizione e sulle condizioni di Barkhausen.
+\\
+La teoria degli oscillatori si basa sul risultato del $\beta A$ ricavato col teorema di scomposizione:
+\[\beta A = \frac{Y_F Y_R}{(Y_S+Y_I)(Y_O+Y_L)}\]
+e sulle condizioni di Barkhausen:
+\[
+\begin{cases}
+| \beta A (Y_S,Y_L) | = 1\\
+\angle \beta A (Y_S,Y_L)  = 0
+\end{cases}
+\]
+
+Nel caso in cui il quadripolo sia un transistore bipolare i suoi parametri Y possono essere ricavati dal circuito di Giacoletto. Ad esempio per un BJT in configurazione CE si ottiene:
+
+\begin{multicols}{2}
+	\includegraphics[width=0.9\linewidth]{img/giacoletto}
+	
+	\[
+	\begin{aligned}
+	Y_{Ie} &
+	= \nicefrac{1}{R_{b'e}} + j \omega (C_{b'e} + C_T)\\
+	Y_{Re} &
+	= - j \omega C_T\\
+	Y_{Fe} &
+	= g_m - j \omega C_T\\
+	Y_{Oe} &
+	= j \omega C_T
+	\end{aligned}
+	\]
+\end{multicols}
+
+Vogliamo vedere sotto quali condizioni, scegliendo opportunamente $Y_S$ e $Y_L$ riusciamo a far si che le condizioni di Barkhausen vengano soddisfatte.
+
+\section{Oscillatore di Hartley}
+%	\begin{minipage}{0.7\linewidth}
+Poniamo $Y_S = 0$ (ingresso aperto) e $Y_L =0$ (uscita aperta) e verifichiamo la posizione di fasori\footnote{Teniamo presente che, per il 2N4957 le parti reali di $Y_{Re}$ ed $Y_{Oe}$ sono pressoché nulle, se confrontate con gli altri parametri.} che rappresentano in numeratore ed il denominatore del $\beta A$, infatti la condizione necessaria è che i due fasori risultino sovrapposti in modo tale da ottenere fase nulla ($\angle\beta A = 0$). 
+
+Bisogna dunque variare $Y_S$ e $Y_L$ in modo che il fasore del mumeratore si sovrapponga a quello del numeratore ed osservando la figura \ref{fig:oscillatore-hartley-fasori} (\textit{a sinistra}) una possibile soluzione è:
+\begin{itemize}
+	\item $Y_{Ie} + Y_{S}$ deve sovrapporsi a $Y_{Fe}$;
+	\item $Y_{Oe} + Y_{L}$ deve sovrapporsi a $Y_{Re}$;
+\end{itemize}
+
+Graficamente si vede che $Y_S$ e $Y_L$ sono ammettenze negative pure, quindi due induttanze.
+%	\end{minipage}
+%	\begin{minipage}{0.3\linewidth}
+%		\includegraphics[width=\linewidth]{img/raster/hartley-senza_carico}
+%	\end{minipage}
+
+
+\begin{figure}[htb]
+	\centering
+	\hspace{\fill}
+	\includegraphics[width=0.25\linewidth]{img/oscillatore-hartley-senzacarico}
+	\hspace{\fill}
+	\includegraphics[width=0.25\linewidth]{img/oscillatore-hartley-concarico}
+	\hspace{\fill}
+	\caption{Progetto di un oscillatore di Hartley}
+	\label{fig:oscillatore-hartley-fasori}
+\end{figure}
+
+%	\footnote{Dal Teorema dei tre punti è noto che sono necessari almeno 3 componenti reattivi per instaurare un'oscillazione: in questo caso le due induttanze e la $C_T$ intrinseca del BJT.
+%che è il ben noto teorema dei tre punti. È quindi possibile realizzare un oscillatore, a
+%partire da un transistore, utilizzando tre componenti reattivi, di cui due dello stesso tipo (2
+%induttanze, 1 condensatore oppure 1 induttanza, 2 condensatori).
+%}
+A questo punto è garantito il verificarsi della condizione sulla fase e, per ottenere le condizioni di
+innesco, bisognerà che sia garantita anche quella sul $\beta A > 1$. Questa configurazione può essere implementata sia ad emettitore comune che a base comune, poiché si traggono le stesse considerazioni in entrambe le situazioni.
+
+Bisogna osservare che aggiungendo il carico $R_L$ l'ammettenza $Y_L$ non risulta più puramente
+immaginaria e il vettore $Y_O +Y_L$ non risulta più sovrapposto a $Y_R$. Per compensare ciò
+bisognerà scegliere una $Y_S$, sempre puramente induttiva, ma di valore maggiore (induttanza minore)
+rispetto al caso precedente, come si può desumere dalla costruzione grafica in figura \ref{fig:oscillatore-hartley-fasori} (\textit{a destra}).
+
+\begin{figure}[hbt]
+	\includegraphics[height=19em]{img/oscillatore-hartley-CE}
+	\hspace{\fill}
+	\includegraphics[height=19em]{img/oscillatore-hartley-CB}
+	\caption{Oscillatore di Hartley in configurazione Common Emitter e Common Base. Nel CE si è evidenziata la capacità intrinseca del BTJ per ricordare che sono presenti tre elementi reattivi.}
+	\label{fig:oscillatore-hartley-ce}
+\end{figure}
+
+
+\section{Oscillatore di Colpitts}
+
+L'oscillatore di Hartley necessita di due induttanze esterne, mentre può essere preferibile limitare l'uso degli induttori che risultano ingombranti, costosi e poco accurati. In questi casi è conveniente una seconda configurazione di oscillatore detta di Colpitts. A tale configurazione si perviene aggiungendo tra collettore e base una induttanza (che risulta in parallelo alla capacità $C_T$ ) scelta in modo da \textit{far cambiare di segno} la parte immaginaria dei parametri del quadripolo ($\frac{1}{\omega L_X} > \omega (C_\pi + C_T)$). Al limite supponiamo che sia molto maggiore.
+
+% L fa cambiare il segno della parte immaginaria dei parametri
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.35\linewidth]{img/oscillatore-colpitts-ce-variat}
+	\caption{}
+	\label{fig:colpitts-ce-analisi}
+\end{figure}
+
+Studiando il quadripolo come parallelo fra CE e induttore, come fatto al capitolo \ref{sec:quadripoli-parallelo}, si ottiene la seguente matrice Y:
+$$
+\begin{aligned}
+Y_{IT} & = Y_{Ie} - \frac{j}{\omega L_X} =
+\nicefrac{1}{R_\pi} + j \omega (C_\pi + C_T) - \frac{j}{\omega L_X} & \simeq&
+\nicefrac{1}{R_\pi} - \frac{j}{\omega L_X}\\
+Y_{FT} & = Y_{Fe} + \frac{j}{\omega L_X} =
+g_m - j \omega C_T + \frac{j}{\omega L_X} &  \simeq &
+g_m + \frac{j}{\omega L_X}
+\\
+Y_{OT} & = Y_{Oe} - \frac{j}{\omega L_X} =
+\nicefrac{1}{R_0} + j \omega C_T - \frac{j}{\omega L_X} & \simeq&
+\nicefrac{1}{R_0} - \frac{j}{\omega L_X}
+\\
+Y_{RT} & = Y_{Re} + \frac{j}{\omega L_X} =
+- j \omega C_T + \frac{j}{\omega L_X} & \simeq&
+\frac{j}{\omega L_X}
+\end{aligned}
+$$
+
+La condizione imposta ci fa ricadere in una situazione analoga alla precedente. Studiando i fasori dei quattro parametri si deduce che, affinché siano verificate le condizioni di Barkhausen, $Y_S$ e $Y_L$ devono essere suscettanze pure e positive, ossia capacità.
+
+\begin{figure}[tbh]
+	\hspace{\fill}
+	\includegraphics[width=0.2\linewidth]{img/oscillatore-colpitts-fasori}
+	\hspace{\fill}
+	\includegraphics[width=0.35\linewidth]{img/oscillatore-colpitts-CE}
+	\hspace{\fill}
+	\caption{Oscillatore di Colpitts ad emettitore comune. La capacità di bypass in serie all'induttanza è necessaria per non destabilizzare il punto di riposo.}
+	\label{fig:oscillatore-colpitts-fasori}
+\end{figure}
+
+Analogamente a quanto fatto per quello di Hartley si può costruire una versione dell'oscillatore di
+Colpitts a base comune.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/oscillatore-colpitts-CB}
+	\caption{Circuito per l'oscillatore di Colpitts a Base comune}
+	\label{fig:oscillatore-colpitts-CB}
+\end{figure}
+
+\subsection{Analisi e progetto di un Oscillatore di Colpitts CB}
+
+Per quanto detto finora, la frequenza di oscillazione è fortemente dipendente dalle caratteristiche del componente attivo (dipendenti, a loro volta, da punto di riposo e da parametri ambientali): con alcuni accorgimenti vediamo come si può dimensionare un oscillatore di Colpitts a base comune in modo che $f_0$ dipenda dai soli componenti passivi.
+Utilizziamo nello studio il Teorema di Scomposizione per individuare un anello e calcolare il relativo guadagno $\beta$A.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/oscillatore-colpitts-cb-variat}
+	\caption{}
+	\label{fig:oscillatore-colpitts-cb-variat}
+\end{figure}
+
+Si faranno 3 ipotesi, che poi provvederemo a verificare:
+\begin{itemize}
+	\item $|Z_{IN}| \gg \nicefrac{1}{\omega_0 C_2}$
+	\item $Z_{IN} \in \Real$
+	\item $\mbox{guadagno in corrente del CB } = -1$
+\end{itemize}
+
+\begin{align*}
+\displaybreak[2]
+&Z_P = R_L \parallel j \omega_0 L \parallel \frac{1}{j \omega_0 C_S}~~~~~~~~
+\mbox{dove } C_S = \frac{C_1 C_2}{C_1 + C_2} 
+\mbox{   applicando l'ipotesi 1}\\
+&\beta A = \left. \frac{V_R}{V_P} \right|_{V_S = 0}\\
+&V_{IN} = V_P \frac{C_1}{C_1 + C_2} ~~ \mbox{partitore capacitivo}\\
+&I_{IN} \overset{HP2}{=} \nicefrac{V_{IN}}{Z_{IN}} \overset{HP3}{=} - I_2\\
+&V_R = -I_2 Z_P = I_{IN} Z_P = \frac{V_{IN}}{Z_{IN}} Z_P = V_P\frac{C_1}{C_1 + C_2} \frac{Z_P}{Z_{IN}} \\
+&\beta A \simeq \frac{C_1}{C_1 + C_2} \frac{Z_P}{Z_{IN}}
+\end{align*}
+
+La condizione di Barkhausen $\angle\beta A = 0$ si ha solo se $Z_P$ è reale, ossia alla frequenza di risonanza del gruppo LC:
+$$\omega_0 = \sqrt{\frac{1}{LC_S}}$$
+La frequenza di risonanza è così indipendente dal componente attivo.
+
+\paragraph{Verifica delle ipotesi}
+\begin{itemize}
+	\item \textbf{HP 3} - $A_I = -1$: bisogna valutare dalle caratteristiche del componente attivo. Essendo in configurazione a base comune questa condizione viene solitamente rispettata;
+	\item \textbf{HP 2} - questa condizione solitamente non è verificata. Prendiamo come esempio il 2N4957 a 150MHz: dalle caratteristiche si osserva che $Z_{IN} \simeq \frac{1}{Y_{IB}} = \frac{1}{(56-7j) mS}$ non è puramente reale e soprattutto ha un valore di resistenza molto piccolo (circa $20 \Omega$). Si risolve il problema inserendo una resistenza serie in reazione $R_e \gg \left| \frac{1}{Y_{IB}} \right|$, per esempio $R_e = 200\Omega$;
+	\item \textbf{HP 1} - poiché $Z_{IN} \simeq R_e$, $C_2$ si dimensiona di conseguenza.
+	$$(f_0 = 150MHz) ~~~~~ 
+	C_2 \gg \nicefrac{1}{\omega_0 R_e} \simeq 5pF ~~ \Rightarrow ~~ C_2 = 50pF$$
+\end{itemize}
+
+\paragraph{Massimizzazione del $\beta A$}
+Per ottenere un oscillatore bisogna verificare anche la condizione di Barkhausen sul modulo del $\beta A$.
+
+%	C'è un paio di cose che non tornano
+
+$$\beta A \simeq \frac{C_1}{C_1 + C_2} \frac{Z_P}{Z_{IN}} ~~~~~~
+\mbox{ per massimizzare si pone } \frac{C_1}{C_1 + C_2} \rightarrow 1 ~~ \mbox{ ossia } ~~~
+C_1 \gg C_2$$
+
+Al limite, $C_1$ è un cortocircuito:
+$$Z_P = \omega L \parallel \nicefrac{1}{\omega C_2} \parallel R_L \parallel R_{IN} \overset{\omega = \omega_0}{=} R_L \parallel R_{IN}$$
+$$\Rightarrow ~ \beta A = \frac{Z_P}{Z_{IN}} =
+\frac{R_L \parallel R_{IN}}{R_{IN}} < 1 ~~~
+\mbox{Paradosso!}$$
+
+L'incongruenza si ottiene supponendo che l'intero gruppo abbia impedenza infinita alla frequenza di risonanza, trascurando così $I_{IN}$.
+
+Ai fini del calcolo del guadagno è necessario studiare in modo esatto la $Z_P$ applicando le trasformazioni serie $\Leftrightarrow$ parallelo. Questo non altera le precedenti considerazioni in merito alla frequenza di risonanza.
+
+\begin{minipage}{0.7\linewidth}
+\begin{align*}
+&R_S = \frac{R_{IN}}{1 + Q_P^2} \approx \frac{R_{IN}}{Q_P^2}
+\\
+&C'_S = C_2 \frac{1 + Q_P^2}{Q_P^2} \approx C_2
+\\
+&R_P = R_S (1 + Q_S^2) = \frac{R_{IN}}{Q_P^2} (1 + Q_S^2)
+\\
+&Q_S = \frac{1}{\omega_0 C_S R_S} = \frac{Q_P^2}{\omega_0 C_S R_{IN}} = 
+\frac{\omega_0^2 R_{IN}^2 C_2^2}{\omega_0 \frac{C_1 C_2}{C_1 + C_2} R_{IN}} = \frac{C_1 + C_2}{C_1} \omega_0 R_{IN} C_2
+\\
+&C_P = C_S \frac{Q_S^2}{Q_S^2 + 1} \approx C_S
+\\
+&R_P = R_S (1+Q_S^2) \approx R_S Q_S^2 = R_{IN} \frac{Q_S^2}{Q_P^2} = R_{IN} \underbrace{\left(\frac{C_1 + C_2}{C_1} \right) ^2}_{\alpha^2}
+\\
+&Z_P = R_L \parallel j \omega L \parallel
+\frac{1}{j \omega C_S} \parallel R_{IN} \alpha^2
+\end{align*}
+\end{minipage}
+\begin{minipage}{0.3\linewidth}
+\includegraphics[width=0.8\linewidth]{img/oscillatore-colpitts-cb-variat-1}
+
+\vspace{1em}
+
+\includegraphics[width=0.8\linewidth]{img/oscillatore-colpitts-cb-variat-2}
+
+\vspace{1em}
+
+\includegraphics[width=0.8\linewidth]{img/oscillatore-colpitts-cb-variat-3}
+\end{minipage}
+
+\[
+\beta A = \frac{C_1}{C_1 + C_2} \frac{R_L \parallel R_{IN} \alpha^2}{R_{IN}} = 
+\nicefrac{1}{\alpha}
+\frac{\frac{R_L R_{IN} \alpha^2}{R_L + R_{IN} \alpha^2}}{R_{IN}}=
+\frac{R_L \alpha}{R_L + R_{IN} \alpha^2}
+\]
+
+È adesso chiaro che il massimo $\beta A$ non è per $C_1 \gg C_2$ ($\alpha \rightarrow 1$), condizione che porta ad avere un guadagno d'anello inferiore all'unità. Il valor massimo al variare delle capacità si trova derivando in $\alpha$:
+\begin{align*}
+&\frac{d(\beta A)}{d\alpha} = \frac{(R_L + R_{IN} \alpha^2) R_L - 2 R_{IN} \alpha (R_L \alpha)}{(R_L + R_{IN}\alpha^2)^2} = 0
+\\
+&R_L^2 + R_{IN} R_L \alpha^2 - 2 R_{IN} R_L \alpha^2 = 0
+~~~ \Rightarrow ~~~
+R_L R_{IN} \alpha^2 = R_L^2
+~~~ \Rightarrow ~~~
+\alpha = \sqrt{\frac{R_L}{R_{IN}}}
+\\\\
+&\beta A |_{max} =
+\frac{R_L \sqrt{\frac{R_L}{R_{IN}}}}{R_L + R_{IN} \frac{R_L}{R_{IN}}}=
+\frac{1}{2}\sqrt{\frac{R_L}{R_{IN}}}
+\end{align*}
+
+Dunque, affinché $\beta A > 1$ bisogna che $R_L> 4R_{IN}$.
+%	dimensionamenti ...
+
+\textbf{Nota:} $C_1$ e $C_2$ implementano un trasformatore a presa centrale a condensatori, tale per cui $R_V = \alpha^2 R_{IN}$.
+
+\section{Autoregolazione del guadagno}
+Lo studio dei fenomeni che intervengono all'autoregolazione dell'ampiezza dell'oscillazione coinvolge l'analisi in zona non lineare del componente attivo, complessa senza l'aiuto di un simulatore circuitale, ma in questa sede se ne può dare una descrizione intuitiva.\\
+Supponiamo che l'oscillazione si sia innescata e che la $V_{BE}$ assuma un andamento sinusoidale di ampiezza crescente intorno al suo valor medio iniziale $V_{BE_Q}$ come in figura \ref{fig:oscillatore-punto-riposo} (\textit{a sinistra}).
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/oscillatore-p-riposo}
+	\includegraphics[width=0.3\linewidth]{img/raster/oscillatori-autoguadagno}
+	\caption{Caratteristica d'ingresso (approssimata) del BTJ, con il punto di riposo evidenziato}
+	\label{fig:oscillatore-punto-riposo}
+\end{figure}
+
+Quando l'ampiezza dell'oscillazione supera il valore $V_{BE_Q}-V_T$ (dove $V_T$ è la tensione di soglia del dispositivo) la giunzione base-emettitore va in interdizione per una frazione crescente del periodo e, di conseguenza, la corrente $I_B$ risulta tagliata in basso come in figura \ref{fig:oscillatore-onda}.	Lo stesso accade per le correnti $I_C$ e $I_E$.
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.75\linewidth]{img/oscillatore-onda}
+	\caption{}
+	\label{fig:oscillatore-onda}
+\end{figure}
+Questo fenomeno fa sì che il valor medio di tali correnti tenda a crescere. Poiché la componente di valor medio di una corrente non può attraversare, a regime, i condensatori di accoppiamento e	bypass, essa deve richiudersi attraverso le maglie resistive (partitore d'ingresso e resistenza di emettitore) causando una caduta in continua in eccesso rispetto a quella che si aveva a riposo.	La tensione di base $V_B$ decresce e quella di emettitore $V_E$ tende a crescere: la $V_{BE}$ diminuisce. Il transistor tende a \textit{spegnersi} ed a ridurre i valor medi delle correnti in gioco.\\
+Si raggiunge, dunque, una situazione di equilibrio che vede il trasistor attraversare zone di non linearità (tra cui l'interdizione), e pertanto l'oscillatore è detto \textit{in classe C}\footnote{Si parla di classe C quando il componente attivo conduce per meno di metà del periodo. L'argomento verrà approfondito nel capitolo \ref{ch:trasmettitori}}.
+
+Infine, è opportuno precisare per quale motivo si è supposto che la componente variabile della tensione $V_{BE}$ continui a presentare un andamento sinusoidale alla frequenza di oscillazione. Poiché la base è a massa alle variazioni, questa componente è dovuta solamente alla componente variabile della $V_{E}$, che è una partizione della tensione ai capi del gruppo $LC_S$. Il parallelo è alimentato dalla corrente pulsante $I_C$ (che ha lo stesso andamento della $I_B$ di figura \ref{fig:oscillatore-onda}). Se ipotizziamo
+%	che il gruppo $R_LLC_S$ sia caratterizzato da un elevato valore del fattore di qualità Q, ecco, allora, che le componenti
+che il fattore Q sia molto elevato, è chiaro che le 	armoniche della corrente $I_C$ sono filtrate dal parallelo che risuona alla frequenza di oscillazione, e solo la prima armonica contribuisce in modo apprezzabile alla caduta di tensione su $R_L$.
+
+\subsection{Oscillatori controllati in tensione} \label{sub:VCO}
+Per ottenere un oscillatore la cui frequenza sia controllabile/modulabile mediante una tensione si
+utilizzano elementi circuitali che presentano una capacità variabile con la tensione di polarizzazione, ovvero, dei varicap. Esistono moltissime soluzioni circuitali di questo tipo: ne esaminiamo in dettaglio una tra le tante che prende il nome di Oscillatore di Clapp.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.50\linewidth]{img/oscillatore-clapp-colpitts}
+	\caption{}
+	\label{fig:clapp}
+\end{figure}
+
+Consideriamo l'oscillatore di Colpitts, dove si è inserita in serie all'induttanza $L$ una capacità variabile $C_V$ la cui implementazione sarà illustrata a breve.
+Il gruppo $LC_V$ serie presenta una reattanza pari a
+\[
+\omega L' = \omega L - \frac{1}{\omega C_V}
+ = \frac{\omega^2 LC_V-1}{j \omega C_V}
+\]
+Se $\omega L > \frac{1}{\omega C}$ allora la serie ha comunque reattanza induttiva e l'oscillatore continua a comportarsi come un Colpitts a base comune. Abbiamo la possibilità di variare la frequenza di oscillazione (pari a $\omega_0 = \sqrt{\frac{1}{L'C_S}}$) variando $C_S$.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.40\linewidth]{img/oscillatore-clapp}
+	\includegraphics[width=0.40\linewidth]{img/oscillatore-clapp-varicap}
+	\caption{}
+	\label{fig:varicap}
+\end{figure}
+
+Esaminiamo più in dettaglio l'implementazione della capacità variabile: $V_S(t)$ rappresenta la tensione di controllo della capacità (o modulante), che ipotizziamo lavorare ad una frequenza di molto inferiore a quella di oscillazione. L'induttanza RFC serve ad isolare l'oscillatore vero e proprio dalla parte di controllo (è un corto circuito alle basse frequenze ed un circuito aperto alle radiofrequenze).
+
+Il diodo varicap, polarizzato in inversa attraverso la batteria $E$, si comporta come una capacità variabile con $V_S$, con caratteristica illustrata in figura \ref{fig:varicap}:
+\begin{itemize}
+\item in continua tutte le capacità sono aperte, L è un circuito chiuso e la tensione ai capi del diodo è $V_{C_Q} = \frac{R_L}{R_L + R_0} E$;
+\item nel range di frequenze di $V_S$, $C_A$ può essere considerato un cortocircuito, dunque al valore di riposo si somma una componente variabile
+$v_{C}(t) = \frac{R_0 \parallel R_L }{R_S + R_0\parallel R_L} V_S(t)$, che va a modificare il valore di $C_V$.
+\end{itemize}
+Per piccole variazioni di $V_S(t)$ si ottiene una modulazione \textit{quasi} lineare della frequenza di oscillazione intorno alla frequenza centrale.
+
+\section{Oscillatori al quarzo}
+Con l'oscillatore di Colpitts non si riescono a raggiungere accuratezze sotto il ppm a causa di effetti parassiti non trattati in precedenza:
+$C_1$ e $C_2$ sono note con una certa indeterminazione a causa di tolleranze di produzione, e possono variare con il tempo o con le condizioni ambientali.
+Inoltre anche le capacità intrinseche del transistor, non note a priori, possono aggiungere ulteriori incertezze.
+
+In definitiva, $\nicefrac{1}{\omega_0 C_S}$ è una famiglia di curve funzione dei precedenti effetti, compresa fra un valore minimo ed un valore massimo di $C_S$. Come rappresentato in figura, anche la frequenza di oscillazione ha un valore compreso tra un minimo e un masssimo.
+
+Lo stesso si può dire per gli effetti parassiti sull'induttanza, ed anche $\omega L$ rappresenta una famiglia di curve funzione di parametri parassiti.
+
+Si può rimediare sostituendo l'induttanza con un componente a caratteristica approssimativamente verticale nell'intorno di $\omega_0$, così da ottenere una frequenza di oscillazione più accurata indipendentemente dalle variazioni di $C_S$.
+Tale caratteristica è propria dei quarzi.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.40\linewidth]{img/oscillatore-colpitts-incertezze}
+	\hfill
+	\includegraphics[width=.40\linewidth]{img/oscillatore-quarzo-incertezze}
+	\caption{A sinistra l'incertezza sulla pulsazione di oscillazione introdotta da parassiti o scostamenti dai valori nominali. A destra, si è sostituita l'induttanza con un componente a caratteristica ripida.}
+	\label{fig:quarzo}
+\end{figure}
+
+Un quarzo è un materiale che presenta caratteristiche piezoelettriche: sottoponendo due facce di un parallelepipedo ad una forza si rileva sulle facce ortogonali una differenza di potenziale; l'effetto piezoelettrico è reversibile, applicando una tensione si osserva una micro deformazione. Da un punto di vista elettrico, due facce non contigue del quarzo presentano, in prima approssimazione, un circuito equivalente rappresentato in figura \ref{fig:oscillatore-quarzo-equivalente}. In realtà nel quarzo reale sono presenti anche degli elementi dissipativi assimilabili nel circuito equivalente a resistenze.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[height=15em]{img/oscillatore-quarzo-equivalente}
+	\caption{}
+	\label{fig:oscillatore-quarzo-equivalente}
+\end{figure}
+
+L'impedenza $Z_Q$ vista ai capi è calcolata nel seguito:
+$$\begin{aligned}
+Z_Q(s) &=
+ \frac{\left( \frac{1}{C_S s} + Ls\right)
+ \frac{1}{C_P s}}{\frac{1}{C_S s} + Ls+
+ \frac{1}{C_P s}}
+	  =
+	  \frac{1 + LC_Ss^2}{C_Ss+C_Ps+LC_PC_Ss^3}\\
+ 	Z_Q(j \omega) &=
+ 	\frac{1 - \omega^2 LC_S}{j \omega (C_S + C_P) - j\omega (\omega^2 L C_P C_S)}
+ 	=
+ 	\frac{1}{j\omega (C_P+C_S)}
+ 	\frac{1-\omega^2 LC_S}{1 - \frac{\omega^2 L C_P C_S }{C_P + C_S}}
+\end{aligned}
+$$
+
+Si definiscono le due pulsazioni $\omega_S^2 = \frac{1}{LC_S}$ e $\omega_P^2 = \frac{1}{L\frac{C_PC_S}{C_P + C_S}}$.
+
+$$
+Z_Q(j\omega) = \frac{1}{j\omega (C_P+C_S)}
+\frac{1-\left(\nicefrac{\omega}{\omega_S}\right)^2}{1 - \left(\nicefrac{\omega}{\omega_P}\right)^2}
+$$
+Per le proprietà del quarzo vale $C_P \gg C_S
+~~ \Rightarrow ~~ \frac{C_PC_S}{C_P+C_S} \lesssim C_S
+~~ \Rightarrow ~~ \omega_P \gtrsim \omega_S$
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.8\linewidth]{img/oscillatore-quarzo-impedenza}
+	\caption{Modulo e fase dell'impedenza caratteristica del quarzo.}
+	\label{fig:quarzo}
+\end{figure}
+
+

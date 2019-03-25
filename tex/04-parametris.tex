@@ -1,0 +1,2188 @@
+\chapter{Parametri S}
+
+Il set di parametri S è il preferito nel campo delle alte frequenze dove la descrizione mediante modelli circuitali a parametri concentrati incontra dei limiti e risulta particolarmente utile parlare in termini di onde di potenza diretta e riflessa.
+\\
+Caratterizzando un quadripolo sarà utile trattare le connessioni con il resto del sistema come linee di trasmissione, lungo cui si propagano i flussi di potenza.
+
+\section{Linee di trasmissione}
+
+
+\begin{multicols}{2}
+	Fissato un sistema di riferimento su una linea di trasmissione con impedenza caratteristica $Z_0$, chiusa su un generico carico $Z_L$, si possono scrivere le equazioni che descrivono l'andamento lungo la linea dei fasori di tensione e corrente. Si faccia l'ipotesi che la linea sia non dispersiva (e costante con la frequenza) e priva di perdite (non si dissipa potenza lungo la linea).
+	
+	\columnbreak
+	\centering
+	\null\vfill
+	\includegraphics[width=0.8\linewidth]{img/Lineaditrasmissione}
+	\vfill\null
+\end{multicols}
+
+	Le equazioni dei telegrafisti permettono di esprimere i fasori di tensione e corrente alla generica ascissa $\ell$:
+	\[\begin{cases}
+	V(\ell) = V^+ e^{j \beta \ell}+V^- e^{-j \beta \ell}\\
+	I(\ell) = \frac{V^+}{Z_0} e^{j \beta \ell} -  \frac{V^-}{Z_0} e^{-j \beta \ell}
+	\end{cases}\]
+	Dove:
+	\begin{itemize}
+	\begin{multicols}{2}
+		\item $V^+$ è il fasore dell'onda incidente;
+		\item $V^-$ è il fasore dell'onda riflessa;
+		\item $\beta = \frac{2 \pi}{\lambda}$ è la costante di fase;
+		\columnbreak
+		\item $\lambda = \frac{v_f}{f_0}$ è la lunghezza d'onda del segnale;
+		\item $v_f = \frac{c}{\sqrt{\varepsilon_r}}$ è la velocità di propagazione lungo la linea.
+	\end{multicols}
+	\end{itemize}
+	Si può ricavare, inoltre, l'impedenza vista in un punto generico della linea $\ell$:
+	\[Z(\ell) = Z_0 \frac{Z_L + jZ_0 tg(\beta \ell)}{Z_0 + jZ_L tg(\beta \ell)}\]
+%$$\Gamma = \frac{V^-}{V^+} = \frac{Z_L - Z_0}{Z_L + Z_0}$$
+Poiché la linea è senza perdite, la potenza media lungo la linea è costante con $\ell$, ed è pratico calcolarla per $\ell = 0$:
+\[
+\begin{aligned}
+P_L & =
+\frac{1}{2} \Re{V I^*} =
+\frac{1}{2}
+\Re{(V^+ +  V^-)
+	\left(\frac{V^{+*}}{Z_0}-\frac{V^{-*}}{Z_0}\right)}=
+\\
+&=
+\frac{1}{2 Z_0} \Re{|V^+|^2 - |V^-|^2 - V^+ V^{-*}+ V^{+*} V^-} = \frac{1}{2 Z_0} (|V^+|^2 - |V^-|^2)
+= \frac{1}{2} \left(a^2 - b^2\right)
+\end{aligned}
+\]
+Dove $- V^+ V^{-*}+ V^{+*} V^-$ è la differenza i due termini l'uno complesso coniugato dell'altro: il risultato è puramente immaginario e viene pertanto eliminato dall'operazione di parte reale.
+
+$|a|^2 = \frac{|V^+|^2}{Z_0}$ e $|b|^2 = \frac{|V^-|^2}{Z_0}$ prendono il nome di potenza incidente e potenza riflessa.
+
+\section{Caratterizzazione a parametri S}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/quadripolo_paramS}
+	\caption{Il due porte in esame, con ingressi ed uscite connessi a linee di trasmissione di impedenza caratteristica $Z_0$}
+	\label{fig:quadripolo-paramS}
+\end{figure}
+
+Si considera un circuito due porte, connesso tramite linee di trasmissione, come mostrato in figura \ref{fig:quadripolo-paramS}. Applicando le equazioni dei telegrafisti agli ingressi ed alle uscite è possibile scrivere:
+
+$$
+\begin{cases}
+V_1 = V_1^+ + V_1^-\\
+I_1 = \frac{V_1^+}{Z_0} - \frac{V_1^-}{Z_0}
+\end{cases}
+\qquad\qquad
+\begin{cases}
+V_2 = V_2^+ + V_2^-\\
+I_2 = \frac{V_2^+}{Z_0} - \frac{V_2^-}{Z_0}
+\end{cases}
+$$
+
+Soffermiamoci su una delle due coppie. Effettuando somma e sottrazione membro a membro e riprendendo la precedente definizione di $a$ e $b$:
+
+\begin{equation}
+\begin{cases}
+V_1 + Z_0 I_1 = 2V_1^+\\
+V_1 - Z_0 I_1 = 2V_1^-
+\end{cases}
+\qquad
+\Rightarrow
+\qquad
+\begin{cases}
+\frac{V_1 + Z_0 I_1}{2\sqrt{Z_0}} = \frac{\bcancel{2}V_1^+}{\bcancel{2}\sqrt{Z_0}} = a_1\\
+\frac{V_1 - Z_0 I_1}{2\sqrt{Z_0}} = \frac{\bcancel{2}V_1^-}{\bcancel{2}\sqrt{Z_0}} = b_1
+\end{cases}
+\label{eq:prog_regr}
+\end{equation}
+
+Applicando lo stesso procedimento anche all'uscita ricaviamo quattro grandezze, affini a tensioni e correnti utilizzate nei precedenti parametri.\\
+Si definiscono i parametri S in modo da esprimere i $b$, ossia i termini proporzionali alle potenze \textit{riflesse} sul due porte, in funzione degli $a$, proporzionali alle potenze \textit{incidenti}. 
+
+\begin{equation}
+\begin{cases}
+b_1 = S_{11} a_1 + S_{12}a_2\\
+b_2 = S_{21} a_1 + S_{22}a_2\\
+\end{cases}
+\ 
+\Rightarrow
+\quad
+\underline{b} = \underline{\underline{S}}~ \underline{a}
+\quad
+dove
+\ 
+S =
+\left(
+\begin{array}{cc}
+S_{11} & S_{12}\\
+S_{21} & S_{22}
+\end{array}
+\right)
+\quad
+\begin{array}{c}
+Matrice\\
+di~Scattering
+\end{array}
+\label{eq:scattering}
+\end{equation}
+
+
+Come si ricavano i parametri?
+
+\[
+\begin{array}{cccc}
+S_{11} = \left. \frac{b_1}{a_1} \right|_{a_2 = 0}
+&
+S_{12} = \left. \frac{b_1}{a_2} \right|_{a_1 = 0}
+&
+S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2 = 0}
+&
+S_{22} = \left. \frac{b_2}{a_2} \right|_{a_1 = 0}
+\end{array}
+\]
+
+%	\overset{oppure}{=}
+%	\left. \frac{V_1^-}{V_1^+}\right|_{...} = 
+%	\left. \Gamma_1 \right|_{...} = 
+%	\frac{
+%		\left.Z_{IN}\right|_{...} - Z_0}{\left.Z_{IN}\right|_{...} + Z_0}
+%	= \Gamma_{IN} |_{a_2 = 0}$$
+
+Imporre $a_2 = 0$ (o $a_1 = 0$) significa annullare la componente incidente sulla porta di uscita (o sulla porta di ingresso). Questa condizione è verificata nel caso in cui la porta è chiusa su un carico di impedenza pari all'impedenza $Z_0$ (d'ora in poi detta \textit{impedenza di normalizzazione}), infatti:
+$$0 = a_2 = \frac{V_2^+}{\sqrt{Z_0}}
+\quad \Rightarrow \quad
+V_2 + Z_0 I_2 = 2V_2^+ = 0
+\quad \Rightarrow \quad
+V_2 = -Z_0 I_2
+\quad \Rightarrow \quad
+Z_{OUT} = - \frac{V_2}{I_2} = Z_0
+$$
+
+Per misurare i set di parametri h, y, z ecc., occorreva aprire o cortocircuitare le porte del quadripolo; la misurazione dei parametri S si effettua chiudendo le porte su un carico di impedenza $Z_0$.
+
+A questo punto $S_{11}$ si ricava sostituendo ad $a_1$ e $b_1$ le definizioni, dalle formule \ref{eq:prog_regr}:
+
+\begin{align*}
+S_{11} &= \left. \frac{b_1}{a_1} \right|_{a_2=0} =
+\left. \frac{V_1^-}{\cancel{\sqrt{Z_0}}} \cdot
+\frac{\cancel{\sqrt{Z_0}}}{V_1^+} \right|_{a_2=0} 
+=
+\left.
+\frac{V_1 - Z_0 I_1}{V_1 + Z_0 I_1}
+\right|_{a_2=0}
+=\\
+&=
+\left.
+\frac{\frac{V_1}{I_1} - Z_0}{\frac{V_1}{I_1} + Z_0}
+\right|_{a_2=0}
+=
+\frac{\left.Z_{IN}\right|_{Z_{OUT}=Z_0} - Z_0}
+{\left.Z_{IN}\right|_{Z_{OUT}=Z_0} + Z_0} 
+\end{align*}
+
+\textbf{Osservazione:} poiché si sta stimolando il quadripolo dalla porta 1, $\nicefrac{b_1}{a_1}$ risulta essere il \textit{coefficiente di riflessione} sulla porta d'ingresso ($\Gamma_{IN}$). Dunque il parametro $S_{11}$ rappresenta il coefficiente di riflessione sulla porta di ingresso quando la porta di uscita è chiusa su un carico di impedenza $Z_0$.
+
+In modo simmetrico si ricava $S_{22}$:
+
+$$S_{22} = \left.\frac{b_2}{a_2}\right|_{a_1=0}
+= \left.\frac{V_2^-}{V_2^+}\right|_{a_1=0}
+=
+\frac{\left.Z_{OUT}\right|_{Z_{IN}=Z_0} - Z_0}
+{\left.Z_{OUT}\right|_{Z_{IN}=Z_0} + Z_0}$$
+
+
+
+\paragraph{Dispositivo adattato sulla porta j} Il dispositvo è adattato sulla porta $j$ se $S_{jj} = 0$, ossia si ha che l'impedenza vista dalla porta $j$ quando tutte le altre sono chiuse su un carico adattato è $Z_0$.
+\paragraph{Dispositivo adattato} Se la diagonale ha soli valori nulli allora il dispositivo si dice adattato.
+
+
+Procediamo con il calcolo dei parametri \textit{incrociati}:
+
+$$S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2 = 0}
+=
+\left. \frac{V_2^-}{V_1^+} \right|_{a_2 = 0}
+=
+\left. \frac{V_2 - Z_0 I_2}{V_1 + Z_0 I_1} \right|_{a_2 = 0}
+= \frac{2V_2}{V_1 + Z_0 I_1}$$
+
+Se il dispositivo è adattato anche $a_1 = 0$, dunque $Z_0 I_1 = -V_1$ e la relazione si riduce a:
+
+\[
+\left. S_{21} \right|_{adatt.} =
+\left. \frac{2V_2}{V_1 + Z_0 I_1} \right|_{adatt.} = \frac{V_2}{V_1}
+\]
+
+Quindi, in caso di adattamento, $S_{21}$ rappresenta la funzione di trasferimento dalla porta 1 alla 2.
+
+Nel caso generale, tramite alcune elaborazioni, si può scrivere il parametro anche in funzione della impedenza d'ingresso:
+$$S_{21} =
+\frac{2 V_2}{V_1 \left( 1 + \frac{Z_0}{Z_{IN}} \right)}$$
+
+In modo analogo si ricava $S_{12}$:
+\[
+\left. S_{12} \right|_{adatt.} =
+\left. \frac{2V_1}{V_2 + Z_0 I_2} \right|_{adatt.} = \frac{V_1}{V_2}
+\]
+
+
+\paragraph{Dispositivo unilaterale} Si definisce unilaterale un circuito a due porte con $S_{12} = 0$. 
+
+\paragraph{Proprietà:}
+La rete è reciproca $\Leftrightarrow$ la matrice $S$ è simmetrica (rispetto alla diagonale principale)
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/quadripolo_paramS1}
+	\caption{Significato fisico dei parametri S su un quadripolo adattato}
+	\label{fig:lineaditrasmissione2}
+\end{figure}
+
+\vfill %Aggiustamento grafico inserito manualmente
+
+% sostituire se fa le bizze col minipage e vaffanc
+\begin{minipage}{.75\linewidth}
+	\paragraph{Esempio: tratto di filo ideale}
+	È reciproco perché scambiando ingresso con uscita non si apprezzano variazioni, quindi la matrice $S$ è simmetrica ($S_{12} = S_{21}$).
+	
+	È un quadripolo adattato, perché mettendo $Z_0$ in uscita (o in ingresso) si vede sempre $Z_0$ dall'altra porta, quindi gli elementi sulla diagonale principale sono nulli. È sufficiente calcolare solo $S_{21}$:
+	
+	$$S_{21} = \left. \frac{b_2}{a_1} \right|_{a_2=0}=
+	\frac{V_2}{V_1} = 1$$
+\end{minipage}
+\begin{minipage}{.25\linewidth}
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/paramS-cortocircuito}
+\end{minipage}
+
+\begin{minipage}{.65\linewidth}
+	\paragraph{Esempio: tratto di linea di trasmissione con impedenza $Z_0$}
+	
+	È un quadripolo reciproco, e per definizione di impedenza caratteristica, mettendo $Z_0$ in uscita si vede $Z_0$ in ingresso, quindi il quadripolo è adattato.
+	
+	$$
+	\begin{aligned}
+	S_{21} &= \left. \frac{b_2}{a_1} \right|_{a_2=0} = \left.\frac{V_2}{V_1} \right|_{a_2 = 0}\\
+	V_2 &= V(0) = V^+ + V^- \\
+	V_1 &= V(L) = V^+ e^{j\beta L} + V^- e^{-j\beta L}\\
+	\end{aligned}$$
+	Dato che è adattato si avrà $V^- = 0$ quindi:
+	\[S_{21} = e^{-j \beta l}\]
+\end{minipage}
+\begin{minipage}{.35\linewidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{img/paramS-linea}
+\end{minipage}
+
+%\vfill %Aggiustamento grafico inserito manualmente
+%\newpage % interruzione introdotta manualmente
+\paragraph{Esempio: tratto di linea di trasmissione con impedenza $Z_x \neq Z_0$}
+
+È un quadripolo reciproco, ma non adattato.
+
+$$
+\begin{aligned}
+S_{11} &= \left. \Gamma_{IN} \right|_{a_2 = 0} =
+\frac{Z_{IN} - Z_0}{Z_{IN} + Z_0} = S_{22}\\
+Z_{IN} &= Z_x \frac{Z_0-jZ_x\tan(\beta L)}{Z_x-jZ_0\tan(\beta L)}
+\end{aligned}
+$$
+$$
+\begin{aligned}
+S_{21} &= \left. \frac{b_2}{a_1} \right|_{a_2=0} = \left.\frac{V_2 - Z_0 I_2}{V_1 + Z_0 I_1} \right|_{a_2 = 0} = 
+\frac{2V_2}{V_1 \left(1+\frac{Z_0}{Z_{IN}} \right)}\\
+V_2 &= V(0) = V^+ + V^- \\
+V_1 &= V(L) = V^+ e^{j\beta L} + V^- e^{-j\beta L}\\
+\Gamma &= \frac{V^-}{V_+} \qquad\Rightarrow\qquad
+\begin{aligned}
+V_2 &= V^+ (1 + \Gamma)\\
+V_1 &= V^+ (e^{j\beta L} + \Gamma e^{-j\beta L})
+\end{aligned}\\
+S_{21} &= \frac{2(1+\Gamma)}{V^+ (e^{j\beta L} + \Gamma e^{-j\beta L})} \cdot \frac{1}{1+\frac{Z_0}{Z_{IN}}}
+\end{aligned}$$
+
+%	\newpage
+
+\begin{minipage}{.65\linewidth}
+	\paragraph{Esempio: attenuatore}
+	Quadripolo reciproco ma non adattato. È sufficiente calcolare due parametri, e per comodità scegliamo $S_{11}$ e $S_{21}$ (sono entrambi con $a_2 = 0$).
+	\begin{align*}
+	S_{11} &= \left. \frac{b_1}{a_1} \right|_{a_2=0}
+	=\frac{V_1 - Z_0 I_1}{V_1 + Z_0 I_1}
+	= \frac{Z_{IN} - Z_0}{Z_{IN} + Z_0}\\
+	Z_{IN} &= R_S + \frac{(R_S + Z_0)R_P}{R_S + Z_0 + R_P}\\
+	\\
+	S_{21} &= \frac{2V_2}{
+		V_1\left( 1+\frac{Z_0}{Z_{IN}} \right)
+	} = 
+	\frac{2}{1+\frac{Z_0}{Z_{IN}}} \cdot
+	\frac{R_P Z_0}{Z_{IN}(R_P+R_S+Z_0)}
+	\end{align*}
+\end{minipage}
+\begin{minipage}[t]{.35\linewidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{img/attenuatore}
+\end{minipage}
+
+\vspace{1em}
+\begin{minipage}{.65\linewidth}
+	\paragraph{Esempio: rete attiva} utilizzando il modello semplificato di Giacoletto
+	
+	\begin{align*}
+	S_{11} &= \frac{Z_{IN} - Z_0}{Z_{IN} + Z_0}
+	\overset{Z_{IN}\rightarrow\infty}{=} 1 \\
+	S_{22} &= \frac{Z_{out} - Z_0}{Z_{out}+Z_0} = 1
+	\\
+	S_{21} &= \frac{2V_2}{V_1 \left(
+		1+\cancel{\frac{Z_0}{Z_{IN}}}
+		\right)}
+	=
+	-2 g_m Z_0
+	\\
+	S_{12} &= 0 \qquad \mbox{È unilaterale}
+	\end{align*}
+\end{minipage}
+\begin{minipage}[t]{.35\linewidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{img/circuitoFET}
+\end{minipage}
+
+
+\section{Coefficienti di riflessione}
+\begin{figure}[bht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/quadripolo_coefficienti}
+	\caption{}
+	\label{fig:coefficienti}
+\end{figure}
+Dal circuito in figura \ref{fig:coefficienti} è possibile ricavare i coefficienti di riflessione sull'ingresso del quadripolo e sul carico:
+\begin{align}
+\Gamma_{IN} &= \frac{b_1}{a_1} = \frac{Z_{IN} - Z_0}{Z_{IN} + Z_0}\\
+\Gamma_L &=  \frac{a_2}{b_2} = \frac{Z_{L} - Z_0}{Z_{L} + Z_0}
+\end{align}
+Fissata $Z_0$ esiste una corrispondenza biunivoca fra impedenze (di ingresso e di carico) e i relativi coefficienti di riflessione. In termini di parametri S si preferisce far riferimento a questi ultimi tramite le relazioni che andremo a ricavare.
+\\
+Le linee di trasmissione in analisi non sono dissipative, dunque gli $a_i$ e $b_i$ sono costanti lungo le linee.
+
+Riprendendo le equazioni \ref{eq:scattering}:
+\[
+\begin{cases}
+b_1 = S_{11}a_1 + S_{12}a_2\\
+b_2 = S_{21}a_1 + S_{22}a_2
+\end{cases}
+\quad\Rightarrow\quad
+\begin{cases}
+\frac{b_1}{a_1} = S_{11} + S_{12}\frac{a_2}{a_1}=
+S_{11} + S_{12}\frac{a_2}{b_2}\frac{b_2}{a_1}\\
+\frac{b_2}{a_1} = S_{21} + S_{22}\frac{a_2}{a_1}=
+S_{21} + S_{22}\frac{a_2}{b_2}\frac{b_2}{a_1}
+\end{cases}
+\]
+Manipolando la seconda equazione e sostituendo nella prima:
+\begin{align}
+\frac{b_2}{a_1} &= S_{21} + S_{22}\Gamma_L\frac{b_2}{a_1}
+\Rightarrow
+\frac{b_2}{a_1}(1-S_{22}\Gamma_L) = S_{21}
+\quad\Rightarrow\quad
+\frac{b_2}{a_1}= \frac{ S_{21}}{1-S_{22}\Gamma_L}
+\n
+\Gamma_{IN} &= S_{11} + \frac{S_{12} S_{21} \Gamma_L}{1-S_{22}\Gamma_L}
+\label{eq:gammain}
+\end{align}
+Tale relazione è analoga a quanto fatto a parametri Y: l'impedenza vista dall'ingresso è funzione del carico $Y_{L}$.
+%	 si vede che il coefficiente di riflessione d'ingresso è funzione del coefficiente di riflessione sul carico.
+Si può inoltre osservare che chiudendo l'uscita su $Z_0$ ($\Gamma_L = 0$) otteniamo la definizione del parametro $S_{11} = \nicefrac{b_1}{a_1}$.
+
+
+Tramite analoghi passaggi si ricava l'espressione del coefficiente di riflessione di uscita:
+\begin{equation}
+\Gamma_{OUT} = S_{22} + \frac{S_{21} S_{12} \Gamma_S}{1-S_{11}\Gamma_S}
+\label{eq:gammaout}
+\end{equation}
+
+\section{Guadagni}
+
+\paragraph{Guadagno operativo di potenza}
+\[G_P = \frac{P_L}{P_{IN}} = \frac{\frac{1}{2} \left( |b_2|^2 - |a_2|^2 \right)}{\frac{1}{2} \left( |a_1|^2 - |b_1|^2 \right)} = \frac{|b_2|^2}{|a_1|^2}\frac
+{1-\left|\frac{a_2}{b_2} \right|^2}
+{1-\left|\frac{b_1}{a_1} \right|^2}
+=\]
+Dato che $\frac{a_2}{b_2} = \Gamma_{L}$, $\frac{b_1}{a_1} = \Gamma_{IN}$, $\frac{b_2}{a_1} = \frac{S_{21}}{1-S_{22}\Gamma_{L}}$:
+
+\begin{equation}\label{eq:gp}
+G_P = 
+\left| \frac{S_{21}}{1 - S_{22}\Gamma_L} \right|^2
+\frac{1- |\Gamma_L|^2}{1- |\Gamma_{IN}|^2}
+\end{equation}
+
+Facciamo alcune considerazioni per commentare il risultato ottenuto:
+
+\begin{itemize}
+	\item Se il carico è puramente reattivo ($|\Gamma_L| = 1$) $G_P = 0$. Infatti non si dissipa potenza in uscita.
+	\item Se l'impedenza vista dall'ingresso quadripolo è puramente reattiva ($|\Gamma_{IN}| = 1$) $G_P \rightarrow \infty$: infatti non entra alcuna potenza.
+	\item  Se il carico è pari all'impedenza di normalizzazione $Z_0$ si ha $\Gamma_L = 0$, quindi $G_P = \frac{|S_{21}|^2}{1-|\Gamma_{IN}|^2}$
+	\item Se il due porte è adattato $\Gamma_{IN} = 0$ e si ha $G_P = |S_{21}|^2$
+	\item Se $|\Gamma_{IN}|>1$ (impedenza vista dal quadripolo con parte reale minore di zero) allora il $G_P < 0$.
+\end{itemize}
+
+\paragraph{Guadagno di trasduttore}
+
+\begin{equation}
+\begin{aligned}
+G_T = \frac{P_L}{P_{A_{IN}}} &= 
+\frac{|S_{21}|^2(1-|\Gamma_S|^2)(1-|\Gamma_L|^2)}
+{|1-\Gamma_{OUT}\Gamma_L|^2|1-S_{11}\Gamma_S|^2}\\
+&=
+\frac{|S_{21}|^2(1-|\Gamma_S|^2)(1-|\Gamma_L|^2)}
+{|1-\Gamma_{IN}\Gamma_S|^2|1-S_{22}\Gamma_L|^2}
+\end{aligned}
+\end{equation}
+
+Si può verificare che se $\Gamma_S = \Gamma_{IN}^*$ allora $G_T = G_P$:
+
+$$
+G_T(\Gamma_S = \Gamma_{IN}^*) = \frac{|S_{21}|^2(1-|\Gamma_S|^2)(1-|\Gamma_L|^2)}
+{\Mod{1-\Mod{\Gamma_S}^2}^2|1-S_{22}\Gamma_L|^2}
+= 
+\frac{|S_{21}|^2(1-|\Gamma_L|^2)}
+{(1-|\Gamma_S|^2)|1-S_{22}\Gamma_L|^2} = G_P
+$$
+
+Se chiudiamo l'ingresso e l'uscita del quadripolo su un carico pari a $Z_0$ (il che implica $\Gamma_S = 0$ e $\Gamma_L = 0$) otteniamo:
+\[G_T(\Gamma_S = 0, \Gamma_L = 0) = |S_{21}|^2 \]
+
+%$$G_{TU} = \frac{(1-|\Gamma_S|^2) S_{21}(1-|\Gamma_L|^2)}{|1-S_{22}\Gamma_L|^2
+%	|1-S_{11}\Gamma_S|^2}$$
+
+%Il massimo si ha per adattamento complesso coniugato, quindi %$\Gamma_S = S_{..}$ e 
+%$\Gamma_L = S_{..}$:
+
+%	$$G_{TU_{max}} = \frac{(1-|\Gamma_S|^2) S_{21}(1-|\Gamma_L|^2)}
+%	{|1-|S_{22}|^2|^2
+%		|1-|S_{11}|^2|^2} =
+%	\frac{\cancel{(1-|\Gamma_S|^2)} S_{21}\cancel{(1-|\Gamma_L|^2)}}
+%	{|1-|S_{22}|^2|^\cancel{2}
+%		|1-|S_{11}|^2|^\cancel{2}}$$
+
+\paragraph{Guadagno di potenza disponibile}
+\[G_A = \frac{P_{A_{OUT}}}{P_{A_{IN}}} = G_T (\Gamma_L = \Gamma_{OUT}^*) = \frac{(1-|\Gamma_S|^2 )|S_{21}|^2(1-|\Gamma_L|^2)}{| 1-|\Gamma_L|^2 |^2 \; |1- S_{11}\Gamma_S|^2} = \frac{(1-|\Gamma_S|^2 )|S_{21}|^2}{\left[ 1-|\Gamma_L|^2 \right] \; |1- S_{11}\Gamma_S|^2} \]
+
+Notiamo che con un'impedenza di ingresso puramente reattiva ($|\Gamma_S| = 1$) si ha $G_A = 0$, infatti la potenza in ingresso diverge poiché $R_S = 0$.
+
+%	$$G_{TU} = \frac{(1-|\Gamma_S|^2) S_{21}(1-|\Gamma_L|^2)}{|1-S_{22}\Gamma_L|^2
+%		|1-S_{11}\Gamma_S|^2}$$
+%	
+%	Il massimo si ha per adattamento complesso coniugato, quindi $\Gamma_S = S_{..}$ e 
+%	$\Gamma_L = S_{..}$:
+%	
+%		$$G_{TU_{max}} = 
+%		\frac{(1-|\Gamma_S|^2) S_{21}(1-|\Gamma_L|^2)}
+%		{|1-|S_{22}|^2|^2
+%			|1-|S_{11}|^2|^2} =
+%		\frac{\cancel{(1-|\Gamma_S|^2)} S_{21}\cancel{(1-|\Gamma_L|^2)}}
+%		{|1-|S_{22}|^2|^\cancel{2}
+%			|1-|S_{11}|^2|^\cancel{2}}$$
+\paragraph{Esempio} Progettare un attenuatore con fattore di attenuazione noto pari a 10dB ($\frac{P_{A_{IN}}}{P_L} = \frac{1}{G_T}$).
+Deve essere adattato, quindi $G_T = S_{21}$.
+
+Affinché sia adattato, si deve imporre $Z_{IN} = Z_0$:
+
+\begin{align*}
+Z_{IN} &=
+R_S + \frac{(R_S + Z_0)R_P}{R_S+Z_0+R_P} = Z_0
+\\
+R_S^2 &+\cancel{Z_0R_S}+R_PR_S + R_SR_P+\bcancel{Z_0R_P} = \cancel{Z_0R_S} + Z_0^2 + \bcancel{Z_0)R_P}                                   	\\
+R_P &= \frac{Z_0^2 - R_S^2}{2R_S}
+\\
+\\
+S_{21} &= \frac{2}{1+\cancel{\frac{Z_0}{Z_{IN}}}_1} \cdot
+\frac{R_P Z_0}{Z_{IN}(R_P+R_S+Z_0)}=
+\frac{R_P Z_0}{Z_{IN}(R_P+R_S+Z_0)}=
+\frac{\frac{Z_0^2 - R_S^2}{2R_S} \cancel{Z_0}}
+{\cancel{Z_0}(\frac{Z_0^2-R_S^2}{2R_S}+R_S+Z_0)}
+\\&=
+\frac{Z_0^2 - R_S^2}
+{Z_0^2-\bcancel{R_S^2}+\bcancel{2}R_S^2+2Z_0R_S} =
+\frac{(Z_0 - R_S)(Z_0 + R_S)}
+{(Z_0 + R_S)(Z_0 + R_S)} = \frac{Z_0-R_S}{Z_0+R_S}
+\\
+&Z_0-R_S = S_{21} (Z_0+R_S) \quad\Rightarrow\quad
+R_S = \frac{Z_0(1-S_{21})}{1+S_{21}}
+\end{align*}
+Se si vuole una attenuazione di 20dB bisogna imporre $\nicefrac{1}{|S_{21}|^2}=100 \Rightarrow S_{21}=0.1$:
+\begin{align*}
+R_S &= \frac{Z_0(1-0.1)}{1+0.1}
+\overset{Z_0 = 50\Omega}{=}
+40.9\\
+R_P &= \frac{Z_0^2 - R_S^2}{2R_S} = 10.11\Omega
+\end{align*}
+
+\hfill	$\square$
+
+\paragraph{Guadagno di potenza unilateralizzato}
+Se prendiamo nuovamente in esame la formula del $G_T$ e imponiamo che il dispositivo sia unilaterale ($S_{12}=0 \Rightarrow \Gamma_{OUT} = S_{22} $):
+
+\[G_{TU} = \frac{|S_{21}|^2(1-|\Gamma_S|^2)(1-|\Gamma_L|^2)}
+{|1- S_{22}\Gamma_L|^2|1-S_{11}\Gamma_S|^2}  \]
+
+Si ottiene il $G_{TU}$ massimo adattando in ingresso e uscita ($\Gamma_L = S_{22}^*$, $\Gamma_S = S_{11}^*$ )
+
+\[G_{TU_{MAX}} = \frac{|S_{21}|^2}{(1-|S_{22}|^2)(1-|S_{11}|^2)}\]
+
+\section{Stabilità}
+Si possono ripetere considerazioni analoghe a quelle espresse in termini di parametri Y: a partire dalle definizioni di stabilità si giungerà ad un criterio che consenta di valutare se un sistema è incondizionatamente stabile o meno.
+
+\begin{itemize}
+	\item Un dispositivo è stabile in ingresso ad una frequenza $f_0$ se, per ogni $|\Gamma_S| \leq 1$, si ha sempre $|\Gamma_{OUT}(\Gamma_S)| < 1$.
+	
+	\item Un dispositivo è stabile in uscita ad una frequenza $f_0$ se, per ogni $|\Gamma_L| \leq 1$, si ha sempre $|\Gamma_{IN}(\Gamma_L)| < 1$.
+	
+	\item Si ha Incondizionata Stabilità se sono verificate le precedenti due condizioni.
+\end{itemize}
+
+Si possono motivare tali affermazioni con un esempio intuitivo a partire dalla teoria delle linee di trasmissione. Immaginiamo di applicare al quadripolo un gradino di tensione: l'onda che incide sulla porta d'ingresso darà luogo, in funzione del coefficiente di riflessione $\Gamma_{IN}$, ad una componente trasmessa (che attraversa il quadripolo) e ad una componente riflessa verso la sorgente. Quest'ultima torna alla sorgente e viene (parzialmente) riflessa verso il quadripolo, innescando un fenomeno ricorsivo e potenzialmente divergente.
+
+Per definizione di stabilità di ingresso si vuole che, qualsiasi sia l'impedenza di sorgente (purché sia passiva, ossia $|\Gamma_S|<1$), non si abbiano oscillazioni. Poniamoci dunque nel caso più sfavorevole, ossia quando si ha totale riflessione ($|\Gamma_S| = 1$, sorgente puramente reattiva): se il quadripolo ha $|\Gamma_{IN}|<1$, pur avendo numerose riflessioni, queste avranno ampiezza sempre ridotta finché tutta l'energia inviata dalla sorgente attraverserà il quadripolo.
+Se invece $|\Gamma_{IN}|>1$ l'onda riflessa sarà amplificata ad ogni rimbalzo.
+
+\paragraph{Osservazione 1}
+nell'ipotesi che il quadripolo non sia unilaterale, se $\Gamma_S \Gamma_{IN} = 1$ allora $\Gamma_L \Gamma_{OUT}=1$, e viceversa
+
+Dimostriamolo riprendendo le espressioni \ref{eq:gammain} e \ref{eq:gammaout} dei coefficienti di riflessione al quadripolo in funzione di carico e sorgente:
+
+\begin{align*}
+\Gamma_{IN} &= S_{11} + \frac{S_{12} S_{21} \Gamma_L}{1-S_{22}\Gamma_L}=
+\frac{S_{11}-S_{11}S_{22}\Gamma_L+S_{12}S_{21}\Gamma_L}{1-S_{22}\Gamma_L} =
+\frac{S_{11} - D\Gamma_L}{1-S_{22}\Gamma_L}
+\\
+\Gamma_{OUT} &= S_{22} + \frac{S_{12} S_{21} \Gamma_S}{1-S_{11}\Gamma_S}=
+\frac{S_{22}-S_{11}S_{22}\Gamma_S+S_{12}S_{21}\Gamma_S}{1-S_{11}\Gamma_S} =
+\frac{S_{22} - D\Gamma_S}{1-S_{11}\Gamma_S}
+\end{align*}
+
+Possiamo scrivere l'ipotesi $\Gamma_S\Gamma_{IN} = 1$ anche come $\Gamma_S = \nicefrac{1}{\Gamma_{IN}}$.
+
+\[
+\Gamma_{OUT} =
+\frac{S_{22} - D \frac{1}{\Gamma_{IN}}}{1-S_{11} \frac{1}{\Gamma_{IN}}}
+=
+\frac{S_{22}- D \frac{1-S_{22}\Gamma_L}{S_{11} - D\Gamma_L}}{1-S_{11}\frac{1-S_{22}\Gamma_L}{S_{11} - D\Gamma_L}} =
+\frac{S_{11}S_{22} -\cancel{ D S_{22}\Gamma_L} -D+ \cancel{DS_{22}\Gamma_L}}{\bcancel{S_{11}} - D\Gamma_L -\bcancel{S_{11}}+S_{11}S_{22} \Gamma_L}
+= \frac{1}{\Gamma_L}
+\]
+
+%	È chiaro che se il dispositivo è unilaterale ($S_12 = 0$)  si ha divisione per 0, ma comunque è abbastanza improbabile avere un dispositivo in alta frequenza che non sia unilaterale.
+
+%	Vale anche il viceversa
+
+\paragraph{Osservazione 2} Se il dispositivo è Incondizionatamente Stabile in ingresso, allora è Incondizionatamente Stabile in uscita, e viceversa. In modo più formale si può dire:
+%	IS in input $\Leftrightarrow$ IS in output (se non è possibile trovare una coppia di terminazioni che verifichino le condizioni di barkhousen in ingresso, allora non le verificano nemmeno in uscita, e viceversa)
+\[
+\forall \Gamma_S \leq 1 \Rightarrow
+|\Gamma_{OUT}| <1
+\quad
+\Leftrightarrow
+\quad
+\forall \Gamma_L \leq 1 \Rightarrow
+|\Gamma_{IN}| <1
+\]
+
+Ai fini della dimostrazione è più pratico ragionare in termini potenziale instabilità di ingresso e uscita. Supponiamo dunque che il dispositivo sia Potenzialmente Instabile in ingresso per dimostrare che lo è anche in uscita.
+\[
+\exists |\overline{\Gamma}_S| \leq 1 : |\Gamma_{OUT}| \geq1
+\]
+Si chiude l'uscita su un particolare carico tale che $\overline{\Gamma}_L =\frac{1}{\Gamma_{OUT}(\overline{\Gamma}_S)} \overset{per HP}{<} 1$
+\\
+Avendo posto $\overline{\Gamma}_L \Gamma_{Out}(\overline{\Gamma}_S) = 1$, per l'osservazione prima dimostrata si deve avere necessariamente $\overline{\Gamma}_S \Gamma_{IN} = 1$. Siccome la sorgente è passiva per ipotesi ($\Gamma_S < 1$), affinché sia soddisfatta bisogna che $\Gamma_{IN}(\overline{\Gamma}_L) \geq 1$, dunque il dispositivo è potenzialmente instabile anche in uscita.
+
+\subsection{Criteri per l'analisi della stabilità}
+
+Soffermiamoci sulla stabilità di ingresso.
+
+\[\Gamma_{OUT} = \frac{S_{12}S_{21} \Gamma_S}{1-S_{11}\Gamma_S}+S_{22}\]
+
+Come si vede chiaramente dalla formula il $\Gamma_{OUT}$ è funzione di $\Gamma_S$. Poniamoci nella condizione limite per la stabilità:
+\[|\Gamma_{OUT}(\Gamma_S)|^2 = 1 = \Gamma_{OUT}\Gamma_{OUT}^*  \]
+
+Dato che il coefficiente di riflessione è un numero complesso si può scrivere $\Gamma_S = u + jv$ e andare a risolvere la seguente equazione:
+
+\[ 1 = \left| \frac{S_{12}S_{21} (u+jv)}{1-S_{11}(u+jv)}+S_{22} \right| ^2\]
+
+Tramite alcuni passaggi qui non riportati è possibile dimostrare che la curva descritta sul piano complesso dei $\Gamma_S$ tale che $\Gamma_{OUT} = 1$ è una circonferenza, che prende il nome di \textbf{cerchio di stabilità di ingresso}. Si ottengono i seguenti valori per centro e raggio della circonferenza:
+
+%Dalla formula \ref{eq:gp} è nota la relazione che sussiste fra $\Gamma_{IN}$ e $\Gamma_L$. Tramite alcuni passaggi qui non riportati è possibile dimostrare che la curva descritta sul piano complesso dei $\Gamma_L$ tale che $\Gamma_{IN} = 1$ è una circonferenza, che prende il nome di \textbf{cerchio di stabilità di ingresso}.
+
+\begin{equation}
+\begin{dcases}
+C_S &= \frac{(S_{11} - S_{22}^*D)^*}{|S_{11}|^2 - |D|^2}\\
+r_S &= \frac{|S_{12}S_{21}|}{||D|^2 - |S_{11}|^2|}\\
+\end{dcases}
+\qquad
+\mbox{con } D = \det \underline{\underline{S}} = S_{11} S_{22} - S_{21} S_{12}
+\end{equation}
+
+Con conti analoghi è possibile ricavare un \textbf{cerchio di stabilità di uscita}. 
+
+\begin{equation}
+\begin{dcases}
+C_L &= \frac{(S_{22} - S_{11}^*D)^*}{|S_{22}|^2 - |D|^2}\\
+r_L &= \frac{|S_{12}S_{21}|}{||D|^2 - |S_{22}|^2|}\\
+\end{dcases}
+\qquad
+\mbox{con } D = \det \underline{\underline{S}} = S_{11} S_{22} - S_{21} S_{12}
+\end{equation}
+
+Per l'analisi della stabilità si può procedere disegnando sul piano dei $\Gamma_S$	la circonferenza di stabilità: essa fa da confine tra una zona stabile, detta \textbf{area di stabilità di ingresso} e una instabile. Per riconoscere la zona \textit{buona} basta fare una verifica nell'origine degli assi:
+
+\[\Gamma_{OUT}(\Gamma_S = 0) = S_{22}\]
+
+Quindi se $S_{22} < 1$ l'area di stabilità è quella che contiene questo punto. Se, invece, $S_{22} > 1$ l'area che contiene questo punto è di instabilità.
+
+Poiché siamo interessati ai soli carichi passivi, è opportuno disegnare anche il cerchio tale per cui $|\Gamma_S| \leq 1$, che prende il nome di cerchio di Smith.\\
+Come mostrato in figura \ref{fig:cerchi-stabilita} le posizioni relative delle due circonferenze possono condurre a quattro diverse situazioni, ed è facile verificare graficamente se un certo $\Gamma_S$ comporti potenziale instabilità. 
+%	
+%	Si calcola il caso semplice $\Gamma_{OUT} (\Gamma_S = 0) = S_{22}$. Se è minore di 1 e lo 0 è fuori, allora è stabile fuori (e nella circonferenza di Smith (?)). o viceversa per gli altri 3 possibili casi.
+%	
+%	Ci possono essere 4 situazioni diverse:
+%	zona stabile interna al cerchio di stabilità oppure esterna. Basterà dunque calcolare il valore di $\Gamma_{OUT} (\Gamma_S= 0) = S_{22}$.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/raster/cerchi-stabilita}
+	\caption{È intuitivo che la stabilità incondizionata si può avere soltanto in due casi}
+	\label{fig:cerchi-stabilita}
+\end{figure}
+
+I due casi di Incondizionata Stabilità si possono caratterizzare matematicamente nel modo seguente:
+
+\begin{itemize}
+	\item Cerchio di stabilità esterno al cerchio di Smith ($|C_S| - r_S > 1$) e area di stabilità esterna ($|S_{22}|<1$);
+	\item
+	Cerchio di Smith interno al cerchio di stabilità ($r_S - |C_S| > 1$) e area di stabilità interna ($|S_{22}|<1$).
+\end{itemize}
+
+Oppure, compattando in una sola espressione:
+\begin{equation}
+\begin{dcases}
+\Mod{\Mod{C_S} - r_S} \geq 1\\
+|S_{22}| <1
+\end{dcases}
+\end{equation}
+
+Questo criterio di verifica della stabilità è detto criterio topologico. Si possono ripetere le stesse considerazioni appena fatte per la porta di uscita.
+
+%	
+%	 $\Gamma_S = u + jv$ sul piano di Gauss, fissando $\Gamma_{OUT}$, si vede che i punti stanno su una circonferenza, che prende il nome di cerchio di stabilità di ingresso.
+%	
+%	 ( insieme dei $\Gamma_S \mbox{per cui} \Gamma_{OUT} = 1$).
+%	
+%	Centro della circonferenza  dove  (ovviamente è complesso, è il centro nel piano di Gauss)
+%	
+%	Raggio 
+%	
+%	Area di stabilità di ingresso: insieme dei $\Gamma_S$ tali che $|\Gamma_{OUT}(\Gamma_S)|<1$ 
+%	
+%	Achtung: l'area di stabilità può essere l'interno della circonferenza ma anche l'esterno.
+%	Come si capisce?
+%	
+%	Si calcola il caso semplice $\Gamma_{OUT} (\Gamma_S = 0) = S_{22}$. Se è minore di 1 e lo 0 è fuori, allora è stabile fuori (e nella circonferenza di Smith (?)). o viceversa per gli altri 3 possibili casi.
+%	
+%	Ci possono essere 4 situazioni diverse:
+%	\begin{itemize}
+%		\item circonferenza di stabilità e di smith non hanno punti in comune (Non si intersecano)
+%		\item ... si intersecano
+%		\item cerchio di stabilità interno a smith
+%		\item il contrario
+%	\end{itemize}
+%	
+%	
+%	\begin{figure}[h]
+%		\centering
+%		\includegraphics[width=0.5\linewidth]{img/raster/smithbruttissimo}
+%		\caption{}
+%		\label{fig:smithbruttissimo}
+%	\end{figure}
+%	
+%	In almeno due casi è escluso a priori che sia incondizionatamente stabile:
+%	
+%	nel caso 3 e nel caso 2 (variando punti nel cerchio di smith becco sempre dei punti di instabilità, quindi esiste una cinfigurazione che mi dà instabilità, quindi non è incondizionatamente stabile)
+%	
+%	
+%	caso 1
+%	$|C_S| - r_S > 1$ (cerchio di smith fuori dalla circ di stabilità) e $|S_{22}|<1$ (stabile fuori dal cerchio di stabilità, valore per $\Gamma_S = 0$ che è fuori dal cerchio) incondizionatamente stabile (in ignresso)
+%	
+%	caso 4: $r_S - |C_S| > 1$ (circonferenze una dentro l'altra) e $|S_{22}|<1$ ( stabilità dentro, valore per $\Gamma_S = 0$ che è dentro dal cerchio)) allora incondizionata stabilità (in ingresso)
+%	
+%	In un colpo solo... Criterio topologico
+
+
+Con ulteriori elaborazioni è possibile ricavare una condizione di stabilità basata su un parametro che prende il nome di Fattore di stabilità a microonde K:
+
+\begin{equation}
+\begin{dcases}
+K = \frac{1- |S_{11}|^2-|S_{22}|^2+|D|^2}{2 |S_{12} S_{21}|} > 1\\
+|D| = |S_{11} S_{22} - S_{21} S_{12}| < 1
+\end{dcases}
+\end{equation}
+
+Con questo metodo si verifica la stabilità evitando il calcolo di centro e raggio dei cerchi di stabilità, ma risulta inefficace quando si vuol valutare se una particolare combinazione di impedenze è interna alle aree di stabilità: in tal caso bisognerà ricorrere al metodo grafico.
+
+\section{Cerchi equi-guadagno}
+
+Nella progettazione di amplificatori viene spesso fornito, come dato di progetto, il minimo guadagno che lo stadio deve avere. Analizziamo quindi una metodologia per ottenere un certo guadagno da uno stadio di amplificazione applicando le definizioni ricavate finora.
+
+\subsection{Cerchi equi-$G_P$ e equi-$G_A$}
+Studiamo come varia il $G_P$ al variare della stabilità:
+
+\[ G_P = \left| \frac{S_{21}}{1 - S_{22}\Gamma_L} \right|^2
+\frac{1- |\Gamma_L|^2}{1- |\Gamma_{IN}|^2} \Rightarrow g_p = \frac{G_P}{|S_{21}|} = \left| \frac{1}{1 - S_{22}\Gamma_L} \right|^2
+\frac{1- |\Gamma_L|^2}{1- |\Gamma_{IN}|^2}\]
+
+Si può dimostrare che il luogo dei punti sul piano complesso dei $\Gamma_L$, fissato un certo $\overline{g}_P(\Gamma_L)$, descrive una circonferenza caratterizzata dalle seguenti espressioni di centro e raggio:
+
+%	Per praticità si definisce un $g_P = \frac{G_P}{|S_{21}|^2} = ...$
+%	
+%	Facendo assumere al $g_P(\Gamma_{L})$ un valore fisso $\overline{g}_P$ si vede che i luoghi di punti equi$g_P$ sono circonferenze con le seguenti espressioni:
+
+\begin{equation}
+\begin{dcases}
+C_{P} =\frac{\overline{g}_P (S_{22} - S_{11}^* D)^*}
+{1+\overline{g}_P(|S_{22}|^2 - |D|^2)}\\
+r_{P} = {\frac{\sqrt{1 - 2 k |S_{12}S_{21}|\overline{g}_P + \overline{g}_P^2 |S_{12} S_{21}|^2}}{|1+\overline{g}_P(|S_{22}|^2 - |D|^2)|}}
+\end{dcases}
+\quad
+%con~\overline{g}_P = \frac{G_P}{|S_{21}|^2}
+\end{equation}
+
+%	$$\mbox{Centro del cerchio di stabilità di uscita: } C_2 = \frac{(S_{22}- S_{11}^*D)^*}{|S_{22}|^2 -|D|^2}$$
+%	$$\mbox{Centro del cerchio di stabilità di ingresso: } C_1 = C_S = \frac{(S_{11}- S_{22}^*D)^*}{|S_{11}|^2 -|D|^2}$$
+%	
+Confrontando il vettore $C_P$ con il vettore centro del cerchio di stabilità in ingresso $C_L = \frac{(S_{22} - S_{11}^*D)^*}{|S_{22}|^2 - |D|^2}$, si può notare che hanno a comune il termine complesso $(S_{22} - S_{11}^*D)^*$, moltiplicato per fattori reali diversi: questo significa che il centro del cerchio di stabilità e il centro del cerchio equi-$G_P$ stanno sulla stessa retta.\\
+Non è superfluo sottolineare che $C_P$ non descrive un singolo punto, bensì un insieme di punti che si muovono al variare di $\overline{g}_P$.
+Non tutti i valori danno però effettivamente luogo ad una circonferenza: nel raggio è presente una radice il cui radicando può assumere valori negativi.
+%	Il radicando del raggio è una parabola in funzione di gp, che può essere negativa. Dunque per alcuni valori di gp non si trova un raggio e non esiste nessun cerchio (disegnino parabola, se <1 la radice non esiste e r non esiste)
+
+Analizziamo l'espressione del $G_P$ per verificare la possibile presenza di punti di singolarità al variare di $\Gamma_L$:
+
+$$G_P = \frac{|S_{21}|^2}{|1-S_{22}\Gamma_L|^2}
+\frac{1-|\Gamma_L|^2}{1-|\Gamma_{IN}|^2}$$
+
+\begin{itemize}
+	\item se $\Gamma_L = \nicefrac{1}{S_{22}}$ il $G_P$ diverge, ma è una condizione che non ci interessa dato che $\frac{1}{\Gamma_L}$ è un punto al di fuori del cerchio di Smith;
+	\item se $|\Gamma_{IN}| = 1$, ossia ci troviamo sul bordo del cerchio di stabilità, il guadagno diverge;
+	\item se il cerchio di stabilità di ingresso e il cerchio di Smith si intersecano, abbiamo una forma indeterminata $\frac{0}{0}$ in corrispondenza delle intersezioni, poiché sia  $|\Gamma_{IN}| = 1$ che  $|\Gamma_{L}| = 1$. Da questi punti passano tutti i cerchi equi-$G_P$, in quanto la forma indeterminata vale $+\infty$ o $-\infty$ a seconda del punto da cui si arriva e perciò in quei punti si attraversano in un $\varepsilon \rightarrow 0$ tutti i valori possibili di $G_P$;
+	\item se il cerchio di stabilità è esterno alla circonferenza di Smith e fuori dal cerchio $|\Gamma_{IN}|<1$ allora il $g_p$ è sempre positivo all'interno della carta di Smith, le circonferenze equi-$G_P$ sono concentriche e una di esse è il cerchio di Smith. Infine dato che i cerchi sono concentrici tutti i valori assunti da $G_P$ sono sulla retta che passa per i centri.
+\end{itemize}
+
+Il massimo del $G_P$ si ha quando la circonferenza equi-$G_P$ degenera in un punto. Si ricava facilmente ponendo il raggio uguale a zero:
+\begin{align*}
+&1 - 2K|S_{12} S_ {21}| \overline{g}_{P_{max}} + \overline{g}_{P_{max}}^2 |S_{12} S_{21}|^2 = 0
+\\
+&\overline{g}_{P_{max}} =
+\frac{2K|S_{12}S_{21}| \pm \sqrt{4K^2|S_{12}S_{21}|^2 - 4 |S_{12}S_{21}|^2}}{2|S_{12}S_{21}|^2} = \frac{K \pm \sqrt{K^2 -1}}{|S_{12}S_{21}|}
+\\
+&\overline{G}_{P_{max}} = \overline{g}_{P_{max}} |S_{21}|^2 =  \Mod{\frac{S_{21}}{S_{12}}} (K \pm \sqrt{K^2 -1})
+\end{align*}
+
+\textbf{Osservazione:} si ottengono due punti. In uno il $G_P$ è massimo, nell'altro è minimo. Si noti anche che questa formula è valida solo per $K<1$. Si può verificare che il massimo si ottiene con il segno ``-":
+\[\overline{G}_{P_{max}} =  \Mod{\frac{S_{21}}{S_{12}}} (K - \sqrt{K^2 -1})  \]
+
+Si possono ripetere le stesse considerazioni per il $G_A(\Gamma_S)$. Risulta tutto analogo, fatta eccezione per i pedici invertiti.
+\begin{align}
+&\overline{g}_A = \frac{\overline{G_A}}{|S_{21}|^2}
+\n
+&
+\begin{dcases}
+	C_{A} =\frac{\overline{g}_A (S_{11} - S_{22}^* D)^*}
+	{1+\overline{g}_A(|S_{11}|^2 - |D|^2)}\\
+	r_{A} = {\frac{\sqrt{1 - 2 k |S_{12}S_{21}|\overline{g}_A + \overline{g}_A^2 |S_{12} S_{21}|^2}}{|1+\overline{g}_A(|S_{11}|^2 - |D|^2)|}}
+\end{dcases}
+\\
+&\overline{G}_{A_{max}} =  \Mod{\frac{S_{12}}{S_{21}}} (K - \sqrt{K^2 -1})
+\nonumber
+\end{align}
+Quindi, se esistono, $G_{A_{max}} = G_{P_{max}}$
+
+Riassumendo, in un dispositivo Incondizionatamente Stabile:
+\[G_P (\Gamma_{Lopt}) = G_{P_{max}}\]
+\[G_A (\Gamma_{Sopt}) = G_{A_{max}}\]
+
+Se si realizza l'adattamento complesso coniugato su entrambe le porte ($\Gamma_{Sopt} = \Gamma_{IN}^* (\Gamma_{Lopt})$ e $\Gamma_{Lopt} = \Gamma_{OUT}^* (\Gamma_{Sopt})$) entrambe le condizioni sono vere e si ha massimo trasferimento di potenza:
+\[G_{T_{max}} = G_{P_{max}} = G_{A_{max}} \]
+\textit{(dimostrazione omessa)}
+%Verifichiamo che questa ultima asserzione è vera:
+%da qui buio totale...
+
+%Se un dispositivo è IS allora il GP(gammaL) ha un punto di massimo, e GP(gammaLopt)=GPmax = $G_{P_{max}} = |\frac{S_{21}}{S_{12}}| (K \pm \sqrt{K^2 -1})$\\
+%&idem per il GA max
+
+%se un dispositivo è IS
+%\begin{itemize}
+%\item $G_{T_{max}}=G_{A_{max}}=G_{P_{max}}$
+%\item $\Gamma_{Sopt} = \Gamma^*_{in}(\Gamma_{lopt})$ e $\Gamma_{Lopt} = \Gamma^*_{out}(\Gamma_{sopt})$
+%\end{itemize}
+
+%esperimento sul fogliaccio
+
+\subsection{Cerchi equi-$G_T$}
+
+$$G_T = \frac{(1-|\Gamma_S|^2) |S_{21}|^2 (1-|\Gamma_L|^2)}{|1-\Gamma_{OUT}\Gamma_{L}|^2|1-S_{11}\Gamma_{S}|^2}$$
+
+Nel progetto di un LNA a minima cifra di rumore è necessario che l'impedenza sorgente sia l'impedenza ottima dal punto di vista del rumore. Fissata quindi l'impedenza sorgente, per massimizzare il $G_T$ si può agire sul $\Gamma_L$.
+%	Se voglio progettare un LNA a minimo rumore (minima cifra di rumore) bisogna che l'impedenza sorgente sia quella ottima (reale nel range medio basso di funzionamento dei dispositivi, tende ad avere parte immaginaria al crescere della frequenza di funzionamento).
+
+%	Operativamente: si fissa $\Gamma_S$ e ci si muove di conseguenza variando $\Gamma_L$. È interessante studiare come varia il $G_T$.
+%	
+%	Come sono fatti i luoghi equiGT? ossia: a $\Gamma_S$ fissato, variando $\Gamma_L$ esistono punti a $G_T$ costante? 
+
+Cerchiamo allora sul piano dei $\Gamma_L$ il luogo dei punti a $G_T$ e $\Gamma_S$ fissati e dimostriamo che, ancora una volta, si tratta di circonferenze.
+Per semplificare i calcoli manipoliamo l'espressione del $G_T$ raccogliendo tutti i fattori costanti sotto un unico termine, che chiameremo $G_{TI}$.
+
+\begin{align*}
+&\overline{G}_T  = \frac{(1-|\Gamma_S|^2) |S_{21}|^2 (1-|\Gamma_L|^2)}{|1-\Gamma_{OUT}\Gamma_{L}|^2|1-S_{11}\Gamma_{S}|^2}\\
+&\overline{G}_T \frac{|1-S_{11}\Gamma_{S}|^2}
+{|S_{21}|^2 (1-|\Gamma_S|^2)} = G_{TI} =  \frac{1-|\Gamma_L|^2}{|1-\Gamma_{OUT}\Gamma_{L}|^2}
+\end{align*}
+
+Si scompongono i termini complessi $\Gamma_L$ e $\Gamma_{OUT}$ nella loro rappresentazione cartesiana:
+%	Luogo dei punti che soddisfa questa equazione ($\Gamma_{OUT}$ si pesca dalle formule prima in funzione dei parametri S e di gammaS, ma ci frega il giusto perche lo scriviamo come parte reale e parte immaginaria)
+\begin{align*}
+\Gamma_L &= u + jv\\
+\Gamma_{OUT} &= a + jb
+\end{align*}
+\begin{align*}
+& G_{TI}~|1-\Gamma_{OUT} \Gamma_L|^2 =
+1-|\Gamma_L|^2
+\\
+& G_{TI}~|1-\left[ua - vb + j(ub + va) \right]|^2 = 
+1 - u^2 - v^2
+\end{align*}
+Consideriamo il modulo quadro a sinistra:
+\begin{align*}
+& (1-ua+vb)^2 + (ub+va)^2 =\\
+&= 1 + u^2a^2 + v^2b^2 -2ua + 2vb - \cancel{2uvab}
++ u^2b^2 + v^2a^2 + \cancel{2 uvab}
+\end{align*}
+Uguagliando al secondo membro della equazione e raccogliendo tutti i termini in $u$ e $v$:
+
+\begin{align*}
+&(G_{TI}a^2 + G_{TI}b^2 +1)u^2
++ (G_{TI}b^2 + G_{TI}a^2 + 1)v^2
+- 2G_{TI}ua + 2G_{TI}vb + G_{TI} -1 = 0\\
+&(G_{TI}~|\Gamma_{OUT}|^2 +1)u^2
++ (G_{TI}~|\Gamma_{OUT}|^2 + 1)v^2
+- 2G_{TI}ua + 2G_{TI}vb + G_{TI} -1 = 0
+\end{align*}
+Che può essere riportata nella forma canonica, da cui si ricavano poi centro e raggio
+\begin{align*}
+u^2 + v^2 -
+\frac{2 G_{TI}a}{G_{TI} |\Gamma_{OUT}^2|+1} u+
+\frac{2 G_{TI}b}{G_{TI} |\Gamma_{OUT}^2|+1} v
++ \frac{G_{TI} -1}{G_{TI} |\Gamma_{OUT}^2|+1} = 0
+\end{align*}
+
+\[
+\begin{dcases}
+C_T = \frac{G_{TI}}{G_{TI}~|\Gamma_{OUT}|^2 + 1}\Gamma_{OUT}^*\\
+r_T = \sqrt{
+	\frac{G_{TI}^2 |\Gamma_{OUT}|^2}{\left(G_{TI}|\Gamma_{OUT}|^2 +1\right) ^2} + 
+	\frac{1 - G_{TI}}{G_{TI}|\Gamma_{OUT}|^2 +1}
+}		
+\end{dcases}
+\]
+
+
+Il cerchio equi-$G_T$ esiste se il radicando del raggio è positivo. L'unico elemento di possibile negatività è il termine $1-G_{TI}$, che potrebbe essere negativo se $1-|\Gamma_L|^2 < 0$.
+%	
+%	-- recap--\\
+%	Fissando l'impedenza di ingresso, mi chiedo il luogo dei $\Gamma_L$ (terminazioni di uscita) che rendano GT pari a un certo valore
+%	
+Occorre prestare attenzione a un particolare: abbiamo calcolato un serie di cerchi equi-$G_T$ fissando un certo $\Gamma_{S}$. Se troviamo un massimo di questa serie di cerchi esso non necessariamente sarà il massimo di tutti i $G_T$ possibili. Esso infatti si raggiungerà solo se l'ingresso e l'uscita sono le terminazioni ottime e quindi sarà il massimo della serie di cerchi ottenuta fissando $\Gamma_{S} = \Gamma_{Sopt}$. Se, invece, il dispositivo è Potenzialmente Instabile, e per esempio si fissa l'ingresso, ha senso cercare il massimo del $G_T$ variando l'uscita.
+
+
+%\paragraph{Esempio}
+%Realizzare con il transistor MRF571, per $\Gamma_S = 0$ (impedenza sorgente a $50\Omega$), un amplificatore con $G_T = 8dB$ a frequenza $f_0 = 500Mhz$, con $V_{CE} = 6V$ e $I_C = 5mA$
+%
+%%figurina sul fogliaccio (polarizzazione)
+%
+%%$$V_{CE} = 6 \Rightarrow V_E = 6V \Rightarrow R_E = 1.2k \Omega$$
+%%$$V_B = 6.7V \Rightarrow R_1 = 5.3k ~~ R_2 = 6.7k\Omega$$
+%%Verifica partitore pesante
+%%$$R_1 I_B \ll V_{CC} \Rightarrow h_{FE} \overset{dallecaratteristiche}{=}
+%%50 \Rightarrow
+%%6.7k\Omega \cdot 100\mu A \ll 12V ~~~ OK$$
+%
+%%Come al solito il condensatore $C_E$ si realizza con un'impedenza di $0.1\Omega$ a frequenza di lavoro.
+%
+%Per la polarizzazione richiesta si ottengono i seguenti parametri dal datasheet:
+%\[
+%\begin{array}{cccc}
+%	S_{11} = 0.62 \angle-143
+%	&
+%	S_{12} = 0.08 \angle33
+%	&
+%	S_{21} = 5.50 \angle97
+%	&
+%	S_{22} = 0.41 \angle-58
+%\end{array}
+%\]
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/raster/parametri1}
+%	\caption{si intersecano: potenziale instabilità}
+%	\label{fig:parametri1}
+%\end{figure}
+%
+%
+%Esperimento:si prende un $\Gamma_S$ che stia nella zona di instabilità (ad esempio, con fase pari a quella del centro del cerchio di instabilità e modulo quasi 1): si ottiene un $\Gamma_{OUT}>1$ ed è quello che ci si aspettava
+%
+%Lo stesso giochino si può fare col cerchio di stabilità in uscita, scegliendo l'opportuno $\Gamma_L$ e trovando 
+%$\Gamma_{IN}>1$
+%
+%Effettuando i calcoli si ricavano 
+%Inserendo il $G_T = 8dB$ e il $\Gamma_S = 0$ si cerca una $\Gamma_L$ che dà il GT che ci vole
+%
+%Un qualsiasi valore sulla circonferenza va bene, basta che poi sia facile da adattare ($25 Z_0$ oppure $0.08Z_0$)
+%
+%Adattamento (impedenza di arrivo $25 Z_0$, di partenza $Z_0$):
+%
+%$Z_{\nicefrac{\lambda}{4}} = \sqrt{Z_0 Z_0 \cdot 25} = 250 \Omega $
+%
+%
+%
+%
+%Rete di polarizzazione MRF571-572
+
+\subsection{Analisi del rumore e cerchi equi-noise}
+
+Al solito, trattando dispositivi rumorosi conviene schematizzare il quadripolo come privo di rumore, riportando le componenti in ingresso tramite opportuni generatori di rumore equivalenti (di tensione e di corrente). In generale, alle basse frequenze, $e_n$ ed $i_n$ risultano approssimativamente indipendenti.
+%(il quadripolo è unilaterale e lo studio del circuito equivalentee l'approssimazione di indipendenza tiene).
+Con l'analisi a parametri Y si è cercato di rispettare questa condizione.
+\\
+Alle alte frequenze il quadripolo (in genere) non è più unilaterale, ed intervengono effetti che non consentono di considerare l'indipendenza.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/quadripolo-rumore}
+	\caption{generatori di tensione: della resistenza (di ingresso) e del quadripolo (euivalente), generatore di corrente e quivalente}
+	\label{fig:rumorebruttissimo}
+\end{figure}
+
+
+L'analisi del rumore in un transistor (e la conseguente schematizzazione con generatori equivalenti in ingresso) si fa a partire dal circuito di Giacoletto comprensivo di generatori di rumore (circuito di van der Ziel)
+
+%
+%
+%\[
+%NF = \frac{N_{U_{TOT}}}{NU_{IN}}
+%= \frac{NU_{IN} + NU_Q}{NU_{IN}}
+%= 1+ \frac{NU_Q}{NU_{IN}}
+%\]
+%Conviene schematizzare
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/quadripolo-van-der-ziel}
+	\caption{Circuito di Van der Ziel
+		%	. Nota: S3 è il generatore pilotato del BJT. generatore di tensione et, generatore di corrente ibn (sx) e ien(dx)
+	}
+	\label{fig:rumorebruttissimo1}
+\end{figure}
+
+Si può scomporre il contributo a $e_n$ in due parti: una direttamente data da generatori di rumore in tensione ($e_i$) ed una che deriva da contributi di generatori di rumore in corrente, dove $Z_{cor}$ ne è il fattore di correlazione:
+
+\[
+e_n = e_i + Z_{COR}i_n
+\]
+
+Si calcola l'equivalente di Thevenin (per poter calcolare la potenza di rumore dovuta al quadripolo):
+\[e_n + i_nZ_S = e_i + Z_{cor}i_n + i_n Z_S =
+e_n + (Z_{cor}+Z_S)i_n\]
+
+In termini di densità spettrale di potenza (tenendo conto che l'impedenza di Thevenin è $R_S$):
+
+\begin{align*}
+S_{n} &= \frac{S_i + |Z_{cor} + Z_S|^2 S_{i_n}}{4R_S}\\
+N_{U_Q} &= S_{n} \cdot G_T \cdot \Delta f\\
+N_{U_{IN}} &= 4kT R_S \cdot G_T \cdot \Delta f\\
+NF&=1+\frac{N_{U_Q}}{N_{U_{IN}}} =
+1+ \frac{S_i + |Z_{cor} + Z_S|^2 S_{i_n}}{4R_S}\cancel{G_T} \bcancel{\Delta f} \cdot \frac{1}{kT \bcancel{\Delta f} \cancel{G_T}}=
+1+\frac{S_i + |Z_{cor} + Z_S|^2 S_{i_n}}{4kT R_S}
+\end{align*}
+
+Per calcolare la potenza di rumore si è supposta la densità spettrale costante in frequenza, moltiplicando dunque per $\Delta f$. Non è detto che il rumore del quadripolo sia costante, ma si suppone di fare questo conto a una frequenza dove questa approssimazione non risulta pesante.
+\[
+|Z_{COR} + Z_S|^2 = (R_{COR} + R_S)^2 + (X_{COR} + X_S)^2
+\]
+
+Si agisce sulla impedenza di sorgente per minimizzare il rumore. Sicuramente si può cercare di annullare il termine di reattanza, ponendo $X_{S_{ON}} = - X_{COR}$.
+Si può osservare che, a causa della non indipendenza dei generatori, l'impedenza ottima non è una resistenza pura.\\
+A questo punto la R ottima si potrebbe calcolare analiticamente imponendo nulla la derivata della cifra di rumore.
+\[
+\frac{d}{dR_S} \frac{S_i + (R_{COR} + R_S)^2 S_{i_n}}{4kT R_S} = 0
+\]
+
+Per completare questo calcolo basterà ricavare dalle caratteristiche del dispositivo i quattro parametri $S_i$, $S_{i_n}$, $R_{COR}$ e $X_{COR}$. In realtà, a livello di progettazione a microonde si preferisce una differente formulazione (derivabile da quella appena descritta) in termini di coefficienti di riflessione in luogo delle impedenze.
+
+\[
+NF(\Gamma_S) = NF_{MIN} + \frac{4 ~r_n |\Gamma_S - \Gamma_{S_{ON}}|^2}{(1-|\Gamma_S|^2) ~|1+\Gamma_{S_{ON}}|^2}
+\]
+
+Il costruttore fornisce i quattro parametri tipici del componente, ossia l'impedenza sorgente ottima $\Gamma_{S_{ON}}$ (modulo e fase), la minima cifra di rumore che si può ottenere $NF_{MIN}$ ed il coefficiente adimensionale $r_n$. Quest'ultimo viene talvolta dato come $R_n = r_n \cdot Z_0$, che ha dimensioni di Ohm.
+\\
+In alcuni datasheet viene dato anche il parametro $NF_{50}$, che corrisponde a $NF(\Gamma_S = 0)$ ossia la cifra di rumore quando si ha adattamento in ingresso.
+%GLi altri 3 parametri sono NFmin e $\Gamma_{S_{ON}} = modulo e fase$.
+
+Si può verificare facilmente, ponendo $\Gamma_S = \Gamma_{S_{ON}}$, che la cifra di rumore minima si ottiene usando l'impedenza sorgente ottima.\\
+Se invece $\Gamma_S$ tende all'unità, ossia in caso di sorgente puramente reattiva, la cifra di rumore tende ad infinito: in termini pratici significa annullare il rumore prodotto dalla sorgente, termine presente al denominatore di NF.
+
+L'impedenza sorgente ottima per il rumore non coincide con l'impedenza sorgente che massimizza il guadagno, dunque sarà necessario un criterio che permetta di studiare un buon compromesso fra amplificazione e qualità del segnale.
+È dimostrabile che, per un valore fissato della cifra di rumore, i $\Gamma_S$ descrivono una circonferenza sul piano complesso.
+
+\[
+\frac{(NF - NF_{MIN})|1+\Gamma_{ON}|^2}{4r_n} = N_i =
+\frac{|\Gamma_S - \Gamma_{ON}|^2}{1-|\Gamma_S|^2}
+\]
+
+Si scrive $\Gamma_s = u+jv$, $\Gamma_{s_{ON}} = a+jb$
+\begin{align*}
+& (1-|u+jv|^2)N_i =|u+jv-(a+jb)|^2\\
+& (1-u^2-v^2) N_i = (u-a)^2+(v-b)^2\\
+& (1-u^2-v^2 ) N_i = u^2 +a^2 -2ua +v^2 +b^2-2vb\\
+& (N_i+1) u^2 + (N_i+1)v^2
+-(2N_ia) u -(2N_ib) v + N_i = 0\\
+& u^2 + v^2 + \frac{2N_ia}{N_i+1}u
++ \frac{2N_ib}{N_i+1}v + \frac{N_i -1}{N_i+1}=0
+\end{align*}
+
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/raster/giovannistorti}
+%	\caption{la dimostrazione è lasciata al lettore}
+%	\label{fig:giovannistorti}
+%\end{figure}
+
+Dall'equazione canonica della circonferenza si ricava:
+\begin{equation}
+\begin{dcases}
+C_i = \frac{\Gamma_{S_{ON}}}{1+N_i}\\
+r_i = \sqrt{\frac{(1+N_i)N_i + N_i|\Gamma_{ON}|^2}{(1+N_i)^2}}
+\end{dcases}
+\end{equation}
+
+Poiché tutti i possibili valori di NF sono sempre maggiore di $NF_{ON}$, i centri delle relative circonferenze sono compresi fra la circonferenza di Smith ($|\Gamma_S|=1$, cifra di rumore che tende ad infinito) e il punto $NF_{ON}$.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/raster/mrf571}
+	\caption{Cerchi equi-$G_A$ ed equi-noise per il transistor MRF571 alla frequenza di 1GHz}
+	\label{fig:equinoise-datasheet}
+\end{figure}
+
+I cerchi equi-noise sono utili a livello di progettazione. Facciamo riferimento alla figura \ref{fig:equinoise-datasheet}: le specifiche di progetto richiedono la realizzazione di un amplificatore a basso rumore che guadagni almeno 12dB. Se si sceglie la $\Gamma_S$ per il rumore ottimo si ha un guadagno inferiore a 12dB, dunque ci si posiziona sulla circonferenza equi-guadagno e si localizza il $\Gamma_S$ che dia la cifra di rumore minima (indicativamente individuata in figura).
+
+
+\section{Progettazione a microstriscia}
+A microonde, l'implementazione di adattatori d'impedenza si fa utilizzando la carta di Smith. Principalmente si useranno metodi che fanno uso di soli due tratti di microstriscia.
+
+\paragraph{Metodo 1 - trasformatore a $\nicefrac{\lambda}{4}$:} trasformare 25+15j$\Omega$ in 150$\Omega$.
+
+\begin{figure}[hbt]
+	\centering
+	\raisebox{-.5\height}{\includegraphics[width=0.45\linewidth]{img/smith-chart-1}}
+	\hfill
+	\raisebox{-.5\height}{\includegraphics[width=0.45\linewidth]{img/adattamento-trasformatore}}
+	\caption{Adattamento con trasformatore a $\nicefrac{\lambda}{4}$}
+	\label{fig:adattamento-trasformatore}
+\end{figure}
+
+Si individua sulla carta di Smith il punto \ding{172} dell'impedenza di partenza, facendo riferimento alle curve equi-resistenza ed equi-reattanza.
+\\
+Muovendosi su un cerchio a $\Gamma$ costante si annulla la componente reattiva, corrispondente al punto \ding{173}.
+% Fisicamente corrisponde ad una rotazione di fase che l'onda compie lungo la microstriscia, 
+La rotazione su un cerchio a coefficiente di riflessione costante corrisponde ad una rotazione di fase dell'onda: dalla carta di Smith si può leggere la lunghezza di striscia in frazioni di $\lambda$ corrispondente allo sfasamento voluto. Nell'esempio si ha $0.192\lambda$.
+\\
+A questo punto bisogna \textit{correggere} la resistenza e spostarsi al punto \ding{173}, operazione fattibile con un trasformatore a $\nicefrac{\lambda}{4}$\footnote{Si tratta di un tratto di microstriscia lungo un quarto della lunghezza d'onda (non altera la fase perché si compie un giro completo della circonferenza di Smith), ma ad impedenza caratteristica in generale diversa da $Z_0$}. Vale la seguente relazione:
+
+\[
+Z_0' = \sqrt{Z_1 Z_2}
+\qquad
+con
+\begin{array}{l}
+Z_0' \mbox{ impedenza caratteristica del trasformatore}
+\\
+Z_1 \mbox{ impedenza prima del trasformatore}
+\\
+Z_2 \mbox{ impedenza dopo il trasformatore}
+\end{array}
+\]
+
+Nel'esempio si vuole impedenza di 150$\Omega$ ($3Z_0$), partendo dal punto \ding{173} a $2.2Z_0$.
+L'impedenza caratteristica del trasformatore sarà $Z_0' = Z_0\sqrt{2.2\cdot3} = 128.4\Omega$.
+
+La rete di adattamento è illustrata in figura \ref{fig:adattamento-trasformatore}.
+
+%\begin{figure}[hbt]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/raster/adattamento}
+%	\caption{}
+%	\label{fig:adattamento}
+%\end{figure}
+
+\paragraph{Metodo 2 - Stub parallelo:}
+trasformare 100-15j$\Omega$ in 20+15j$\Omega$.
+
+Di solito a microstriscia si preferisce far uso di stub paralleli, poiché uno stub serie comporterebbe una \textit{estrusione} della striscia in direzione ortogonale alla scheda. Poiché avremo a che fare con uno stub parallelo, conviene ragionare in termini di ammettenze. L'operazione è facile da fare sulla carta di Smith: per ricavare l'espressione dell'ammettenza di un punto basta individuarne il simmetrico rispetto all'origine.\\
+L'ammettenza di partenza è pari a $(9.78 +1.47j) mS=(0.49+0.07)Y_0$ mentre l'ammettenza di arrivo è $(32-24j) mS=(1.6-1.2j)Y_0$.
+
+Innanzitutto si corregge la conduttanza, da $0.49 Y_0$ a $1.6 Y_0$: utilizzando un tratto di microstriscia si può spostare l'ammettenza lungo un cerchio a $\Gamma$ costante. Questo interseca in due punti il cerchio a conduttanza $1.6 Y_0$, e si sceglie quello che darà una lunghezza di microstriscia inferiore (che sarà pari a $D=(0.202-0.014)\lambda=0.188\lambda$).
+
+L'ammettenza vista verso il carico a questo punto è $(1.6+0.7j)Y_0$, resta da correggere la suscettanza da $0.7Y_0$ a $1.2Y_0$, fattibile utilizzando uno stub parallelo chiuso o in corto circuito (verso il piano di massa) o in circuito aperto. La suscettanza dello stub $B_{stub}$ dovrà essere tale da verificare la seguente relazione:
+\[
+1.2Y_0 = 0.7Y_0 + B_{stub} \quad\Rightarrow\quad
+B_{stub} = (1.2-0.7)Y_0 = 0.5 Y_0
+\]
+Con l'aiuto della carta di Smith è facile calcolare la lunghezza dello stub: siccome stiamo trattando suscettanze pure bisogna ruotare in senso orario sul cerchio a $\Gamma=1$ dal punto di corto circuito (ammettenza infinita) oppure di circuito aperto (ammettenza nulla) verso la suscettanza $B_{stub}$. Si vede che il percorso più breve si ha chiudendo lo stub in corto circuito, e la lunghezza sarà pari a $L=0.25\lambda-0.218\lambda=0.032\lambda$
+%In definitiva, la rete di adattamento è la seguente:
+
+\begin{figure}[tbh]
+	\centering
+	\raisebox{-.5\height}{\includegraphics[width=0.45\linewidth]{img/smith-chart-stub}}
+	\hfill
+	\raisebox{-.5\height}{\includegraphics[width=0.45\linewidth]{img/stub}}
+	\caption{Adattamento con stub}
+	\label{fig:adattamento-stub}
+\end{figure}
+
+
+% dell'onda, nell'esempio pari a $...\lambda$, ed è realizzabile con un tratto di striscia ad impedenza $Z_0$.
+%\begin{itemize}
+%	\item Tratto di microstriscia, per effettuare una rotazione di fase sul coefficiente di riflessione;
+%	\item Trasformatore a $\nicefrac{\lambda}{4}$, per trasformare una certa resistenza pura in un'altra;
+%	\item Stub parallelo, per variare la reattanza.
+%\end{itemize}
+
+%Trasformare 25+15j$\Omega$ in 50$\Omega$.
+
+
+%A microstriscia non si fanno stub serie, perché altrimenti verrebbe una specie di scheda 3D
+
+
+%
+%Adattamento d'impedenza
+%
+%
+%
+%da 0 a A: l'impedenza del trasformatore a lamda quarti ha media geometrica fra 0 e A (?)
+%
+%$$Z_C = \sqrt{Z_0 \cdot 1.6Z_0} = 50\sqrt{1.6} = 63\Omega$$
+%
+%da A a B si valuta la rotazione di fase ($\lambda$) in senso orario. (con un pezzo di linea)
+%
+%Viene 0.236$\lambda$.
+%
+%supponiamo $\varepsilon = 2$
+
+\subsection{Dimensionamento fisico}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.22\linewidth]{img/raster/adattamento1}
+	\includegraphics[width=0.22\linewidth]{img/raster/adattamento4}
+	\caption{A sinistra: esempio di linea a microstriscia e relativi parametri. A destra: stripline, particolare guida d'onda completamente immersa nel dielettrico.}
+	\label{fig:microstriscia}
+\end{figure}
+Una linea a microstriscia è una guida d'onda costituita da un conduttore metallico esteso (genericamente denominato \textit{piano di massa})  e da una striscia conduttrice di larghezza finita, separate da un dielettrico.
+Nella produzione di circuiti RF i materiali si differenziano proprio in base al valore della costante dielettrica relativa, da cui poi dipende il costo. Da una parte si hanno materiali a basso $\varepsilon_R$, detti \textit{soft} (come ad esempio il teflon), che hanno una $\varepsilon_R \sim 2$. Dall'altra, i materiali \textit{hard} (come l'allumina, $Al_2O_3$) con $\varepsilon \sim 10$.
+
+I materiali soft hanno un costo ridotto, e sono preferiti a frequenze più basse (indicativamente fino a 10GHz), poiché oltre iniziano ad introdurre perdite. Con i materiali hard si trovano applicazioni fino ai 60GHz. 
+
+Poiché le linee a microstriscia si trovano all'interfaccia fra due materiali con $\varepsilon_R$ molto diverse (aria e dielettrico), le onde non si propagano in modo TEM. Però, nelle situazioni più comuni le componenti non-TEM sono evanescenti, dunque è possibile approssimare la propagazione come se fosse TEM, sfruttando poi opportune tabelle per ricavare una costante dielettrica equivalente $\varepsilon_{R_{eq}}$ per effettuare le dovute correzioni.
+%Queste approssimazioni sono opportune finché il rapporto fra larghezza della microstriscia e spessore del dielettrico h è minore di 10.
+
+Vediamo dunque come dimensionare una microstriscia. I dati di progetto, solitamente, sono lo spessore del dielettrico, la costante dielettrica relativa e la frequenza di lavoro (supponiamo, ad esempio $h=0.8mm, \ \varepsilon_R = 2 \ e\ f=1GHz$).\\
+Si vuol realizzare la microstriscia con $Z_0=50\Omega$ e lunghezza $0.192\lambda$ del precedente esempio. Dal primo grafico ($Z_0(\nicefrac{w}{h})$) si ricava che per la data impedenza caratteristica bisogna avere un rapporto larghezza/spessore circa pari a 3 (e dunque uno spessore $w = 3h = 2.4mm$).\\
+Con questa informazione, sul secondo grafico ($\nicefrac{\lambda}{\lambda_{TEM}}(\nicefrac{w}{h})$) si ricava il rapporto fra $\lambda$, la lunghezza d'onda effettiva nel materiale, e $\lambda_{TEM}$, la lunghezza d'onda calcolata come se la propagazione fosse TEM.
+\[
+\lambda_{TEM} = \frac{\lambda_0}{\sqrt{\varepsilon_R}}
+=
+\frac{c}{f \sqrt{\varepsilon_R}}
+= \frac{3\cdot10^8}{10^9 \cdot \sqrt{2}} = 21.2 cm
+\quad
+\Rightarrow
+\quad
+\lambda = 1.08 \lambda_{TEM} = 22.9cm
+\]
+
+Da cui si ricava la lunghezza effettiva della microstriscia, pari a $0.192\lambda = 4.4 cm$.
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[height=12em]{img/raster/adattamento2}
+	\includegraphics[height=12em]{img/raster/adattamento3}
+	\caption{Grafici per il dimensionamento delle microstrisce.}
+	\label{fig:microstriscia-grafici}
+\end{figure}
+%Dire che $\nicefrac{w}{h}$ è molto grande significa dire che w è molto grande rispetto a h, dunque le linee di campo sono confinate nel dielettrico della board, quindi praticamente il modo di trasmissione è TEM. Infatti le curve del grafico al crescere di $\nicefrac{w}{h}$ si appiattiscono verso $1 \Rightarrow \lambda_{TEM} = \lambda$
+%Nota: $\frac{\sqrt{\varepsilon_R}}{\sqrt{\varepsilon_{R_eff}}} = \frac{\lambda}{\lambda_{TEM}}$
+%Ma non serve
+%A questo punto si calcola il secondo tratto di linea: l'impedenza caratteristica è 50$\Omega$, si procede col secondo grafico:
+%
+%....
+%
+%C'è un'altra tecnologia: stripline
+%
+%
+%fine dell'esercizio: voglio un $G_T = .... = 10.5$
+%siccome il carico è 75ohm , bisogna andare da un punto qualsiasi equigt a 75. SI può fare con un'unica rotazione da 75
+
+%Calcolare la potenza erogata dal generatore:
+%si inserisce il gammaL prima elaborato nel calcolatore e si ottiene il GP. A questo punto $G_P = \frac{P_{out}}{P_{in}}$ con ${P_{out}}$ noto. SI calcola $P_{in}$.
+\subsection{Cenni di oscillatori a microonde}
+
+All'inizio della trattazione della stabilità si è detto che, per valori maggiori dell'unità dei coefficienti di riflessione del quadripolo si possono instaurare delle oscillazioni. Affinché il sistema si comporti realmente da oscillatore è necessario che siano verificate anche le condizioni di Barkhausen su entrambe le porte\footnote{Si può dimostrare che le condizioni di Barkhausen sono verificate su una porta $\Leftrightarrow$ sono verificate anche sull'altra}:
+
+\[
+\mbox{All'innesco}
+\quad
+\begin{array}{l}
+\begin{cases}
+|\Gamma_S \Gamma_{IN}| > 1\\
+\angle\Gamma_S = -\angle\Gamma_{IN}
+\end{cases}
+\\\\
+\begin{cases}
+|\Gamma_L \Gamma_{OUT}| > 1\\
+\angle\Gamma_L = -\angle\Gamma_{OUT}
+\end{cases}
+\end{array}
+\qquad
+\mbox{A regime}
+\quad
+\begin{array}{l}
+\begin{cases}
+|\Gamma_S \Gamma_{IN}| = 1\\
+\angle\Gamma_S = -\angle\Gamma_{IN}
+\end{cases}
+\\\\
+\begin{cases}
+|\Gamma_L \Gamma_{OUT}| = 1\\
+\angle\Gamma_L = -\angle\Gamma_{OUT}
+\end{cases}
+\end{array}
+\]
+
+In questa sede ci si limita ad analizzare questa particolare configurazione in cui l'oscillazione si instaura senza una retroazione esterna. Non si approfondirà l'implementazione di oscillatori con componenti che realizzano reazioni esterne poiché lo studio a parametri S risulta particolarmente complesso.
+
+%Il dispositivo deve essere PI
+%(indicazioni minimali: $f_0$ e $\Gamma_L$)
+
+A livello di progettazione sono note la frequenza di oscillazione $f_0$ e l'impedenza di carico in termini di $\Gamma_L$. Per poter avere un'oscillazione è innanzitutto necessario che il nostro sistema sia potenzialmente instabile a frequenza $f_0$. Appurato questo, non è comunque detto che il $\Gamma_L$ che ci ritroviamo dia effettivamente luogo a instabilità, dunque con opportune reti di adattamento bisogna variare il coefficiente di riflessione del carico finché $\Gamma_{IN}$ non diventi maggiore dell'unità. Questo significa spostare $\Gamma_{L}$ nella zona di instabilità.\\ 
+\\
+%Scelgo un $\Gamma_LU$ interno alla zona di instabilità. Trasformo $\Gamma_L$ (es 50 ohm, quindi al centro della circ.) in $\Gamma_LU$.
+%Dunque calcolo il $\Gamma_{IN}(\Gamma_LU)$ (che sicuramente ha modulo maggiore di uno perché è instabile)
+Solo a questo punto è possibile impostare le condizioni di Barkhausen all'innesco in ingresso.
+%\[
+%\Gamma_{IN} \Gamma_S >1
+%\]
+%\[
+%\angle\Gamma_{IN} = -\angle\Gamma_S
+%\]
+Poiché già $\Gamma_{IN}>1$ conviene scegliere una sorgente puramente reattiva ($|\Gamma_{S}|=1$) in modo da non dissipare potenza e da non introdurre rumore termico. La fase di $\Gamma_S$ è fissata perché bisogna che sia verificata la condizione di Barkhausen $\angle\Gamma_{IN} = -\angle\Gamma_S$.
+Ciò è riassunto in figura \ref{fig:oscllatore-cartasmith}.
+
+L'impedenza sorgente, in base al segno della reattanza, si può progettare con una microstriscia di opportuna lunghezza:
+\begin{itemize}
+	\item in cortocircuito se la reattanza è capacitiva;
+	\item in circuito aperto se la reattanza è induttiva.
+\end{itemize}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[height=0.45\linewidth]{img/oscillatore-S-smith}
+	%	\includegraphics[height=0.45\linewidth]{img/raster/precisione-oscillatori}
+	\caption{}
+	\label{fig:oscllatore-cartasmith}
+\end{figure}
+
+La frequenza di oscillazione dipende dal valore della impedenza sorgente, dunque delle incertezze possono pregiudicare il corretto funzionamento dell'oscillatore.
+\begin{align*}
+\mbox{Se si usa una capacità}
+&
+\qquad
+\Gamma_S = \frac{\frac{1}{j\omega C} - Z_0}{\frac{1}{j\omega C} + Z_0}
+\\
+\mbox{Se si sceglie invece un gruppo LC}
+&
+\qquad
+\Gamma_S = \frac{Z_Q - Z_0}{Z_Q + Z_0}
+\end{align*}
+%
+%causa delle variazioni di valore di gammaIN si ha una certa incertezza sul valore della frequenza. Avendo un componente con una fase molto ripida si ha una oscillazione precisa
+%
+%Se uso un condensatore, com'è fatta la fase di gammaS?
+%
+%
+%
+%BOOH?
+%
+%Se scelgo un gruppo LC
+%
+%
+%
+Analizziamone l'andamento sulla carta di Smith: per $f=0$ si ha un corto circuito, al crescere della frequenza predomina l'effetto induttivo, dunque si ruota sulla parte alta del cerchio. Alla frequenza di risonanza si ha circuito aperto, ed infine si torna verso il corto circuito.\\
+Se la squadra LC presenta delle perdite (componenti resistive) la circonferenza si incurva verso il centro della carta.
+%A frequenza 0 corto circuito. Cresce la frequenza: si ruota sul bordo di smith (parte alta, predomina l'induttanza). risonanza: circuito aperto (altro bordo della circonferenza) (o se presente una resistenza di perdita, curva un po').
+%All'infinito torna al punto iniziale
+%
+%Quindi la fase ha una brusca discesa in prossimità della frequenza di risonanza
+%
+%Gli oscillatori a microonde si possono realizzare con:
+
+In ogni caso, una squadra LC ha una brusca discesa di fase nei pressi della frequenza di risonanza, quindi risulta più adatta della singola capacità per la realizzazione di un oscillatore.
+
+In termini di risorse, un oscillatore si può realizzare con:
+\begin{itemize}
+	\item componenti a parametri concentrati (capacità, induttanza, etc...). Non sono molto precisi a causa delle tolleranze;
+	\item a microstriscia, si realizzano componenti più precisi, ed è una tecnologia a basso costo perché rientra nella produzione della PCB;
+	\item a cavità risonante o con risuonatore dielettrico (particolari strutture che risuonano quando sollecitate). Si riescono a raggiungere elevate precisioni, costi elevati;
+	%	microstriscia a 50ohm di lunghezza 5 10 mm e si incolla un bottone ceramico a una distanza dalla microstriscia di circa mezzo millimetro. Questo trabiccolo risuona. Costa una fraccata di soldi (1k). Ha rumore di fase molto limitato perché il Q del risuonatore è altissimo)
+	\item VCO + YIG (Yttrium Iron Garnet) - bipolo che se immerso in un campo magnetico produce frequenza di risonanza variabile (proporzionale alla corrente del filo, quindi al campo magnetico)
+\end{itemize}
+
+\newpage
+\section{Dispositivi passivi}
+Analizziamo adesso, in termini di matrice S, una particolare categoria di quadripoli: passivi, non dissipativi, reciproci e adattati. Questi trovano applicazione per l'implementazione a microonde di reti di adattamento, accoppiatori direzionali (sistemi di distribuzione della potenza) e balun.
+
+\paragraph{Proprietà:}  traslazione dei piani di riferimento
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/quadripolo_traslazione-piani-riferimento}
+	\caption{}
+	\label{fig:quadripolotraslazione-piani-riferimento}
+\end{figure}
+
+È dato un dispositivo due porte (generalizzabile a N) caratterizzato a parametri S e interconnesso mediante tratti di linea. Si vuole ricavare la matrice S' del sistema complessivo.
+
+Applicando le equazioni dei telegrafisti:
+
+\[
+\begin{cases}
+a_1 = a_1' e^{-j\beta \ell_1}\\
+a_2 = a_2' e^{-j\beta \ell_2}
+\end{cases}
+\quad
+\Rightarrow
+\quad
+\overrightarrow{a} =
+\underbrace{
+	\left(
+	\begin{array}{cc}
+	e^{-j\beta \ell_1} & 0\\
+	0 & e^{-j\beta \ell_2}
+	\end{array}
+	\right)
+}_\text{\underline{\underline{A}}}
+\overrightarrow{a'}
+\]
+\[
+\begin{cases}
+b_1' = b_1 e^{-j\beta \ell_1}\\
+b_2' = b_2 e^{-j\beta \ell_2}
+\end{cases}
+\quad
+\Rightarrow
+\quad
+\overrightarrow{b'} =
+\underbrace{
+	\left(
+	\begin{array}{cc}
+	e^{-j\beta \ell_1} & 0\\
+	0 & e^{-j\beta \ell_2}
+	\end{array}
+	\right)
+}_\text{\underline{\underline{B}}}
+\overrightarrow{b}
+\]
+
+Siccome $b = Sa \Rightarrow b' = Bb = BSa = \underbrace{BSA}_\text{S'}a'$
+
+\textbf{Attenzione:} le matrici $\underline{\underline{A}}$ e $\underline{\underline{B}}$ non rappresentano le matrici S delle linee di trasmissione.
+
+\paragraph{Esempio} $\ell_1 = \ell_2 = \nicefrac{\lambda}{4}$
+
+Per definizione della costante di fase, $\beta = \nicefrac{2\pi}{\lambda}$, quindi moltiplicando per la lunghezza scelta $\beta\ell = \nicefrac{\pi}{2}$. 
+
+\[
+S' = \left(
+\begin{array}{cc}
+-j &  0\\
+0  & -j
+\end{array}
+\right)
+S
+\left(
+\begin{array}{cc}
+-j &  0\\
+0  & -j
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+-j &  0\\
+0  & -j
+\end{array}
+\right)
+\underbrace{\left(
+	\begin{array}{cc}
+	-S_{11}j &  -S_{12}j\\
+	-S_{21}j  & -S_{22}j
+	\end{array}
+	\right)
+}_{\text{$-j\underline{\underline{S}}$}}
+=
+-S
+\]
+
+Dunque, questa coppia di spezzoni di linea a $\nicefrac{\lambda}{4}$ dà uno sfasamento di $180^\circ$.
+
+\subsubsection{Proprietà della matrice S di dispositivi conservativi (a N porte)}
+
+La potenza sull'i-esima porta si può scrivere come:
+$P_i = \frac{1}{2}\left(|a_i|^2-|b_i|^2\right)$
+
+Poiché il dispositivo è conservativo la somma di tutte le potenze è nulla: \[\frac{1}{2}\sum_{i=1}^{N}\left(|a_i|^2-|b_i|^2\right) = 0
+\qquad ossia \qquad
+\sum_{i=1}^{N}|a_i|^2=\sum_{i=1}^{N}|b_i|^2
+\]
+I due termini possono essere scritti, in forma vettoriale, come segue:
+\begin{align*}
+&\sum_{i=1}^{N}|a_i|^2 = |a_1|^2+|a_2|^2+...=a^Ta^*
+\\
+&\sum_{i=1}^{N}|b_i|^2 = |b_1|^2+|b_2|^2+...=b^Tb^*
+\end{align*}
+Dunque $a^Ta^* = b^Tb^* = [Sa]^Tb^* = a^TS^Tb^* =
+a^TS^TS^*a^*$
+
+Quindi, un dispositivo è conservativo $\Leftrightarrow S^TS^*=I$
+
+\paragraph{Esempio} Dispositivo a 3 porte (N=3)
+
+\[
+S = \left(\begin{array}{ccc}
+S_{11}&S_{12}&S_{13}\\
+S_{21}&S_{22}&S_{23}\\
+S_{31}&S_{32}&S_{33}
+\end{array}\right)
+\qquad
+S^TS^* = \left(\begin{array}{ccc}
+S_{11}&S_{21}&S_{31}\\
+S_{12}&S_{22}&S_{32}\\
+S_{13}&S_{23}&S_{33}
+\end{array}\right)
+\left(\begin{array}{ccc}
+S_{11}^*&S_{12}^*&S_{13}^*\\
+S_{21}^*&S_{22}^*&S_{23}^*\\
+S_{31}^*&S_{32}^*&S_{33}^*
+\end{array}\right)
+=
+\left(\begin{array}{ccc}
+1&0&0\\
+0&1&0\\
+0&0&1
+\end{array}\right)
+\]
+
+\begin{align}
+&\begin{cases}
+|S_{11}|^2 + |S_{21}|^2 + |S_{31}|^2 = 1\\
+|S_{12}|^2 + |S_{22}|^2 + |S_{32}|^2 = 1\\
+|S_{13}|^2 + |S_{23}|^2 + |S_{33}|^2 = 1\\
+\end{cases}
+\label{eq:conservativo1}
+\\
+&\begin{cases}
+S_{11}S_{12}^* + S_{21}S_{22}^* + S_{31}S_{32}^*=0\\
+S_{11}S_{13}^* + S_{21}S_{23}^* + S_{31}S_{33}^*=0\\
+S_{12}S_{13}^* + S_{22}S_{23}^* + S_{32}S_{33}^*=0\\
+\end{cases}
+\label{eq:conservativo2}
+\end{align}
+
+Si può dimostrare che le altre 3 equazioni (qui non riportate) conducono allo stesso risultato.
+
+\subsection{Dispositivi a 3 porte conservativi, adattati, reciproci}
+Sappiamo già che se un dispositivo adattato ha gli elementi sulla diagonale principale nulli, mentre se è reciproco ha matrice simmetrica.
+
+\[
+S = \left(\begin{array}{ccc}
+0&S_{12}&S_{13}\\
+S_{12}&0&S_{23}\\
+S_{13}&S_{23}&0
+\end{array}\right)
+\]
+
+Applichiamo le equazioni per un dispositivo conservativo prima ricavate:
+
+\begin{align*}
+&\begin{cases}
+|S_{12}|^2 + |S_{13}|^2 = 1 & \mbox{\ding{172}}\\
+|S_{12}|^2 + |S_{23}|^2 = 1 & \mbox{\ding{173}}\\
+|S_{13}|^2 + |S_{23}|^2 = 1 & \mbox{\ding{174}}\\
+\end{cases}
+\\
+&\begin{cases}
+S_{13}S_{23}^* = 0 & \mbox{\ding{175}}\\
+S_{12}S_{23}^* = 0 & \mbox{\ding{176}}\\
+S_{12}S_{13}^* = 0 & \mbox{\ding{177}}\\
+\end{cases}
+\end{align*}
+
+Il secondo sistema ci dice che uno dei tre termini S deve essere nullo. Ipotizziamo che sia $S_{13} = 0$.
+Poiché dalla \ding{174} si ha $|S_{23}|^2 = 1$, per la \ding{176} necessariamente deve essere $S_{12} = 0$. Ma si giunge ad un assurdo, perche per la \ding{172} $|S_{13}| = 1$.
+
+Si può ripetere il ragionamento con altre ipotesi arrivando comunque ad una contraddizione. Se ne evince che non è possibile realizzare un dispositivo a 3 porte conservativo, adattato e reciproco.
+
+\subsection{Circolatore}
+Per la sua realizzazione si può ricorrere a componenti come le ferriti, dove le onde non si propagano in egual modo in entrambe le direzioni. In questo modo si ottiene un dispositivo conservativo, adattato, non reciproco.
+\[
+S=
+\left(\begin{array}{ccc}
+0&S_{12}&S_{13}\\
+S_{21}&0&S_{23}\\
+S_{31}&S_{32}&0
+\end{array}\right)
+\]
+
+Applichiamo dunque le condizioni di conservatività: 
+\begin{align*}
+&\begin{cases}
+|S_{21}|^2 + |S_{31}|^2 = 1\\
+|S_{12}|^2 + |S_{32}|^2 = 1\\
+|S_{13}|^2 + |S_{23}|^2 = 1\\
+\end{cases}
+\\
+&\begin{cases}
+S_{31}S_{32}^*=0\\
+S_{21}S_{23}^*=0\\
+S_{12}S_{13}^*=0\\
+\end{cases}
+\end{align*}
+
+Ipotizziamo $S_{31} = 0 \ \Rightarrow \ |S_{21}| = 1 \ \Rightarrow \ S_{23} = 0 \ \Rightarrow \ |S_{13}| = 1
+\ \Rightarrow \ S_{12} = 0
+\ \Rightarrow \ |S_{32}| = 1$ \\
+dunque la matrice risultante è del tipo:
+\[
+\underline{\underline{S}}=
+\left(
+\begin{array}{ccc}
+0 & 0 & e^{j\phi_3}\\
+e^{j\phi_1} & 0 & 0\\
+0 & e^{j\phi_2} & 0
+\end{array}
+\right)
+\]
+
+Senza perdere di generalità si può porre i $\phi_i=0$.
+
+%Il dispositivo che implementa questa matrice è detto circolatore.
+
+Ricavata la matrice, studiamo le proprietà del dispositivo così ottenuto. Innanzitutto è facile verificare che il dispositivo è \textbf{adattato}. Consideriamo la porta 1 e calcoliamo la componente riflessa $b_1$:
+\[b_1 = \cancel{S_{11}}a_1+\cancel{S_{12}}a_2+S_{13}\bcancel{a_3} = 0\]
+$a_3 = 0$ perché, studiando l'adattamento sulla porta 1, si chiudono tutte le altre porte su $Z_0$. Dunque, poiché sulla porta 1 non c'è componente riflessa, questa è adattata.\\
+Le stesse considerazioni si possono ripetere sulle altre due porte.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/passivi-circolatore}
+	\caption{}
+	\label{fig:passivi-circolatore}
+\end{figure}
+
+Si può dire di più: in condizioni di adattamento la porta 1 è isolata dalla porta 3 (o, in altri termini, la potenza \textit{immessa} dalla porta 1 viene tutta convogliata in uscita alla porta 2). Si verifica facilmente:
+\begin{align*}
+P_{IN_1} &= \frac{1}{2} \left( |a_1|^2-\cancel{|b_1|^2}\right)
+= \frac{1}{2} |a_1|^2\\
+P_{OUT_2} &= \frac{1}{2} \left( |b_2|^2-\cancel{|a_2|^2}\right)
+= \frac{1}{2} \left( |S_{21}a_1+\cancel{S_{22}}a_2+\cancel{S_{23}}a_3|^2 \right)
+= P_{IN_1}
+\end{align*}
+Si verifica facilmente che non si ha potenza in uscita dalla porta 3:
+\[
+P_{OUT_3} = \frac{1}{2} \left( |b_3|^2-\cancel{|a_3|^2}\right)
+= \frac{1}{2}|b_3|^2
+= \frac{1}{2}|\cancel{S_{31}}a_1 + S_{32}\bcancel{a_2} + \cancel{S_{33}}a_3|^2 = 0
+\]
+
+Lo stesso si può dire della porta 2 (è isolata dalla porta 1) e della porta 3 (è isolata dalla porta 2), come riassunto nell'immagine \ref{fig:passivi-circolatore-1}.
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.25\linewidth]{img/passivi-circolatore-1}
+	\caption{}
+	\label{fig:passivi-circolatore-1}
+\end{figure}
+
+%S_{12} = 0
+%\]
+%\[
+%S_{32} = 1
+%\]
+%Dunque la porta 1 è isolata dalla porta 2
+%
+%\textbf{Porta 3}
+%
+%\[
+%S_{13} = 1
+%\]
+%\[
+%S_{23} = 0
+%\]
+%Dunque la porta 2 è isolata dalla porta 3
+
+È interessante valutare come varia l'impedenza vista dalla porta 1 quando non si è più in condizioni di adattamento, in particolare quando si pone una generica impedenza $Z_X$ sulla porta 2. Calcoliamo adesso la componente riflessa:
+\[b_1 = \cancel{S_{11}}a_1 +\cancel{S_{12}}a_2+S_{13}\bcancel{a_3} = 0 \]
+Dunque, possiamo concludere che se almeno la porta 3 è chiusa su $Z_0$, la porta 1 è sempre adattata.
+Questa particolare configurazione di circolatore prende il nome di \textbf{isolatore}, e può essere anche schematizzabile come il bipolo a fianco. Anche se è un dispositivo che dall'ingresso mostra sempre un'impedenza $Z_0$, non è una rete di adattamento in senso stretto poiché, includendo una resistenza, è una rete dissipativa.
+
+\begin{figure}[bph]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/passivi-circolatore-2}
+	\includegraphics[width=0.4\linewidth]{img/passivi-circolatore-ap}
+	\caption{}
+	\label{fig:passivi-circolatore-2}
+\end{figure}
+
+
+Utile negli PA perché se l'uscita è in condizioni non previste (non è adattata) si rischia di avere un ritorno di potenze elevate che danneggerebbero il circuito.
+
+
+In realtà l'isolamento di un isolatore reale non è infinito, ma si attesta intorno ai 25$\div$30dB.
+
+
+\subsection{Divisore (o accoppiatore) di potenza}
+Si tratta di un dispositivo a 3 porte passivo, reciproco, e non conservativo. Vediamo come primo esempio il cosiddetto \textbf{divisore resistivo}:
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/accoppiatore-direzionale-resistivo}
+	\caption{Divisore resistivo, collegato in modo da verificarne l'adattamento sulla porta \ding{172}}
+	\label{fig:accoppiatore-direzionale-resistivo}
+\end{figure}
+
+Si verifica facilmente che è adattato: si fa solo per la porta \ding{172} data la simmetria del dispisitivo.
+\[
+Z_{vista_1} = \frac{Z_0}{3} + \frac{1}{2} \left(\frac{Z_0}{3} + Z_0\right) =
+\frac{Z_0}{3} + \frac{1}{2} \frac{4Z_0}{3} =
+Z_0
+\]
+
+Ricaviamone la matrice S: poiché è adattato i parametri in diagonale principale sono nulli. È una rete puramente resistiva, dunque reciproca, quindi la matrice è simmetrica. Data la simmetria dell'oggetto è sufficiente calcolare un solo parametro (ad esempio $S_{21}$): è facile verificare che gli altri saranno uguali.
+\[
+S_{21} = \left. \frac{V_2}{V_1}\right|_
+{\substack{a_2=0\\a_3=0}}
+\qquad
+V_2 = -I_2 Z_0 = -\frac{1}{2} I_1 \cdot Z_0
+=-\frac{V_1}{2Z_0} \cdot Z_0 = -\frac{1}{2}V_1
+\quad
+\Rightarrow
+\quad
+S = \left(
+\begin{array}{ccc}
+0                 & -\nicefrac{1}{2} & -\nicefrac{1}{2}\\
+-\nicefrac{1}{2}  &         0        & -\nicefrac{1}{2}\\
+-\nicefrac{1}{2}  & -\nicefrac{1}{2} & 0
+\end{array}
+\right)
+\]
+
+
+Studiamo la proprietà di divisore di potenza supponendo (in condizioni di adattamento!) di pilotare dalla porta \ding{172}. Il bilancio delle potenze risulta:
+\begin{align*}
+P_{E_1} &= \frac{1}{2} \left( |a_1|^2 -\cancel{|b_1|^2} \right) =\frac{1}{2}|a_1|^2\\
+P_{U_2} &= \frac{1}{2} \left(|b_2|^2 -\cancel{|a_2|^2}\right)=
+\frac{1}{2}|b_2|^2 =
+\frac{1}{2}|S_{21}a_1 + \cancel{S_{22}}a_2 + \cancel{S_{23}}a_3|^2 =
+\frac{1}{4}\cdot \frac{1}{2} |a_1|^2\\
+P_{U_3} &= \mbox{ con analoghi calcoli...} = \frac{1}{4}\cdot \frac{1}{2} |a_1|^2
+\end{align*}
+
+Dunque, della potenza d'ingresso \nicefrac{1}{4} fluisce dalla porta \ding{173}, \nicefrac{1}{4} fluisce dalla porta \ding{174}, mentre la restante aliquota è dissipata sulle resistenze. È chiaro che tale dispositivo trovi scarsa applicazione pratica dato il dispendio di potenza.
+
+\subsubsection{Accoppiatore (o divisiore) Wilkinson}
+Si tratta comunque di un dispositivo adattato non conservativo, ma che non dissipa potenza sotto particolari condizioni che andremo ad imporre.
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.25\linewidth]{img/accoppiatore-direzionale-wilkinson}
+	\includegraphics[width=0.25\linewidth]{img/accoppiatore-direzionale-wilkinson-1}
+	\caption{}
+	\label{fig:accoppiatore-direzionale-wilkinson}
+\end{figure}
+
+Si hanno due parametri inizialmente liberi (l'impedenza caratteristica delle linee $Z_X$ ed il valore della resistenza R), che andiamo a fissare imponendo che il dispositivo sia adattato.
+
+\paragraph{Adattamento alla porta \ding{172}} Si fa riferimento alla figura 	\ref{fig:accoppiatore-direzionale-wilkinson} (\textit{a destra}). I due rami dell'accoppiatore sono pilotati in modo simmetrico, ai capi della resistenza R si ha la stessa tensione e quindi possiamo ometterla in questa analisi. La resistenza vista dall'ingresso sarà pertanto
+\[
+Z_{V_1} = \frac{1}{2} \cdot Z_X \frac{Z_0 + j Z_X tg(\beta\ell)} {Z_X + j Z_0 tg(\beta\ell)}
+\overset{\beta\ell=\nicefrac{\pi}{2}}{=}
+\frac{Z_X^2}{2Z_0}
+\]
+Affinché sia adattato, bisogna imporre $Z_{V_1} = \frac{Z_X^2}{2Z_0} = Z_0$, ricavando il valore dell'impedenza caratteristica $Z_X =\sqrt{2} Z_0$.
+
+\begin{figure}[hbt]
+	\raisebox{-.5\height}{\includegraphics[width=0.45\linewidth]{img/accoppiatore-direzionale-wilkinson-2}}
+	\hfill
+	\raisebox{-.5\height}{\includegraphics[width=0.45\linewidth]{img/accoppiatore-direzionale-wilkinson-5}}
+	\caption{}
+	\label{fig:accoppiatore-direzionale-wilkinson-1}
+\end{figure}
+
+\paragraph{Adattamento alla porta \ding{173}} (e, per simmetria, anche alla \ding{174}). La situazione è rappresentata in figura \ref{fig:accoppiatore-direzionale-wilkinson-1} (\textit{a sinistra}), per poter semplificare l'analisi si fa in modo da ricondursi in una condizione di simmetria (in figura \textit{a destra}): si aggiunge una impedenza $Z_0$ anche in serie al generatore di prova e si divide la $Z_0$ in una coppia di impedenze in parallelo. In questo è possibile applicare un'analisi con segnali pari/dispari.
+
+Studiamo il caso \textit{pari}. Dato che le sollecitazioni sono in fase non può scorrere corrente né fra i punti \ding{173} e \ding{174}, né nel corto circuito sulla porta \ding{172}. Dunque i due rami sono \textit{virtualmente} isolati e dalla porta \ding{173} si vede solamente la linea di trasmissione terminata su $2Z_0$
+\[
+Z_{V_2}' = \frac{Z_X^2}{2Z_0} = Z_0
+\]
+Per simmetria lo stesso accade sulla porta \ding{174}, la corrente erogata dai generatori è identica e pari a $I_3' = I_2' = \frac{\nicefrac{V}{2}}{2Z_0} = \frac{V}{4Z_0}$.
+
+Nel caso \textit{dispari} le sollecitazioni sono antisimmetriche e sono a massa sia il punto centrale della resistenza $R$ che il corto circuito sulla porta \ding{172}. L'impedenza vista sarà $\nicefrac{R}{2}$ in parallelo all'impedenza della linea terminata in corto circuito. Poiché la linea è un trasformatore a $\nicefrac{\lambda}{4}$ avrà impedenza tendente ad infinito\footnote{L'impedenza della linea è pari a $Z_X \frac{Z_L + Z_X\tan(\beta\ell)}{Z_X + Z_L\tan{\beta\ell}}$. Poiché questa linea è terminata con un corto circuito ($Z_L = 0$) l'espressione si semplifica in  $Z_X\tan(\beta\ell)$. Trattandosi di un trasformatore a $\nicefrac{\lambda}{4}$, $\beta\ell = \nicefrac{\pi}{2}$ e l'impedenza diverge.}
+\begin{align*}
+Z_{V_2}'' &= \frac{R}{2}
+\\
+I_2'' &= \frac{\nicefrac{V}{2}}{Z_0+\frac{R}{2}} = \frac{V}{2Z_0+R}
+\end{align*}
+Essendo la sollecitazione dispari, la corrente nell'altro generatore è uguale in modulo, ma ha verso opposto.
+
+Per sovrapposizione degli effetti, la corrente totale erogata dal generatore alla porta \ding{173} è $I_2= I_2'+I_2''=\frac{V}{4Z_0}+\frac{V}{2Z_0+R}$. Affinché l'ingresso sia adattato ($R_{V_2} = Z_0$) il generatore $V_2$ deve vedere un'impedenza pari a $2Z_0$, ossia $I_2=\frac{V}{2Z_0}$. Uguagliando le due relazioni si ricava anche il valore della resistenza: $R=2Z_0$.\\
+È interessante osservare che, pilotando sulla porta \ding{173} in condizione di adattamento la corrente alla porta \ding{174} è nulla ($I_3 = I_2'-I_2'' = 0$), quindi i parametri $S_{23}$ e $S_{32}$ sono entrambi nulli.
+
+A questo punto è possibile completare il calcolo dei restanti elementi della matrice S. Per la simmetria del circuito $S_{21}$ ed $S_{31}$ sono uguali e siccome è reciproco ed abbiamo imposto l'adattamento la matrice è simmetrica ed ha zeri sulla diagonale principale.
+\begin{align*}
+S_{21} &= \left. \frac{V_2}{V_1}\right|_{\substack{a_2 = 0\\ a_3=0}}
+\\
+V &= V^+ e^{j\beta\ell}+ V^- e^{-j\beta\ell} =
+V^+ (e^{j\beta\ell}+\Gamma e^{-j\beta\ell})
+=
+V^+ \left(e^{j\beta\ell}+ \frac{\cancel{Z_0} - \sqrt{2} \cancel{Z_0}}{\cancel{Z_0} + \sqrt{2} \cancel{Z_0}} e^{-j\beta\ell}\right)
+%\\
+%& \overset{\beta\ell = \nicefrac{\pi}{2}}{=} V^+ \left(j - j\right) =
+%jV^+ \left(1 - \frac{1 - \sqrt{2}}{1 + \sqrt{2}}\right) =
+%jV^+ \frac{2\sqrt{2}}{1+\sqrt{2}}
+\\
+V_2 &= V(\ell = 0) =
+V^+ \left(1+\frac{1-\sqrt{2}}{1+\sqrt{2}}\right)
+= V^+ \frac{2}{1+\sqrt{2}}
+\\
+V_1 &= V(\ell = \nicefrac{\lambda}{4}) = 
+V^+ \left(j-\frac{1-\sqrt{2}}{1+\sqrt{2}}j\right)
+= jV^+ \frac{2\sqrt{2}}{1+\sqrt{2}}
+\\
+S_{21} &= \frac{-j}{\sqrt{2}}
+\end{align*}
+
+In definitiva
+\[
+S = -\frac{j}{\sqrt{2}}\left(
+\begin{array}{ccc}
+0 &1&1\\
+1 &0&0\\
+1 &0&0
+\end{array}
+\right)
+\]
+
+\paragraph{Verifica:} il dispositivo è conservativo? 
+Affinché lo sia devono essere verificate le condizioni \ref{eq:conservativo1} e \ref{eq:conservativo2}, ma non è così: le norme della seconda e terza colonna sono diverse da 1.
+
+\paragraph{Isolamento delle porte \ding{173} $\Leftrightarrow$ \ding{174}}
+Chiudiamo la porta \ding{174} su un'impedenza generica $Z_Y$ e la porta \ding{172} su $Z_0$:
+\[
+b_2 = S_{21}\cancel{a_1} + \cancel{s_{22}}a_2 +\cancel{S_{23}}a_3 = 0
+\]
+Non essendo presente alcuna componente riflessa, dalla porta \ding{173} si vede sempre $Z_0$ qualunque sia l'impedenza su \ding{174}, dunque la porta \ding{174} è isolata dalla \ding{173}. Per simmetria è vero anche il viceversa.
+
+\paragraph{Applicazione: divisore di potenza}
+Supponendo di pilotare il dispositivo dalla porta \ding{172} in condizioni di adattamento (come in figura \ref{fig:accoppiatore-direzionale-wilkinson}), calcoliamo il bilancio delle potenze.
+\begin{align*}
+\displaybreak[3]
+P_{E_1} &= \frac{1}{2} (|a_1|^2 - |b_1|^2) = \frac{1}{2} |a_1|^2
+\\
+P_{U_2} &= \frac{1}{2} (|b_2|^2 - |a_2|^2) = \frac{1}{2} |b_2|^2
+= \frac{1}{2} |S_{21} a_1 +\cancel{S_{22}}a_2+\cancel{S_{23}} a_3|^
+= \left|\frac{-j}{\sqrt{2}} a_1\right|^2 = \frac{1}{2} \cdot \frac{1}{2}|a_1|^2 = \frac{1}{2} P_{E_1}
+\\
+P_{U_3} &= \mbox{... analogamente ...}
+%= \frac{1}{2} \cdot \frac{1}{2}|a_1|^2
+= \frac{1}{2} P_{E_1}
+\end{align*}
+
+Dunque, in questo caso il dispositivo non è dissipativo e ripartisce equamente la potenza d'ingresso fra le due uscite.
+
+\subparagraph{Applicazione: combinatore} Supponiamo di pilotare il dispositivo dalle porte \ding{173} e \ding{174} con due generatori $V(t)$ in fase. Tutte le porte sono chiuse su impedenze $Z_0$.
+%
+%\[
+%V_1 = V_{12} + V_{13}
+%\]
+%
+%ossia sovrapposizione degli effetti (generatore 2 sulla porta 1 e generatore 3 sulla porta 1).
+Applichiamo la sovrapposizione degli effetti:
+si era dimostrato che la porta \ding{173} è adattata, dunque l'impedenza vista sarà $Z_0$ e la tensione applicata è una partizione di $V$: $V_2 = \frac{V}{2}$.
+\[
+V_{1}' = S_{12}V_2 =  S_{12}\frac{V}{2} = -\frac{j}{2\sqrt{2}} V 
+\]
+Analogamente $V_{1}'' = S_{13}V_3 = -\frac{j}{2\sqrt{2}}V$.
+\\
+Dunque, sommando i due contributi, si ha:
+\[
+V_1 = V_1'+V_1'' = -\frac{j}{\sqrt{2}}V
+\quad\Rightarrow\quad
+P_{U_1} = \frac{|V_1|^2}{2Z_0} = \frac{|V|^2}{4Z_0}
+\]
+Poiché le potenze disponibili dei due generatori sono uguali e pari a $\frac{|V|^2}{8Z_0}$, se ne deduce che l'uscita è pari alla somma, ed è il massimo trasferibile.
+
+Se i due generatori fossero in controfase la potenza in uscita sarebbe nulla e andrebbe tutta dissipata su R, a riprova del fatto che il dispositivo non è privo di perdite.
+
+%Dimostrazione del''isolamento
+%
+%Ponendo impedenze Z0 s tutte le porte tranne la 2
+%
+%\[
+%b_2 = S_{21}\cancel{a_1} + \cancel{S_{22}}a_2 + S_{23} \cancel{a_3}
+%\]
+%
+%e se sulla 3 ci metto zx?
+%
+%\[
+%b_2 = S_{21}\cancel{a_1} + \cancel{s_{22}}a_2 + \cancel{S_{23}} a_3
+%\]
+%
+%Quindi dalla porta 2 vedo sempre z0. Si era anche premesso che sul ramo 3 non passa corrente, se si rispettano le ipotesi.
+%
+%La porta 3 è isolata dalla 2 e viceversa
+
+\subsection{Accoppiatori direzionali}
+Si tratta di dispositivi a 4 porte non dissipativi, reciproci e adattati. La loro matrice S è simmetrica (per reciprocità) e presenta diagonale a valori nulli (per l'adattamento).
+%... matrice S con 0 sulla diagonale (adattato) e simmetrica (reciproco)...
+Bisogna ricavare le relazioni per la conservatività ad un 4 porte (che qui omettiamo), che combinate con le precedenti condizioni portano a due possibili soluzioni. La prima è una banale coppia di cortocircuiti, caratterizzata da
+\[\underline{\underline{S}}=
+\left(
+\begin{array}{cccc}
+0& 0& 0& 1\\
+0& 0& 1& 0\\
+0& 1& 0& 0\\
+1& 0& 0& 0
+\end{array}
+\right)
+\]
+La seconda soluzione rappresenta effettivamente gli accoppiatori direzionali, che possono avere due forme:
+
+\begin{minipage}{0.5\linewidth}
+	Accoppiatore Direzionale Simmetrico
+	
+	\[
+	\underline{\underline{S}}=
+	\left(
+	\begin{array}{cccc}
+	0     & \alpha& j\beta& 0\\
+	\alpha& 0     & 0     & j\beta\\
+	j\beta& 0     & 0     & \alpha\\
+	0     & j\beta& \alpha& 0
+	\end{array}
+	\right)
+	\]
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+	Accoppiatore Direzionale Antisimmetrico
+	\[
+	\underline{\underline{S}}=
+	\left(
+	\begin{array}{cccc}
+	0     & \alpha& \beta& 0\\
+	\alpha& 0     & 0     & -\beta\\
+	\beta& 0     & 0     & \alpha\\
+	0     & -\beta& \alpha& 0
+	\end{array}
+	\right)
+	\]
+\end{minipage}
+\begin{center}
+	Per la conservatività deve valere in entrambi i casi $|\alpha|^2+|\beta|^2 = 1$	
+\end{center}
+
+%\[
+%\left(
+%\begin{array}{cccc}
+%0      & \alpha &  j \beta&0\\
+%\alpha & 0 & 0 & j\beta\\
+%j\beta & 0 & 0 & \alpha\\
+%0      & j \beta &  \alpha&0\\
+%\end{array}
+%\right)
+%\]
+%Affinché sia conservativo $\alpha^2 + \beta^2 = 1$
+%
+%\[
+%\left(
+%\begin{array}{cccc}
+%0 & \alpha&\beta &0\\
+%\alpha& 0 & 0 & -\beta\\
+%\beta& 0 & 0 & \alpha\\
+%0 & -\beta & \alpha&0\\
+%\end{array}
+%\right)
+%\]
+%Affinché sia conservativo $\alpha^2 + \beta^2 = 0$ (?)
+%
+%Nomenclatura: $\alpha$ fattore di attenuazione, $\beta$ fattore di accoppiamento.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/accoppiatore-direzionale-4porte}
+	\caption{}
+	\label{fig:accoppiatore-direzionale-4porte}
+\end{figure}
+
+
+Studiamo il comportamento di questo oggetto in condizioni di adattamento, pilotandolo dalla porta \ding{172}. È facile verificare che la porta \ding{175} è isolata dalla \ding{172}:
+\[b_4 = S_{41}a_1 + S_{42}a_2 + S_{43}a_3+S_{44}a_4 = 0\]
+e questa proprietà vale indipendentemente dall'impedenza su cui è chiusa \ding{175}\footnote{Ossia, anche se $a_4\neq0$ non si ha potenza in uscita dalla porta \ding{175} perché $S_{44}=0$. Ovviamente in caso reale il parametro non è nullo, per cui si definisce il parametro \textbf{isolamento} come $20\log S_{41}$.}.
+La potenza d'ingresso si ripartisce dunque fra le porte \ding{173} e \ding{174}, secondo i coefficienti $\alpha$ e $\beta$.
+
+%Anche in questo oggetto si individuano porte isolate: 1 e 4, 2 e 3.  è definito isolamento, che nel caso ideale $\rightarrow\infty$.
+
+%La potenza che entra da 1 va su 2  e 3
+%vedi la foto di jacopo
+%misurare roba del DUT
+
+\paragraph{Applicazione} Analizzatore di Reti Vettoriale (VNA) - utilizzato per misurare i parametri del Device Under Test
+\begin{figure}[bh]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/accoppiatore-direzionale-4porte-VNA}
+	\caption{}
+	\label{fig:accoppiatore-direzionale-4porte-vna}
+\end{figure}
+
+\begin{align*}
+b_1 = \alpha a_2 + \beta \cancel{a_3}\\
+b_2 = \alpha a_1 - \beta \cancel{a_4}\\
+b_3 = \beta a_1 +\alpha \cancel{a_4}\\
+b_4 = -\beta a_2 + \alpha \cancel{a_3}\\
+\end{align*}
+
+$S_{11_D} = \frac{a_2}{b_2}
+=
+-\frac{b_4}{\beta} \cdot \frac{1}{\alpha a_1}
+=
+-\frac{b_4}{\beta} \cdot \frac{\beta}{\alpha b_3}
+=
+-\frac{1}{\alpha}\cdot\frac{b_4}{b_3}
+=
+-\frac{1}{\alpha}\cdot\frac{\frac{2V_4}{2\sqrt{z_0}}}{\frac{2V_3}{2\sqrt{z_0}}}
+=
+-\frac{1}{\alpha}\cdot\frac{V_4}{V_3}$
+
+Misurando con un voltmetro vettoriale le due tensioni, allora ricavo il parametro $S_{11_D}$ del DUT.
+\begin{align*}
+\displaybreak[3]
+&S_{21_D} = \left.
+\frac{b_{2_D}}{a_{1_D}}\right|_{a_{2_D}=0}\\
+&b_{2_D} = \frac{V_{2_D} - Z_0I_{2_D}}{2\sqrt{Z_0}} = \frac{2V_{2_D}}{2\sqrt{Z_0}}\\
+& b_2 = \alpha a_1\\
+& b_3 = \beta a_1\\
+& b_2 = \frac{\alpha}{\beta} b_3\\
+& S_{21_D} = \frac{b_{2_D}}{b_2} = \frac{\beta}{\alpha} \frac{b_{2_D}}{b_3} = \frac{\beta}{\alpha} \frac{V_{2_D}}{V_3}
+\end{align*}
+
+Nell'immagine è riassunto l'analizzatore, dove si sono evidenziate le tensioni rilevanti, che devono essere misurate attraverso un voltmetro vettoriale (bisogna tener di conto, infatti, anche dei possibili sfasamenti).
+Gli altri parametri si possono misurare scambiando ingresso e uscita del DUT.\\
+Prima di una misura è necessaria una calibrazione in ambiente controllato dei cavi/sonde utilizzando un calibration kit con terminazioni prefissate.
+
+\subsubsection{Accoppiatori Direzionali ibridi}
+Si tratta di particolari accoppiatori dove vale l'uguaglianza $\alpha = \beta$, da qui il nome ``ibridi". Siccome, per conservatività, si è imposto $\alpha^2+\beta^2=1$ allora $\alpha = \beta = \frac{1}{\sqrt{2}}$. Si possono individuare due topologie, realizzabili a microstriscia.
+
+\paragraph{Ibrido Simmetrico} \textit{o Branch Line}
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[height=15em]{img/branchline}
+	\caption{Implementazione a microstriscia di un ibrido simmetrico}
+	\label{fig:branchline}
+\end{figure}
+
+%\[
+%\frac{1}{\sqrt{2}}
+%\begin{array}{cccc}
+%0&1&-j&0\\
+%1&0&0&-j\\
+%-j&0&0&\\\
+%0&-j&1&0\\
+%\end{array}
+%\]
+%Nota: i segni sono diversi da come ha fatto a lezione, ma sul pozar sono messi così, mi fido più del signor Pozar
+\[
+\underline{\underline{S}}
+=
+-\frac{1}{\sqrt{2}}
+\left(
+\begin{array}{cccc}
+0&1&j&0\\
+1&0&0&j\\
+j&0&0&1\\\
+0&j&1&0\\
+\end{array}
+\right)
+\]
+
+%Si può realizzare a microstriscia con una topologia detta brenchline.
+Verifichiamo l'adattamento alla porta \ding{172}. Come già fatto per l'accoppiatore Wilkinson, si simmetrizza il circuito (nell'immagine è evidenziato l'asse di simmetria) e si usa il metodo delle sollecitazioni pari/dispari studiando separatamente i due rami.
+
+\textit{Sollecitazione pari:} gli ingressi \ding{172} e  \ding{175} sono allo stesso potenziale dunque nella linea che li interconnette non scorre corrente, lo stesso vale per la linea che interconnette \ding{174} e \ding{173}.
+Pertanto, i punti centrali delle due linee sono equivalenti a circuiti aperti.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/branchline-sollecitazione-pari}
+	\caption{Sollecitazione pari}
+	\label{fig:accopp-dir-pozar1}
+\end{figure}
+
+\begin{align*}
+\displaybreak[3]
+&Z_{open} = Z_0 \frac{Z_L + jZ_0 \tan (\beta\ell)}{Z_0 + jZ_L \tan (\beta\ell)}
+\overset{Z_L \rightarrow \infty}{=}
+\frac{Z_0}{j\tan(\beta\ell)}
+\overset{\ell = \nicefrac{\lambda}{8}}{=}
+-jZ_0
+\\
+&Z_{\parallel} = Z_{open} \parallel Z_0 =
+\frac{-jZ_0^2}{-jZ_0 + Z_0} = \frac{jZ_0}{j-1}
+\\
+&Z_{IL} = \frac{\left(\nicefrac{Z_0}{\sqrt{2}}\right)^2}{Z_{\parallel}} = 
+Z_0^2 \cdot \frac{j-1}{2jZ_0} = Z_0 \frac{(1+j)}{2}
+\\
+&Z_V' = Z_{open}\parallel Z_{IL}
+= \frac{Z_0 \frac{(1+j)}{2}~(-jZ_0)}
+{Z_0 \frac{(1+j)}{2}-jZ_0}
+=
+Z_0 \frac{-j+1}{1+j-2j} = Z_0
+\\
+&I_1 = \frac{\nicefrac{V}{2}}{2Z_0} = I_4
+\end{align*}
+
+\textit{Sollecitazione dispari:} i punti \ding{172} e  \ding{175} sono a potenziali opposti, dunque il punto centrale della linea che li interconnette è a massa. Lo stesso vale per la linea che interconnette \ding{174} e \ding{173}. Pertanto, i punti centrali delle due linee sono equivalenti a cortocircuiti.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/branchline-sollecitazione-dispari}
+	\caption{Sollecitazione dispari}
+	\label{fig:accopp-dir-pozar2}
+\end{figure}
+
+\begin{align*}
+\displaybreak[3]
+&Z_{close} = Z_0 \frac{Z_L + jZ_0 \tan (\beta\ell)}{Z_0 + jZ_L \tan (\beta\ell)}
+\overset{Z_L = 0}{=}
+Z_0 j\tan(\beta\ell)
+\overset{\ell = \nicefrac{\lambda}{8}}{=}
+jZ_0
+\\
+&Z_{\parallel} = Z_{close} \parallel Z_0 =
+\frac{jZ_0^2}{jZ_0 + Z_0} = \frac{jZ_0}{j+1}
+\\
+&Z_{IL} = \frac{\left(\nicefrac{Z_0}{\sqrt{2}}\right)^2}{Z_{\parallel}} = 
+Z_0^2 \cdot \frac{j+1}{2jZ_0} = Z_0 \frac{(1-j)}{2}
+\\
+&Z_V' = Z_{close}\parallel Z_{IL}
+= \frac{jZ_0 \cdot Z_0 \frac{(1-j)}{2}}{jZ_0 + Z_0 \frac{(1-j)}{2}}
+= Z_0 \frac{j+1}{2j+1-j} = Z_0
+\\
+&I_1 = \frac{\nicefrac{V}{2}}{2Z_0} = -I_4
+\end{align*}
+
+Per sovrapposizione degli effetti si ottiene $I_1 = 2 \cdot \frac{\nicefrac{V}{2}}{2Z_0} = \frac{\nicefrac{V}{2}}{Z_0}$. L'impedenza vista dalla porta \ding{172} è pari dunque a $R_V = \frac{V}{I_1} - Z_0 = 2Z_0 - Z_0 = Z_0$.\\
+La verifica sulle altre porte è esattamente identica, si conclude che il dispositivo è adattato.
+
+\paragraph{Ibrido Antisimmetrico} \textit{o Rat Race}
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/ratrace}
+	\caption{Implementazione di un A.D. ibrido antisimmetrico a microstriscia}
+	\label{fig:ratrace}
+\end{figure}
+
+\[
+\underline{\underline{S}}
+=
+-\frac{j}{\sqrt{2}}
+\left(
+\begin{array}{cccc}
+0&1&1&0\\
+1&0&0&-1\\
+1&0&0&1\\\
+0&-1&1&0\\
+\end{array}
+\right)
+\]
+
+Analizziamo, intuitivamente, le caratteristiche di questo dispositivo. Pilotando attraverso la porta \ding{172} avremo:
+\begin{itemize}
+	\item alle porte \ding{173} e \ding{174} due segnali in fase fra loro, ma sfasati rispetto ad \ding{172}. L'onda può attraversare il \textit{rat-race} sia in senso orario che antiorario; prendendo come esempio la porta \ding{174}, l'onda in senso \textit{orario} si muove di $\nicefrac{5\lambda}{4}$, mentre in senso \textit{antiorario} di $\nicefrac{\lambda}{4}$. In entrambi i casi lo sfasamento che subisce è pari ad un quarto di periodo e, raggiunta l'uscita, dà luogo ad interferenza costruttiva.
+	\item alla porta \ding{175} uscita nulla. Infatti l'onda che si propaga in senso \textit{orario} arriva all'uscita con sfasamento nullo (compie un percorso pari a $\lambda$), mentre l'onda che si propaga in senso \textit{antiorario} viene sfasata di metà periodo (la distanza percorsa è, questa volta, $\nicefrac{\lambda}{2}$). La somma delle due dà interferenza distruttiva.
+\end{itemize}
+
+	Si verifica che la potenza in ingresso si ripartisce equamente alle due uscite, svolgendo quindi funzione di \textbf{divisore di potenza}.
+	
+	\begin{align*}
+	\displaybreak[3]
+	&P_{E_1} = \frac{1}{2} |a_1|^2\\
+	&P_{U_2} = \frac{1}{2} \left(|b_2|^2 - \cancel{|a_2|^2}\right)
+	= \frac{1}{2} \left|S_{21} a_1 + \cancel{S_{22}} a_2 + \cancel{S_{23}} a_3 + S_{24} \cancel{a_4}\right|^2
+	= \frac{1}{2} \left|-\frac{j}{\sqrt{2}}a_1\right|^2
+	= \frac{1}{2} \cdot \frac{1}{2} |a_1|^2 =  \frac{1}{2} P_{E_1}\\
+	& P_{U_3} = ...analogamente... = \frac{1}{2} P_{E_1}
+	\end{align*}
+	
+	È interessante valutare, inoltre, come si comporta il dispositivo se si chiude la porta \ding{175} su una generica impedenza $Z_X$.
+	\[
+	b_1 = \cancel{S_{11}}a_1 + S_{12}\cancel{a_2} + 
+	S_{13}\cancel{a_3} + \cancel{S_{14}}a_4 = 0
+	\]
+	Dunque dalla porta \ding{172} si continua a vedere un'impedenza $Z_0$. Valutiamo se viene dissipata potenza dalla porta \ding{175}:
+	\begin{align*}
+	b_4 &= \cancel{S_{41}}a_1 + S_{42}\cancel{a_2} + 
+	S_{43}\cancel{a_3} + \cancel{S_{44}}a_4 = 0\\
+	    &= \frac{V_4 - Z_0I_4}{\sqrt{Z_0}}\\
+	V_4 &= Z_0 I_4 
+	\end{align*}
+	Dove si è utilizzata la relazione fra $b$, corrente e tensione (eq. \ref{eq:prog_regr}). Poiché alla porta \ding{175} deve valere anche la legge di Ohm $V_4 = Z_X I_4$, l'unica soluzione possibile è che $I_4=0$, e che venga dissipata potenza sul relativo carico.
+	
+	Il \textit{rat-race} può essere utilizzato anche come \textbf{balun inverso}\footnote{Da segnale non bilanciato, con riferimento a massa, a segnale bilanciato.} Ciò si ottiene pilotando il dispositivo dalla porta \ding{173} e chiudendo le altre su $Z_0$.
+	\begin{align*}
+	&\frac{V_1}{V_2} = S_{12}
+	\quad\Rightarrow\quad
+	V_1 = S_{12} V_2 = \frac{1}{\sqrt{2}}V_2
+	\\
+	&\frac{V_4}{V_2} = S_{42}
+	\quad\Rightarrow\quad
+	V_4 = S_{42} V_2 = -\frac{1}{\sqrt{2}}V_2
+	\end{align*}
+	Le porte \ding{172} e \ding{175} sono in opposizione di fase, e rappresentano la coppia bilanciata in uscita dal balun inverso.
+	
+	Infine, il \textit{rat-race} può essere utilizzato per effettuare \textbf{somma o differenza} fra due segnali. Ciò si ottiene utilizzando  come ingressi le porte \ding{173} e \ding{174} (che devono essere opportunamente adattate), mentre la coppia di uscite si prende da \ding{172} e \ding{175} (anch'esse adattate a $Z_0$). Procediamo per sovrapposizione degli effetti:
+	\begin{align*}
+	&V_1 = S_{12} V_2 + S_{13}V_3 =
+	\frac{1}{\sqrt{2}} (V_2 + V_3)
+	\\
+	&V_4 = S_{42} V_2 + S_{43}V_3 =
+	\frac{1}{\sqrt{2}} (-V_2 + V_3)
+	\end{align*}
+	L'uscita sulla porta \ding{172} è proporzionale alla somma dei due segnali (difatti prende il nome di $\Sigma$ - porta somma), mentre la porta \ding{175} è proporzionale alla differenza dei due segnali (e prende il nome di $\Delta$ - porta differenza).
+%	\\
+%	Si verifica anche che la potenza di uscita è anche la massima trasferibile (perché pari alla potenza disponibile). Verifichiamolo in un caso semplice, ossia per $V_2(t) = V_3(t) = V(t)$:
+%	\begin{align*}
+%	&P_{A_2} = \frac{V_M^2}{8Z_0}\\
+%	&P_{A_3} = \frac{V_M^2}{8Z_0}\\
+%	&P_{OUT} = P_1 + \cancel{P_4} = \frac{V_{1_M}^2}{2Z_0}
+%	= \frac{\left(\frac{2V_M}{\sqrt{2}}\right)^2}{2Z_0} = P_{A_2}+P_{A_3}
+%	\end{align*}
+	

@@ -1,0 +1,501 @@
+\chapter{Mixer}
+Un mixer è un sistema tempo invariante e senza memoria\footnote{la cui tensione di uscita all'istante t dipende solo dal valore assunto allo stesso istante dalle tensioni di ingresso e non dai valori assunti negli istanti precedenti} che, alimentato da due o più segnali in ingresso, presenta in uscita un segnale con componenti non lineari degli ingressi:\\
+$v_{IF}(t) = a_0 + [c_{11}v_{RF}(t) + c_{21}v_{OL}(t)] + [c_{12}v_{RF}(t) + c_{22}v_{OL}(t)]^2 + ...$.
+
+Nella sua realizzazione più semplice l'uscita contiene un solo termine proporzionale al prodotto tra due segnali d'ingresso.\\
+Poiché per il prodotto di due oscillazioni vale la relazione
+
+$$cos(\omega_{RF} t) cos(\omega_{OL} t) = \frac{1}{2} cos[(\omega_{RF} + \omega_{OL}) t] + \frac{1}{2} cos[(\omega_{RF} - \omega_{OL}) t]$$
+
+si comprende subito che l'applicazione principale del mixer è quella di traslare un segnale ad una frequenza maggiore oppure minore. Senza perdere di generalità si considera come oscillazione di uscita quella a frequenza $f_{IF} = f_{RF} - f_{OL}$.
+
+Per motivi \textit{storici} e in dipendenza da quella che risulta essere l'applicazione più frequente del mixer nei sistemi a radiofrequenza, le due porte di ingresso
+prendono il nome di \textit{porta a radiofrequenza} e \textit{porta dell'oscillatore locale}, mentre quella di
+uscita prende il nome di \textit{porta a frequenza intermedia}. In figura è rappresentata l'applicazione
+classica del mixer utilizzato per traslare in basso la frequenza del segnale ricevuto dall'antenna di
+un ricevitore.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/MixerGeneric}
+	\caption{}
+	\label{fig:mixer-001}
+\end{figure}
+
+
+Un circuito che realizza in maniera estremamente semplice questo risultato fa uso di un JFET, grazie alla sua
+caratteristica parabolica: $I_D = I_{DSS} ( 1- \frac{V_{GS}}{V_P}  ) ^ 2$.
+
+\begin{figure}[h!]
+	\hspace{\fill}
+	\includegraphics[height=0.4\linewidth]{img/FETMixer1}
+	\hspace{\fill}
+	\includegraphics[height=0.4\linewidth]{img/FETMixer2}
+	\hspace{\fill}
+	\caption{Due possibili alternative per un mixer a JFET}
+\end{figure}
+
+Nell'ipotesi che, alla	radiofrequenza, la capacità $C_{A}$ si comporti come un corto circuito e l'induttanza di blocco come un circuito aperto, si ha $V_{GS}(t) = -E_0 + V_{RF_m} cos(\omega_{RF}t) - V_{OL_m} cos(\omega_{OL}t)$, e quindi
+
+$$I_D(t) = \frac{I_{DSS}}{{V_P}^2} \left( {V_P}^2 - 2 V_P V_{GS} + {V_{GS}}^2 \right) $$
+
+Il termine $V_{GS}^2$ darà luogo alla componente a frequenza intermedia $f_{IF}$. Le altre armoniche sono filtrabili dimensionando un gruppo LC parallelo in uscita in modo da farlo risuonare alla frequenza intermedia\footnote{Il gruppo ha un'impedenza bassa per $f \neq f_{IF}$ e la corrente non scorre nel carico.}:
+
+\begin{align*}
+i_D(t) &\simeq \frac{I_{DSS}}{V_P^2} ~ V_{RF_m} V_{OL_m} ~ cos (\omega_{IF} t)
+\\
+V_{IF_m} &= \frac{I_{DSS}}{V_P^2} ~ V_{RF_m} V_{OL_m} R_L
+\end{align*}
+
+
+
+
+\section{Parametri caratterizzanti}
+
+\paragraph{Guadagno di Conversione} $G_C = \frac{P_{IF}}{{P_{A_{RF}}}}$
+
+Nell'esempio del FET si ha:
+
+$$ P_{IF} = \frac{V_{IF_m}^2}{2 R_L} = \frac{I_{DSS}^2 V_{{RF}_m}^2 V_{{OL}_m}^2 R_L^{\bcancel{2}} }{2 V_P^4 \bcancel{R_L}} ~~~~~~ {P_{A_{RF}}} = \frac{V_{RF_m}^2}{8R_S}$$
+$$ G_C = \frac{P_{IF}}{P_{A_{RF}}} = \frac{I_{DSS}^2 \cancel{V_{{RF}_m}^2} V_{{OL}_m}^2 R_L }{2 V_P^4} \cdot \frac{8R_S}{\cancel{V_{RF_m}^2}} \overset{\mathrm{R_S = R_L}}{=} \frac{4 R_L^2 I_{DSS}^2 V_{OL_m}^2}{V_P^4} $$
+Si osservi che il guadagno di conversione non dipende dall'ampiezza del segnale a radiofrequenza; pertanto, a $V_{OL_m}$ costante la componente a frequenza intermedia risulta proporzionale a quella a radiofrequenza, ovvero
+$P_{IF} = G_C {P_{A_{RF}}}$.
+
+Su un grafico con grandezze espresse in dBm\footnote{In ambito delle radiofrequenze si usa esprimere la potenza in dB milliWatt: $dBm = 10 ~ log(P_{in~mW})$} si ottiene
+
+$$\left. P_{IF}\right|_{dBm}  = 10~log(G_C {P_{A_{RF}}}) = 10~log(G_C) + \left.{P_{A_{RF}}}\right|_{dBm} $$
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[height=0.3\linewidth]{img/1dbcp}
+	\caption{}
+	\label{fig:mixer-002}
+\end{figure}
+
+\paragraph{Punto di compressione a 1 dB} (1dBCP) si ricava attraverso
+il seguente esperimento: si alimenta la porta a radiofrequenza con un segnale di ampiezza crescente misurando la potenza a frequenza intermedia.
+Il grafico costruito per via sperimentale (tratteggiato) presenta una deviazione dall'andamento lineare previsto (linea continua). Il punto di compressione a 1 dB è il valore della potenza disponibile a radiofrequenza in cui la curva sperimentale si discosta di 1 dB dall'andamento ideale.
+
+Si tratta di un	effetto in genere dovuto a non linearità di ordine superiore i cui effetti, oltre un certo livello del
+segnale a radiofrequenza, non possono più essere trascurati.
+Di norma il mixer viene usato con una ${P_{A_{RF}}}$ tale da mantenere il funzionamento al di sotto del punto
+di compressione (da 3 a 6 dB sotto 1dBCP).
+
+\paragraph{Isolamento}
+Su ciascuna	porta del mixer è desiderabile avere, per diversi motivi, soltanto la componente che a quella porta compete, ma in realtà ciò non accade. L'isolamento fornisce una misura delle componenti \textit{indesiderate} su ciascuna porta.
+
+Si possono definire fino a 6 tipi di isolamento, anche se nella pratica solo 3 sono di effettivo interesse.
+
+\textbf{isolamento della porta RF sull'uscita IF} $I_{RF\rightarrow IF} = \frac{P_{A_{RF~RF}}}{P_{RF~IF}}$\\
+rapporto tra la potenza disponibile a RF e la potenza media della componente a radiofrequenza misurata sulla porta IF.
+
+\textbf{isolamento della porta OL sull'uscita IF} $I_{OL\rightarrow IF} = \frac{P_{A_{OL~OL}}}{P_{OL~IF}}$
+
+\textbf{isolamento della porta OL sull'uscita RF} $I_{OL\rightarrow RF} = \frac{P_{A_{OL~OL}}}{P_{OL~RF}}$
+
+
+L'effetto dell'oscillatore locale sulla porta a RF può essere particolarmente \textit{fastidioso} nei ricevitori poiché quello dell'oscillatore locale è sempre un segnale di notevole potenza (anche	qualche decina di dBm) ed un cattivo isolamento può	essere indice di un segnale che viaggia in direzione dell'antenna, che da questa può essere irradiato con conseguenze negative sia in termini di consumi che di interferenze e inquinamento elettromagnetico.
+
+Il costruttore del mixer fornisce questi parametri, per ciascuna porta, all'interno di range frequenziali ben determinati. In figura è rappresentata la configurazione circuitale per la misura di $I_{RF~IF}$. Tipicamente un buon mixer ha isolamento di 30dB.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/isolamento}
+	\caption{}
+	\label{fig:mixer-004}
+\end{figure}
+
+\paragraph{Cifra di rumore} $NF=\frac{S_{RF}/N_{RF}}{S_{IF}/N_{IF}}$\\
+È un parametro importante per il calcolo del rapporto Segnale Rumore dello stadio di ingresso. Il mixer è un sistema abbastanza rumoroso, tipicamente la NF si aggira fra i 6 ed i 13 dB, contro i 3dB tipici di un LNA.
+
+È noto, dalle formule di Friis, che la cifra di rumore di una cascata di quadripoli dipende soprattutto dai parametri del primo stadio.
+
+$$NF_{tot} = NF_{LNA} + \frac{NF_{mixer} - 1}{{G_A}_{LNA}}$$
+
+Amplificare a radiofrequenza è un'operazione poco efficiente. Si realizza quindi un guadagno abbastanza alto da rendere trascurabile il rumore dello stadio successivo ma anche abbastanza basso da non consumare troppa potenza inutilmente:
+
+$$NF_{LNA} \gg \frac{NF_{mixer} -1}{{G_A}_{LNA}}
+~~ \Rightarrow ~~
+{G_A}_{LNA} \gg \frac{NF_{mixer} -1}{NF_{LNA}} $$ 
+
+\section{Mixer a moltiplicatore}
+Il mixer a FET sfrutta una proprietà di distorsione del componente attivo che introduce \textit{anche} l'effetto di traslazione frequenziale. Tale operazione si può realizzare con soluzioni circuitali che effettuano il solo prodotto fra i due segnali di ingresso.\\
+Frequentemente il segnale RF è moltiplicato per un'onda quadra $q(t)$ a frequenza fondamentale $f_{OL}$, poiché l'uso di componenti azionati \textit{in commutazione} comporta molte semplificazioni circuitali e vantaggi in termini di dissipazione.
+
+\subsection{Mixer a diodi singolarmente bilanciato}
+\begin{figure}[h]
+	\includegraphics[height=0.2\linewidth]{img/MixerDiodi1}
+	\hfill
+	\includegraphics[height=0.2\linewidth]{img/Mixer-quadraunipol}
+	\caption{}
+	\label{fig:mixer-005}
+\end{figure}
+
+Immaginiamo di poter aprire e chiudere il tasto con frequenza $f_{OL} = \nicefrac{1}{T_{OL}}$. L'uscita si può scrivere come:
+\begin{align*}
+&V_{IF}(t) =
+\begin{cases}
+v_{RF}(t) \frac{R_L}{R_L+R_S} & \mbox{se $V_{OL}$ è alto}\\
+0 & \mbox{se $V_{OL}$ è basso}
+\end{cases} = v_{RF}(t) \frac{R_L}{R_L+R_S} q(t)
+\\
+&\mbox{Con } q(t) = \frac{1}{2} + \sum_{n=1}^{\infty} \frac{\sin(n\frac{\pi}{2})}{n\frac{\pi}{2}} \cos(n\omega_{OL} t)
+\\
+& V_{IF}(t) = \underbrace{\frac{1}{2}~\frac{R_L}{R_L + R_S} V_{RF}cos(\omega_{RF}t)}_{Componente~\omega_{RF}}
++ \underbrace{V_{RF_m} cos(\omega_{RF} t) ~ \frac{R_L}{R_L + R_S} ~ \frac{2}{\pi} cos(\omega_{OL} t)}_\text{Componenti somma e differenza} + ...
+\end{align*}
+
+Si considera la sola armonica fondamentale ($n=1$) dello sviluppo di Fourier di $q(t)$ con il prodotto fra le oscillazioni $\omega_{RF}$ e $\omega_{OL}$, che dà luogo all'uscita a frequenza intermedia:
+\[
+V_{IF~IF}(t) = \frac{1}{\pi}~ \frac{R_L}{R_L + R_S} ~ V_{RF_m} cos(\omega_{IF} t)
+\]
+
+Naturalmente al tasto deve essere sostituito un circuito che svolga una funzione analoga. Una possibile realizzazione fa uso di diodi: 
+quando $V_{OL}$ è \textit{alta} i diodi sono in conduzione e si è nella condizione di tasto chiuso; viceversa, se $V_{OL}$ è bassa i diodi sono interdetti.
+Per il corretto funzionamento, l'ampiezza dell'oscillazione deve poter polarizzare i diodi (ordine di grandezza di $2 V_\gamma$).
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/MixerDiodi2}
+	\caption{Si preferisce avere tutti gli ingressi riferiti a massa, quindi si inserisce un trasformatore con rapporto spire 1:1}
+	\label{fig:mixer-007}
+\end{figure}
+
+\paragraph{Parametri}
+
+Si ipotizza $R_L = R_S$.
+\begin{align*}
+&V_{IF} = \frac{1}{2\pi} ~ V_{RF_m} cos(\omega_{IF} t)\\
+&P_{IF} = \frac{1}{(2 \pi)^2} ~ \frac{V_{RF_m}^2}{2 R_L} ~~~~ {P_{A_{RF}}} = \frac{V^2_{{RF}_m}}{8R_S}\\
+&G_C = \frac{P_{IF}}{{P_{A_{RF}}}} = \frac{1}{\bcancel{2}} ~ \frac{\cancel{V_{RF_m}^2}}{\bcancel{4}\pi^2 ~ R_L} \cdot \frac{\bcancel{8}R_S}{\cancel{V_{RF_m}^2}} = \frac{R_S}{\pi^2 R_L} = \frac{1}{\pi^2} \approx 0.1
+\end{align*}
+
+Solo il 10\% della potenza a radiofrequenza viene convertita in frequenza intermedia: guadagno di conversione basso!
+
+In questo tipo di mixer è rilevante l'\textbf{isolamento} della porta a RF sull'uscita IF: nell'espressione di $V_{IF}(t)$ è presente anche un termine a pulsazone RF:
+$$
+V_{RF~IF} = \frac{1}{2} \frac{R_L}{R_L + R_S} V_{{RF}_m} cos(\omega_{RF} t) ~~ \Rightarrow ~~ V_{{RF~IF}_m} = \frac{V_{{RF}_m}}{4}$$
+$$I_{RF~IF} = \frac{P_{A_{RF~RF}}}{P_{RF~IF}} = 
+\frac{V^2_{{RF}_m}}{8R_S} \cdot
+\frac{2 R_L}{V_{{RF~IF}_m}^2} =
+\frac{V^2_{{RF}_m}}{8R_S} \cdot
+\frac{16 \cdot 2 R_L}{V_{{RF}_m}^2} = 4
+$$
+
+$\nicefrac{1}{4}$ della potenza disponibile a RF si ritrova in uscita sulla porta a IF. L'isolamento è scadente!
+%	"Mixer Bilanciato" nei confronti dell'oscillatore locale: isolamento buono solo rispetto all'OL
+
+\subsection{Mixer a diodi doppiamente bilancianto}
+Si tratta di una delle configurazioni più frequentemente utilizzate, quanto meno in realizzazioni
+ibride (non integrate), anche fino a diversi GHz.
+
+Considerando lo schema semplificato di figura \ref{fig:mixer-diodi-doppiamente-semplificato} l'uscita è il prodotto fra il segnale RF ed un'onda quadra bipolare a frequenza $f_{OL}$.
+
+\begin{figure}[h]
+	\hspace{\fill}
+	\raisebox{-0.5\height}{\includegraphics[width=0.35\linewidth]{img/mixer-diodi-doppiamente_simpl}}
+	\hspace{\fill}
+	\raisebox{-0.5\height}{\includegraphics[width=0.6\linewidth]{img/MixerDiodi3}}
+	\hspace{\fill}
+	\caption{Gli interruttori sono azionati a frequenza $f_{OL}$}
+	\label{fig:mixer-diodi-doppiamente-semplificato}
+\end{figure}
+
+$$
+V_u = \begin{cases}
+V_{RF}(t) \frac{R_L}{R_L+R_S}\\
+-V_{RF}(t) \frac{R_L}{R_L+R_S}
+\end{cases}
+=
+V_{RF}(t) \frac{R_L}{R_L+R_S} q_b(t) = \frac{1}{2} V_{RF}(t) q_b(t)
+$$
+
+\begin{figure}[htb!]
+	\hspace{\fill}
+	\includegraphics[width=0.4\linewidth]{img/MixerDiodi-semionda_positiva}
+	\hspace{\fill}
+	\includegraphics[width=0.4\linewidth]{img/MixerDiodi-semionda_negativa}
+	\hspace{\fill}
+	\caption{Semionda positiva e semionda negativa}
+	\label{fig:mixer-diodi-doppiamente-semplificato-variazioni}
+\end{figure}
+
+Nella pratica, ai deviatori viene sostituito un ponte diodi e tutti gli ingressi sono disaccoppiati mediante trasformatori a doppio secondario\footnote{In questo caso prendono il nome di \textit{balun} (Balanced to Unbalanced)} con $N_1 = 2N_2$.
+
+I diodi conducono a coppie per effetto del segnale di comando sulla porta dell'oscillatore locale.
+Quando $V_{OL}$ è nel semiperiodo positivo conducono i diodi 3 e 4 (se i due diodi sono identici si ha, per simmetria, un punto di massa virtuale), mentre i diodi 1 e 2 sono interdetti.\\
+Dallo schema semplificato di figura \ref{fig:mixer-diodi-doppiamente-semplificato-variazioni} si osserva che $V_{IF}(t) = V_{{RF}_2}(t)$.
+
+Analogamente, quando $V_{OL}$ è nel semiperiodo negativo conducono i diodi 1 e 2 (al solito, per simmetria si ha un punto di massa virtuale), mentre i diodi 2 e 3 sono interdetti.
+In questo caso si ha $V_{IF}(t) = -V_{{RF}_2}(t)$.
+
+Dunque, a parte le attenuazioni dovute al partitore d'ingresso ed al rapporto spire del trasformatore, il segnale a radiofrequenza viene trasferito sulla porta di uscita per metà periodo col suo segno e per metà periodo cambiato di segno.
+
+Valutiamo tale attenuazione: in entrambi i semiperiodi la resistenza sul secondario è sempre $R_L$, connessa fra la presa centrale ed una delle altre due prese.
+La resistenza vista dal primario dunque è $R_L$ moltiplicata per il quadrato del rapporto spire:
+
+\begin{align*}
+&R_{L_1} = \left( \frac{N_1}{N_2} \right)^2 R_L =
+4 R_L
+\\
+&V_{{RF}_1}(t) = V_{RF}(t) ~ \frac{R_{L_1}}{R_{L_1} + R_S} = V_{RF}(t) ~ \frac{4 R_L}{4 R_L + R_S} \overset{R_S = R_L}{=}
+\frac{4}{5} V_{RF}(t)
+\\
+&V_{{RF}_2}(t) = \frac{N_2}{N_1} ~ V_{{RF}_1}(t) =
+\frac{2}{5} V_{RF}(t)
+\end{align*}
+
+\paragraph{Parametri}
+
+\begin{align*}
+&\mbox{L'onda quadra bipolare si può scrivere come }
+q_b(t) = 2\sum_{n=1}^{\infty} \frac{\sin(n\frac{\pi}{2})}{n\frac{\pi}{2}} \cos(\omega_{OL} t)
+\\
+&V_{IF}(t) = {V_{RF_2}}_m \cos(\omega_{RF} ) q_b(t) = \frac{2}{5} {V_{RF}}_m \cos(\omega_{RF} t)  q_b(t)
+\\
+&\mbox{Componente a }\omega_{IF}:~ {V_{IF}}_m =
+\frac{2}{5} {V_{RF}}_m \cdot 2 \frac{2}{\pi} \cdot \frac{1}{2} = {V_{RF}}_m~\frac{4}{5\pi}
+\\
+&P_{IF} = \frac{1}{2} \cdot \frac{16~{V^2_{RF}}_m}{25\pi^2 R_L} ~~~~~~~~ {P_{A_{RF}}} = \frac{{V^2_{RF}}_m}{8 R_S}
+\\
+& G_C = \frac{P_{IF}}{{P_{A_{RF}}}} =
+\cdot \frac{8 ~\cancel{{V^2_{RF}}_m}}{25 \pi^2 \bcancel{R_L}} \cdot
+\frac{8 \bcancel{R_S}}{\cancel{{V^2_{RF}}_m}} = \frac{64}{25\pi^2} \simeq 0.25
+\end{align*}
+
+Per quanto riguarda gli isolamenti di interesse, in questo caso risultano idealmente infiniti.
+Mentre il mixer precedente era isolato solo nei riguardi dell'OL (singolarmente bilanciato),
+questo lo è sia nei riguardi dell'OL sia nei riguardi dell'RF (doppiamente bilanciato).
+
+\subsection{Mixer attivo singolarmente bilanciato}
+I mixer precedenti, essendo realizzati con componenti passivi, presentano guadagno inferiore all'unità. Talvolta si preferisce sfruttare configurazioni che introducano guadagno in modo da rilassare le specifiche su altri componenti che seguono.
+
+
+\begin{figure}[h]
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.2\linewidth]{img/mixer-BJT-singolarmente_simpl}}
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.7\linewidth]{img/MixerBJT1}}
+	\hspace{\fill}
+	\caption{Circuito e schema semplificato.}
+	\label{fig:mixer-attivo-sb}
+\end{figure}
+
+La coppia differenziale ha sempre un transistor in conduzione ed uno interdetto. I due si scambiano alla frequenza $f_{OL}$:
+
+$$
+\begin{cases}
+V_u^+ = V_{CC} & \mbox{1 interdetto}\\
+V_u^- = V_{CC} - R_L I_0 & \mbox{2 saturo}
+\end{cases}
+~~~\Rightarrow~~~
+V_u = R_L I_0
+$$
+
+Per l'altro semiperiodo si ha $V_u = -R_L I_0$, dunque
+$V_u(t) = R_L I_0 ~ q_b(t)$
+
+\paragraph{Polarizzazione dei BJT}
+Affinché, a riposo, possa comunque scorrere una corrente di polarizzazione nei transistor, è ovviamente necessario mantenere $Q3$ in zona attiva erogando una opportuna corrente di base (equivalente al classico partitore pesante).\\
+Solo questo non è sufficiente: anche la coppia differenziale deve essere accesa, e questo si può fare imponendo una tensione di pochi volt sulla presa centrale del balun, sufficiente a mantenere la $V_{BE_Q} > V_\gamma$.
+
+\paragraph{Linearizzazione della transconduttanza} Il generatore di corrente si realizza con un singolo BJT pilotato dalla tensione a radiofrequenza.
+Per evitare una forte dipendenza dalle caratteristiche del transistor è opportuno usare una resistenza di emettitore:
+
+\begin{figure}[h]
+	\centering
+	\begin{circuitikz} \draw
+		(0,0) node[cground]{}
+		to [short, -*] (0,1)
+		to [short, - ] (0,2)
+		to [I<=$h_{fe}i_b$] (0,3)
+		to (0,4) node{}
+		(0,1) to [R = $h_{ie}$, i<=$i_b$ ,*-]  (3,1);
+	\end{circuitikz}
+	\begin{circuitikz} \draw
+		(0,0) node[cground]{}
+		to [R=$R_E$, -*] (0,2)
+		to [I<=$h_{fe}i_b$] (0,4)
+		(0,2) to [R = $h_{ie}$, i<=$i_b$ ,*-]  (3,2);
+	\end{circuitikz}
+\end{figure}
+
+\[\mbox{Per $R_E = 0$ si ha   }i_c=h_{fe}i_b=h_{fe}\frac{v_{be}}{h_{ie}}=g_mv_{be}\]
+
+Inserendo la $R_E$:
+\begin{align*}
+&{R_V}_b = h_{ie}+(h_{fe}+1)R_E\\
+&i_c=h_{fe}i_b=h_{fe}\frac{v_{be}}{h_{ie}+(h_{fe}+1)R_E}\simeq \frac{v_{be}}{R_E}
+\end{align*}
+
+Con l'ultima approssimazione ipotizzando $h_{ie}$ trascurabile e $h_{fe}$ molto maggiore dell'unità.
+
+Applicando ciò al circuito, e nell'ipotesi che la resistenza sorgente a radiofrequenza sia trascurabile ($R_S \ll h_{ie} + (h_{FE}+1)R_E$):
+
+\begin{align*}
+&I_0 (t) = {I_0}_Q + \frac{V_{RF}(t)}{R_E}\\
+&V_{IF}(t) = R_L I_0(t) q_b(t) = R_L \left( {I_0}_Q + \frac{V_{RF}(t)}{R_E} \right) \cdot 2 \sum_{n=1}^{\infty}\frac{sin \left( n \frac{\pi}{2} \right)}{n \frac{\pi}{2}} cos(n \omega_{OL} t)
+\end{align*}
+
+Il termine di corrente a riposo ${I_0}_Q$ comporta in uscita una componente a frequenza $f_{OL}$, dunque l'isolamento fra la porta di uscita e l'oscillatore locale non è infinito:
+$${V_{IF~OL~}}_m = R_L {I_0}_Q \cdot \frac{4}{\pi}$$
+
+Frequenza intermedia
+\begin{align*}
+&{V_{IF}}_m = \frac{1}{2} \cdot R_L \frac{{V_{RF}}_m}{R_E} \cdot \frac{4}{\pi}\\
+&P_{IF}=\frac{1}{2} \cdot  R_L^{\bcancel{2}} \frac{{V^2_{RF}}_m}{R^2_E} \cdot \frac{4}{\pi^2} \cdot \frac{1}{\bcancel{R_L}}\\
+&G_C = R_L \frac{{V^2_{RF}}_m}{R^2_E} \cdot \frac{2}{\pi^2} \cdot \frac{8 R_S}{{V^2_RF}_m} = \frac{16}{\pi^2} \cdot \frac{R_L R_S}{R^2_E}
+\end{align*}
+
+La $R_E$ migliora la linearità ma penalizza il guadagno, essendo uno stadio attivo è auspicabile che il segnale venga, almeno minimamente, amplificato. Togliendo $R_E$ la resistenza vista dalla base è adesso $h_{ie}$, e non vale più la precedente ipotesi $R_S\ll h_{ie}$. Per semplicità immaginiamo $R_S = h_{ie}$.
+
+\begin{align*}
+&I_0(t) = I_{0_Q} + g_m \frac{V_{RF_m}}{2} cos(\omega_{RF}t)\\
+&V_{IF}(t) = R_L I_0(t) q(t) = R_L \left[ {I_{0_Q}} + g_m \frac{V_{RF_m}}{2} cos(\omega_{RF}t) \right] \cdot 2 \sum_{n=1}^{\infty}\frac{sin \left( n \frac{\pi}{2} \right)}{n \frac{\pi}{2}} cos(n \omega_{OL} t)
+\\
+&V_{IF~IF_m}(t) = R_L~g_m \frac{V_{RF_m}}{2} \cdot 2 ~ \frac{1}{2} ~ \frac{2}{\pi} = R_{L} g_m \frac{V_{RF_m}}{\pi}\\
+&G_C = \frac{V_{IF~IF_m}^2}{2R_L}
+\cdot \frac{8R_S}{V_{RF_m}^2}
+= \frac{R_L^2 g_m^2 V_{RF_m}^2}{2\pi^2 R_L}
+\cdot \frac{8R_S}{V_{RF_m}^2}
+= \frac{4R_S R_L g_m^2}{\pi^2}
+\\\\
+& \mbox{Con $R_L= 50\Omega$, $R_S = h_{ie}$, $g_m = \frac{h_{fe}}{h_{ie}}=50~\nicefrac{mA}{V}$ e $h_{fe}=50$ si ha...}
+\\
+&G_C = \frac{4g_m h_{fe} R_L}{\pi^2} = 50 \approx 17dB
+\end{align*}
+
+Omettendo $R_E$ si ha un guadagno maggiore, penalizzando però la linearità e la stabilità del sistema.
+
+\subsection{Mixer attivo doppiamente bilanciato}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.55\linewidth]{img/MixerBJT2}
+	\caption{}
+	\label{fig:mixer-008}
+\end{figure}
+
+Questa configurazione sfrutta il circuito moltiplicatore analogico a cella di Gilbert. Si omette la discussione del punto di riposo supponendo che il generatore di corrente $I_0$ polarizzi correttamente tutti i transistor.
+Come per il precedente, tutti gli ingressi sono disaccoppiati mediante balun.
+
+Lo stadio inferiore è pilotato in modo differenziale, dunque:
+\[
+\begin{cases}
+I_1 = \nicefrac{I_0}{2} + i_1\\
+I_2 = \nicefrac{I_0}{2} + i_2\\
+\end{cases}
+\mbox{dove $i_2 = -i_1$ sono le componenti alle variazioni}
+\]
+
+La tensione di uscita si può scrivere come:
+\[V_u = (V_{CC} - I^+ R_L) - (V_{CC} - I^- R_L) = 
+(I^- - I^+) R_L\]
+
+L'oscillatore locale è un'onda quadra bipolare con ampiezza tale da far saturare o interdire i transistor:
+\begin{align*}
+&V_{OL} \mbox{ alta } \Rightarrow \mbox{ $Q_3$ e $Q_6$ saturi, $Q_4$ e $Q_5$ interdetti } \Rightarrow I^- = I_1, I^+ = I_2\\
+&V_{OL} \mbox{ bassa } \Rightarrow \mbox{ $Q_4$ e $Q_5$ saturi, $Q_3$ e $Q_6$ interdetti } \Rightarrow I^- = I_2, I^+ = I_1\\
+&\mbox{Dunque } V_u = \begin{cases}
+(I_1 - I_2) R_L = + 2 i_1 R_L & \mbox{se $V_{OL}$ è alta}
+\\
+(I_2 - I_1) R_L = - 2 i_1 R_L & \mbox{se $V_{OL}$ è bassa}
+\end{cases}
+= 2 i_1 R_L \cdot q_b(t)
+\end{align*}
+
+%	\pagebreak % aggiustamento ammaiale
+
+\begin{multicols}{2}
+
+Il legame di proporzionalità fra la corrente $i_1$ ed il segnale a radiofrequenza è analogo a quello ricavato per il precedente mixer singolarmente bilanciato:
+
+$$i_1 = g_m V_{RF_2}(t) = g_m \frac{N_2}{N_1} V_{RF_2}(t)
+= \frac{g_m}{2} V_{RF_1}(t)$$
+
+Supponendo di aver effettuato adattamento complesso coniugato sull'ingresso ($R_{V_1} = R_S$) si ha che la tensione sul primario è metà della tensione a radiofrequenza, e dunque:
+
+$$i_1 = \frac{g_m}{4} V_{RF}(t)$$
+
+\columnbreak
+\null \vfill
+\includegraphics[width=\linewidth]{img/mixer-bjt2-analisi_adattamento}
+\vfill \null 
+
+\end{multicols}
+
+In definitiva...
+
+\begin{align*}
+&V_u(t) = R_L g_m \frac{{V_{RF}}_m}{2} cos(\omega_{RF}t) \cdot 2\sum_{n=1}^{\infty} \frac{sin(n\frac{\pi}{2})}{n\frac{\pi}{2}} cos(\omega_{OL} t)\\
+&{V_{u_m}} = g_m R_L ~ \frac{{v_{RF}}_m}{2} \cdot 2 \frac{2}{\pi} \cdot \frac{1}{2} = \frac{g_m R_L V_{{RF}_m}}{\pi}\\
+&P_{IF} = \frac{V_{u_m}^2}{2 R_L} =
+\frac{g_m^2 R_L^2 V_{{RF}_m}^2}{2 \pi^2 R_L}
+\qquad\qquad
+P_{A_{RF}} = \frac{V_{{RF}_m}^2}{8 R_S} \\
+&G_C = \frac{g_m^2 R_L ~ {V_{RF}}_m^2}{2\pi^2} \cdot \frac{8 R_S}{{V^2_{RF}}_m} =
+\frac{4 g_m^2 R_S R_L }{\pi^2}
+\\\\
+&\mbox{Con $g_m = \frac{I_C}{V_T} = \frac{I_0}{2 V_T}$, $h_{ie} = \frac{h_{fe}}{g_m} = \frac{V_T h_{fe}}{I_C}$ e $R_S = 2h_{ie}$}
+\\
+&G_C = 2 R_L \left(\frac{I_0}{2V_T}\right)^2
+2 \frac{V_T}{I_B} \frac{1}{\pi^2}=
+\frac{2R_L}{\pi^2} \frac{I_0}{V_T} h_{fe} \approx 50
+\end{align*}
+
+\subsubsection{Adattamento integrato}
+Possiamo fare in modo da adattare direttamente l'ingresso del mixer in modo da vedere $100\Omega$ dal primario del balun (ovvero $25\Omega$ dal secondario) senza dover inserire reti esterne, ma variando i parametri della coppia differenziale a livello integrato. 
+
+\begin{figure}[tbh]
+\includegraphics[height=13em]{img/mixer-BJT-dopp-adattamento-1}
+\hspace{\fill}
+\includegraphics[height=12em]{img/mixer-BJT-dopp-adattamento}
+\caption{Schema di massima dell'adattamento da effettuare, con le varie resistenze viste (alle variazioni!). A destra: circuito equivalente di uno dei BJT della coppia differenziale in cui si è inserita l'induttanza $L_E$ per l'adattamento.}
+\label{fig:mixer-bjt-dopp-adattamento}
+\end{figure}
+
+Inserendo una induttanza sull'emettitore dei transistor Q1 e Q2 l'impedenza $Z_{IN}$ vista da ciascuno dei due ingressi diventa
+\begin{align*}
+&V_{IN} = I_{IN} \frac{1}{j\omega C_{\pi}} + j\omega L_E \left( I_{IN} + \frac{g_m I_{IN}}{j \omega C_\pi} \right)
+\\
+&Z_{IN} = \frac{1}{j\omega C_{\pi}} + j\omega L_E + \frac{L_E g_m}{C_\pi} = j \left( \omega L_E - \frac{1}{\omega C_\pi} \right) + \omega_T L_E
+\\	
+\end{align*}
+Si noti che il termine $\frac{g_m}{C_\pi}$ ha le dimensioni di una pulsazione ed è pari, per definizione, ad $\omega_T$. È interessante che il termine $\omega_T L_E$ sia un'impedenza costante in frequenza.
+
+$L_E$ deve essere dimensionata in modo che la parte reale di $Z_{IN}$ sia $50 \Omega$:
+\[
+\Re{Z_{IN}} = \omega_T L_E = 50\Omega ~~~ \Rightarrow ~~~ L_E = \frac{50 \Omega}{2\pi f_T} \approx 50pH
+\]
+
+Poiché è comunque presente una parte immaginaria non nulla, per completare l'adattamento bisogna porre un ulteriore componente reattivo in serie all'ingresso che la azzeri.
+\[
+X_B = \omega_0 L_B = - \omega_0 L_E \left( 1 - \frac{1}{\omega_0 C_\pi} \right) \overset{\frac{1}{\omega_0C_\pi}\gg\omega_0L_E}{\simeq} \frac{1}{\omega C_\pi} = 100\Omega
+\quad \Rightarrow \quad
+L_B = \frac{X_B}{\omega_0} = \frac{1}{\omega_0^2 C_\pi}= 1nH
+\]
+Il circuito risultante è il seguente:
+\begin{figure}[tbh]
+\centering
+\includegraphics[height=13em]{img/mixer-BJT-dopp-adattamento-2}
+\caption{}
+\label{fig:mixer-bjt-dopp-adattamento-completo}
+\end{figure}
+
+Valutiamo di quanto varia il guadagno di conversione in seguito all'adattamento (ricordando che la $R_\pi$ dei BJT, in parallelo a $\nicefrac{1}{\omega C_{\pi}}$, è trascurabile rispetto a quest'ultima).
+\begin{align*}
+&{V_1}_m = \frac{{V_{RF}}_m}{2} ~~~~~ {V_2}_m = \frac{{V_{RF}}_m}{4} ~~~~~ {I_1}_m = \frac{{V_{RF}}_m}{4Z_0}\\
+& I_1(t) = \frac{I_0}{2} + \frac{V_{RF_m}}{4 Z_0} h_{fe} cos (\omega_{RF} t)
+= \frac{I_0}{2} + \frac{V_{RF_m}}{4 Z_0} \frac{g_m }{\omega_0 C_\pi} cos (\omega_{RF} t)\\
+&V_{IF}(t) = I_1(t) 2R_L q(t) =
+\left[\frac{I_0}{2} + g_m \frac{{V_{RF}}_m}{4 Z_0} \frac{1}{\omega_0 C_\varpi}\right] 2R_L cos (\omega_{RF} t) ~ 2 \sum_{n=1}^{\infty} \frac{sin \left( n \frac{\pi}{2} \right)}{n\frac{\pi}{2}}
+\\
+&{V_{IF~IF}}_m = \frac{g_m {V_{RF}}_m}{4 Z_0 \omega_0 C_\pi} ~ 2R_L~ \frac{1}{2} ~ 2 \frac{2}{\pi} = \frac{g_m {V_{RF}}_m}{\omega_0 C_\pi \pi}\\
+&G_C = \frac{g_m^2 {V_{RF}^2}_m}{4 R_L \omega_0^2 C_\pi^2 \pi^2} \cdot \frac{8 R_S}{{V^2_{RF}}_m} = 
+\frac{4g_m^2}{\omega_0^2 C_\pi^2 \pi^2}
+=
+\left(\frac{\omega_T}{\omega_0}\right)^2
+\frac{4}{\pi^2}
+\approx 40
+\end{align*}
+

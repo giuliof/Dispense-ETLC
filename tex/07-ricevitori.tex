@@ -1,0 +1,634 @@
+\chapter{Ricevitori}
+
+Un ricevitore radio è un sistema in grado di ricevere, amplificare e demodulare un segnale radio
+avente caratteristiche prefissate in termini di occupazione di banda e di schema di modulazione, all'interno di una o più gamme (intervalli) di frequenza. Per fare ciò il ricevitore deve essere in
+grado almeno di:
+\begin{itemize}
+	\item ricevere il segnale elettromagnetico mediante un'antenna;
+	\item amplificarlo mediante un amplificatore a radiofrequenza con cifra di rumore adeguata;
+	\item filtrare il singolo canale che si desidera ricevere, introducendo una attenuazione di livello
+	adeguato nei confronti di tutti gli altri segnali;
+	\item demodularlo estraendo dal segnale modulato le stesse informazioni contenute nel segnale in
+	banda base prima della sua modulazione e trasmissione.
+\end{itemize}
+
+\section{Parametri caratterizzanti di un ricevitore}
+I principali parametri che caratterizzano il front end di un ricevitore sono elencati e brevemente
+descritti nel seguito.
+\paragraph{Selettività:} misura la capacità del ricevitore di reiettare i canali indesiderati.
+Si misura come segue: con un generatore si impone un certo segnale a frequenza $f_{RF}$ e si rileva la
+potenza in uscita dall'AFI in condizioni di perfetta sintonia (potenza massima in uscita).
+Quindi, mantenendo la sintonia dell'oscillatore locale si varia la frequenza del segnale in ingresso di
+una quantità $\Delta f$ e si rileva la nuova potenza del segnale in uscita dall'AFI senza modificare la
+sintonia. Adesso il segnale in uscita all'AFI non è più centrato su $f_{IF}$, ma spostato di una quantità
+pari a $\Delta f$ e, di conseguenza, l'uscita risulta attenuata rispetto al caso precedente.
+La selettività è data dal rapporto, espresso in dB, di queste due potenze rispetto al $\Delta f$ (ad es: 30dB a
+100kHz).
+\paragraph{Sensibilità:} è la potenza disponibile in ingresso che garantisce un rapporto segnale-rumore
+prefissato sull'uscita a frequenza intermedia.
+%S FI
+%= R
+%N FI
+In uscita dall'AFI si ha un segnale a cui è sovrapposto del rumore. Il segnale è intelligibile se il
+rapporto segnale-rumore è maggiore di una certa soglia. Un valore abbastanza frequente di tale
+soglia può essere 10.
+Variando l'ampiezza del segnale in ingresso si cerca il valore in corrispondenza del quale il
+rapporto segnale-rumore in uscita è proprio quello voluto (ad es 10). La potenza disponibile
+corrispondente a tale ampiezza stabilisce la sensibilità.
+
+\paragraph{Cifra di rumore:} con ovvio simbolismo si definisce come segue $NF_{ric} = \frac{\nicefrac{S_{I_{RF}}}{N_{I_{RF}}}}{\nicefrac{S_{U_{RF}}}{N_{U_{RF}}}}$
+\paragraph{Reiezione alla frequenza immagine:}
+Si definisce con un esperimento. Si mette in ingresso un generatore di segnale a frequenza $f_{RF}$. Si
+sintonizza l'OL e si misura la potenza sull'uscita a frequenza intermedia $P_{IF~RF}$. Senza cambiare la
+sintonia si manda in ingresso un segnale alla frequenza immagine $f_{IM}$ e si rimisura il nuovo valore
+della potenza sull'uscita a frequenza intermedia $P_{IF~IM}$. La reiezione alla frequenza immagine si calcola come $10\log\left(\frac{P_{IF~RF}}{P_{IF~IM}}\right)$
+
+Allo stesso modo si opera inviando in ingresso, invece che la frequenza immagine, quella intermedia $f_{IF}$ . Si definisce, con ovvio simbolismo la \textbf{reiezione alla frequenza intermedia} come $10\log\left(\frac{P_{IF~RF}}{P_{IF~IF}}\right)$. Il fatto che la $f_{IF}$ sia presente sull'uscita a frequenza intermedia è dovuto ad un cattivo isolamento della porta a radiofrequenza su quella a frequenza intermedia del mixer.
+
+
+\section{Filtri monolitici passivi}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/filtro-monolitico-quarzo}
+	\caption{}
+	\label{fig:filtro-monolitico-quarzo}
+\end{figure}
+Esistono diverse tecnologie per realizzare filtri a frequenza fissa con caratteristiche particolarmente
+spinte in termini di selettività. Fra queste la più diffusa, anche per il costo abbastanza contenuto, è
+quella basata sull'utilizzo di cristalli di quarzo opportunamente sagomati. Il materiale utilizzato ha
+caratteristiche piezoelettriche, ovvero a fronte dell'applicazione di una tensione tra due facce
+di un parallelepipedo il materiale piezoelettrico presenta una microdeformazione e, viceversa, se,
+applicando una forza opportuna si causa una deformazione, allora si osserva su direzioni ortogonali
+a quelle della deformazione, una differenza di potenziale. Si tratta, di fatto, di un sistema in grado di
+trasformare sollecitazioni elettriche in meccaniche e viceversa. La struttura di un filtro al quarzo è
+rappresentata in maniera schematica in figura.
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[height=8em]{img/filtro-monolitico-quarzo-1}
+	\hfill
+	\includegraphics[height=8em]{img/filtro-monolitico-quarzo-2}
+	\caption{}
+	\label{fig:filtro-monolitico-quarzo-1}
+\end{figure}
+
+La sollecitazione meccanica causata dall'applicazione di
+una tensione variabile $V_{IN}$ tra due metallizzazioni deposte ad una estremità del cristallo di quarzo, si propaga attraverso lo stesso e viene rilevata tra due placche metalliche poste all'altra estremità sotto forma di tensione variabile $V_U$.
+Il comportamento del sistema è molto selettivo in frequenza
+ed il modulo della risposta $\nicefrac{V_U}{V_{IN}}$ ha un andamento del tipo rappresentato in figura.
+
+
+%I filtri al quarzo, da unto di vista elettrico, possono essere schematizzati con una rete a scala in cui i
+%tratti orizzontali sono costituiti da circuiti risonanti serie e quelli verticali da circuiti risonanti
+%parallelo, ambedue alla stessa frequenza di risonanza f 0 .
+
+Un'altra tipologia di filtri monolitici per radiofrequenza è quella dei Filtri SAW (Surface Acustic Wave). Si tratta di blocchi di materiale piezoelettrico su cui sono realizzate metallizzazioni con opportune geometrie interdigitate che permettono di ottenerere una risposta in frequenza selettiva e sagomata in maniera particolare. Sono disponibili in commercio fino a frequenze di qualche GHz.
+
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		& $f_0$ & Q & Att. & Costo indicativo \\ 
+		\hline 
+		Quarzo & $10\div100MHz$ & 1000 & $\simeq1dB$ & qualche euro \\ 
+		\hline 
+		Ceramico & $1\div10MHz$ & $> 200$ & $\simeq2dB$ & meno di qualche euro \\ 
+		\hline 
+		SAW & $1GHz$ & 500 & $\simeq1dB$ & più di qualche euro \\ 
+		\hline 
+		a Microstriscia & $40GHz$ & $> 200$ & $\simeq2\div5dB$ & praticamente gratuiti \\ 
+		\hline 
+	\end{tabular} 
+\end{center}
+
+\section{Ricevitore supereterodina}
+L'architettura ampiamente più diffusa della parte frontale (dall'antenna al demodulatore) di un ricevitore è quella nota come supereterodina, che risolve nella maniera più economica e	tecnologicamente abbordabile il problema dell'elevata selettività\footnote{Come vedremo in seguito, per selettività si intende la capacità del ricevitore di trattare il segnale che si desidera ricevere in maniera \textit{differenziata} da quelli che costituiscono interferenza e dovrebbero essere idealmente eliminati.} richiesta in molte applicazioni.
+%Questa architettura, affermatasi fin dagli inizi dello sviluppo della radio, fu ideata da Lucien Levy nel 1917 ma fu brevettata da Edwin Howard Armstrong nel 1918. Questi fece sua l'idea di Levy che solo nel 1928, dopo una lunga vertenza giudiziaria, venne riconosciuto come legittimo inventore.
+Immaginiamo di avere, nello spettro delle frequenze, un certo numero di stazioni su cui è possibile sintonizzarsi. Utilizzare una batteria di filtri a frequenza fissa, uno per ciascuna stazione, sarebbe antieconomico e limiterebbe il numero massimo di canali. D'altro canto realizzare un solo filtro molto selettivo, a frequenza variabile e che copra tutto lo spettro radio sarebbe troppo difficile e costoso, soprattutto con le tecnologie disponibili agli albori della radio.\\
+Sì pensò, quindi, ad un sistema in grado di traslare la banda del canale su cui si vuol sintonizzarsi intorno ad una frequenza fissa più bassa, detta frequenza intermedia $f_{IF}$. Tutti i circuiti di filtraggio e demodulazione successivi opereranno attorno a tale frequenza.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/supereterodina}
+	\caption{}
+	\label{fig:supereterodina}
+\end{figure}
+
+
+%Questo risultato si ottiene utilizzando un mixer e scegliendo opportunamente la frequenza $f_{OL}$ dell'oscillatore locale. Posizionando intorno alla frequenza $f_{IF}$ un filtro selettivo, sarà poi possibile filtrare il segnale desiderato, eliminando tutti quelli che si trovano fuori dalla banda del filtro. Per ottenere lo stesso risultato sarebbe, altrimenti, necessario utilizzare un filtro passa banda con frequenza centrale pari a $f_{RF}$ da posizionare subito dopo l'antenna o il LNA (v. figura). Questa seconda soluzione è estremamente difficile e più costosa da realizzare. .
+Per fare un esempio, immaginiamo di voler selezionare un singolo canale per una comunicazione GSM\footnote{Global System for Mobile Communications, standard per la comunicazione mobile.}. Questo protocollo ha canali che si estendono nell'intervallo 930$\div$960MHz, ed ognuno di essi ha una banda $B=200 KHz$. Per ottenere il risultato sarebbe necessario un filtro a frequenza variabile su tutto l'intervallo frequenziale (circa 30Mhz), richiedendo un $Q = \frac{f_{max}}{B} \simeq 5000$. Si tratta di una soluzione non realizzabile in pratica, poiché i componenti reattivi variabili limitano il Q a qualche centinaio.\\
+Quindi, invece di spostare il filtro sulle frequenze volute si fa la cosa opposta: si trasla il segnale a bassa frequenza dove può essere filtrato più agilmente.
+%Per traslare il segnale lo si moltiplica per un'oscillazione a frequenza opportuna in modo che uno dei prodotti della moltiplicazione (tipicamente il segnale a frequenza differenza) cada in corrispondenza della frequenza intermedia prescelta. Infatti, gli oscillatori variabili sono più facilmente realizzabili dei filtri a frequenza variabile. Lo schema base di un ricevitore supereterodina è rappresentato in figura-
+
+\subsection{Problema della frequenza immagine}
+Questa architettura introduce, però, una criticità: sia il canale che si desidera ricevere che un potenziale interferente situato in posizione simmetrica rispetto all'oscillatore locale vengono traslati dal mixer alla medesima frequenza intermedia.
+L'effetto è facilmente visibile nell'immagine che segue, relativa allo standard radio AM: al servizio è destinata la banda 540 kHz $\div$ 1.6 MHz, sulla quale sono identificati 106 canali distanziati da 10 KHz di \textit{banda di guardia}. Ciascun canale ``ospita" un segnale modulato in ampiezza da un segnale in banda audio, indicativamente da 300 Hz a 4.5 kHz.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/supereterodina-AM-immagine}
+	\caption{}
+	\label{fig:supereterodina-am-immagine}
+\end{figure}
+
+
+L'operazione di moltiplicazione trasla intorno ad $f_{IF}$ sia il segnale utile, centrato ad $f_{RF}$, sia l'interferente simmetrico rispetto ad $f_{OL}$, centrato intorno alla cosiddetta \textit{frequenza immagine} $f_{IM} = f_{OL}+f_{IF}$.
+\\
+Per risolvere il problema, basta inserire, prima del mixer, un filtro che introduca una attenuazione adeguata in corrispondenza della frequenza immagine. L'architettura del front end viene modificata come in figura:
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/supereterodina-singolaIF}
+	\caption{}
+	\label{fig:supereterodina-singolaif}
+\end{figure}
+
+
+Il filtro per la frequenza immagine (di norma denominato \textit{filtro a radiofrequenza} per distinguerlo
+da quello a frequenza intermedia detto anche \textit{filtro di canale}) deve avere selettività adeguata e attenuare la frequenza immagine di una quantità fra 30$\div$70dB, a seconda delle applicazioni.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/supereterodina-AM}
+	\hfill
+	\includegraphics[width=0.2\linewidth]{img/supereterodina-filtro-accordabile}
+	\caption{Distribuzione frequenziale per la trasmissione AM. A destra, implementazione di filtro accordabile.}
+	\label{fig:supereterodina-am}
+\end{figure}
+
+Come si può osservare, l'intervallo su cui sono distribuiti i canali e quello delle frequenze immagine sono parzialmente sovrapposti e questo impedisce l'uso di un filtro a frequenza fissa con una banda che copra tutti i canali. Nel caso in cui la frequenza intermedia sia abbastanza elevata e i due intervalli siano sufficientemente lontani, il filtro RF può essere a frequenza fissa.
+\\
+Un semplice filtro accordabile può essere realizzato con la topologia illustrata in figura. La capacità variabile era ottenuta in passato con particolari condensatori a facce piane parallele la cui geometria è modificabile meccanicamente; ad oggi è più pratico l'uso di un varicap. In ambedue i casi, comunque, è difficile ottenere fattore di qualità $Q > 30$. Valori più elevati, sempre utilizzando tecnologie a parametri concentrati, possono essere ottenuti in filtri a frequenza centrale fissa: $Q \sim 100 \div1000$. Molto meglio si può fare con filtri monolitici, come quelli al quarzo, che permettono di superare agevolmente il valore di 1000.
+
+\subsection{Architettura a doppia conversione}
+
+Sembrerebbe risolto, con il ricevitore supereterodina e l'utilizzo del filtro a radiofrequenza, il problema della ricezione selettiva del canale. Le cose, invece, non stanno esattamente così poiché la scelta della $f_{IF}$ può comportare delle complicazioni.\\
+Facciamo, ancora una volta, riferimento ad un caso reale: il servizio di comunicazione tra stazione a terra e aeromobile usato negli aeroporti. A questo servizio è assegnata la banda 117 $\div$ 136 MHz, e a ciascun canale spetta una $B_{ch} = 10kHz$. Immaginiamo di disporre di filtri RF accordabili con un Q massimo pari a $Q_V = 30$ e filtri a frequenza centrale fissa con $Q_F = 100$.
+\\
+La frequenza intermedia $f_{IF}$ è legata al fattore di qualità del filtro AFI e alla larghezza di banda del singolo canale $B_{ch}$ secondo la relazione
+\[
+Q_F =\frac{f_{IF}}{B_{ch}}
+\quad\Rightarrow\quad
+f_{IF} = \frac{Q_F}{B_{ch}} = \frac{100}{10 kHz} = 1 MHz
+\]
+
+Per ricevere le frequenze nell'intervallo [117 $\div$ 136] MHz dovremo traslare il canale da ricevere a 1MHz. La banda coperta dall'OL sarà [118 $\div$ 137] MHz e l'intervallo delle frequenze immagine sarà [119$\div$ 138] MHz. Quanto appena detto è schematizzato nella figura seguente:
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/supereterodina-aeromobile}
+	\caption{}
+	\label{fig:supereterodina-aeromobile}
+\end{figure}
+
+Gli intervalli di frequenza delle frequenze immagine e delle radiofrequenze si sovrappongono: per questo è necessario
+utilizzare un filtro a RF con frequenza centrale variabile, il quale presenterà un $Q_{max} = 30$. In tal caso la banda passante del filtro sarà:
+\[
+Q = \frac{f_{RF_{max}}}{B_{RF}}
+\quad\Rightarrow\quad
+B_{RF} =
+\frac{f_{RF_{max}}}{Q} = \frac{136 MHz}{30}
+= 4.5 MHz
+\]
+Dunque, il filtro centrato a 136 Mhz ha una banda che comprende anche la frequenza immagine.
+%Pertanto la f IM che si trova a 138 MHz, quindi dentro la banda del filtro RF, e non viene attenuata,
+%mentre si desidera, tipicamente, introdurre un'attenuazione della f IM di almeno 40dB.
+
+Il problema si risolve modificando la struttura originaria, introducendo la tecnica della doppia conversione. Si utilizza una prima frequenza intermedia più elevata, in modo da allontanare il canale immagine dalla banda a radiofrequenza (si ricordi la relazione $f_{IM} = f_{RF} + 2 f_{IF}$). Qui si può operare un filtraggio di canale.\\
+Quindi si opera una seconda traslazione fino ad una seconda frequenza intermedia, questa volta utilizzando un oscillatore locale fisso.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/supereterodina-doppiaIF}
+	\caption{}
+	\label{fig:supereterodina-doppiaif}
+\end{figure}
+
+
+Nella progettazione bisognerà trovare un compromesso nella scelta delle frequenze intermedie: né troppo basse da rendere complessa la reiezione del canale immagine, né elevate a tal punto da richiedere i relativi filtri di canale a Q elevati.
+\\
+Vediamo un possibile dimensionamento riprendendo l'esempio precedente.
+
+In uscita dal filtro IF \ding{173}, centrato a frequenza $f_{IF_2}$, avremo il canale che si desidera ricevere. Il valore di questa frequenza intermedia è fissato dalla relazione:
+\[f_{IF_2} = \frac{Q_F}{B_{ch}} = 1 MHz\]
+La prima frequenza intermedia $f_{IF_1}$ si ricava imponendo che la frequenza immagine della prima conversione $f_{IM_1}$ sia sufficientemente lontana dal canale che si desidera ricevere centrato su $f_{RF}$, per esempio:
+\[f_{IM_1} = 1.5 \cdot f_{F_{RF}} = 204 MHz
+\qquad \mbox{(si è assunto $f_{F_{RF}}$ = 136 MHz che è la situazione peggiore)}\]
+
+L'oscillatore locale si troverà a metà strada tra $f_{RF}$ e $f_{IM}$:
+\[
+f_{IF_1} = \frac{|f_{RF}-f_{IM}|}{2}=
+\frac{204-136}{2} MHz = 34MHz
+\]
+e dovrà coprire un certo intervallo, dato da:
+\begin{align*}
+f_{OL_{min}} &= 117+34 = 151MHz\\
+f_{OL_{max}} &= 136+34 = 170MHz\\
+\end{align*}
+Invece, l'oscillatore locale \ding{173} produrrà una frequenza fissa pari a 35MHz, per la traslazione dalla prima frequenza intermedia ($f_{IF_1}= 34MHz$) fino a 1MHz.
+Potrebbe ancora verificarsi il problema della frequenza immagine sulla seconda conversione: è opportuno verificare che ciò non accada. Il filtro AFI \ding{172} deve essere in grado di reiettare la seconda frequenza immagine $f_{IM_2}$. È un filtro a frequenza fissa con $Q>100$ per cui:
+\[ B_{AFI_1} = 340 kHz = \frac{f_{IF_1}}{Q} = \frac{34Mhz}{100}
+\]
+La $f_{IM_2}$ è chiaramente fuori dalla banda del filtro che presenterà dei fianchi molto ripidi ($Q>100$) e, pertanto verrà pesantemente attenuata. Per una valutazione esatta bisognerebbe, comunque, conoscere con precisione la tipologia e l'ordine del filtro utilizzato.
+
+Potrebbe accadere (anche se è estremamente raro) che due conversioni non siano sufficienti, in tal
+caso si può arrivare a 3 o più. L'attuale disponibilità di filtri monolitici a frequenza centrale fissa e a
+basso costo scongiura, di fatto, questa eventualità.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/raster/istogrammi-brutti}
+	\hspace{2em}
+	\includegraphics[width=0.3\linewidth]{img/raster/istogrammi-brutti1}
+	\caption{}
+	\label{fig:istogrammi-brutti1}
+\end{figure}
+
+\section{Omodina}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/omodina}
+	\caption{il primo filtro (a RF) è bandpass}
+	\label{fig:omodina}
+\end{figure}
+In questo caso la frequenza intermedia è nulla in quanto l'oscillatore locale lavora alla stessa frequenza della portante.
+Il segnale è direttamente traslato in banda base, perciò il filtro di canale è un passa-basso. Anche se deve essere molto selettivo è comunque integrabile perché lavora in bassa frequenza (ad esempio 200kHz), e può essere realizzato anche mediante la tecnica dei condensatori commutati.
+
+Il problema della frequenza immagine non sussiste, però al primo stadio si pone comunque un filtro a radiofrequenza che copra la banda di interesse in modo da arrestare i cosiddetti \textit{blockers}, interferenti ad elevata potenza che trasmettono su bande non d'interesse, ma che potrebbero portare l'ARF in saturazione.
+%Per limitare questo problema si dovrebbe lavorare con un AFI in grado di filtrare l'intervallo che va dalla continua fino alla frequenza di corner del rumore flicker, ovvero, utilizzare un valore della fIF di alcune centinaia di kHz: tipicamente f IF = 200 kHz ÷ 1 MHz . Questa scelta porta ad una architettura diversa denominata ?Low IF?.
+
+Questa architettura soffre però di alcuni problemi:
+\begin{itemize}
+	\item Il filtro di canale soffre di rumore flicker. Il che è problematico perché compare già al primo stadio, a differenza del supereterodina dove lo ritroviamo solo nell'ultimo stadio in bassa frequenza, quando il segnale è già stato ``rinforzato". Per ridurre il problema bisognerebbe amplificare immediatamente, a radiofrequenza, ed è ormai noto che amplificatori con alto guadagno sulle alte frequenze siano scarsamente efficienti;
+	\item 
+	Si ha accoppiamento dell'oscillatore locale con l'ingresso del ricevitore che è sintonizzato sulla stessa frequenza. Essendo il primo un segnale di notevole potenza e l'accoppiamento controllato da fenomeni aleatori (tipo la posizione del ricevitore, l'orientamento dell'antenna, ecc,) questo fenomeno può produrre in uscita al mixer una tensione \textit{quasi continua} (DC offset) nociva alla corretta demodulazione:
+	\\
+	Ipotizzando l'uso di una cella di Gilbert, $V_{OL}$ deve essere un segnale di 350 mV di ampiezza
+	\[
+	V_{OL_m} = 350mV \Rightarrow P_{A_{OL}} = ...= \frac{V_{OL_m}^2}{8R_S} \overset{R_S = 50 \Omega}{=} -8dBm)
+	\]
+	Il segnale che arriva è amplificato di una ventina di dB. Il segnale di oscillatore locale però si accoppia al segnale di ingresso e dà origine ad una componente continua che dipende dall'ampiezza di $V_{OL}$ ($V_{OL} cos (...) \cdot V_{OL} cos (...)$, l'oscillatore locale viene moltiplicato per sé stesso). Dà luogo ad offset del segnale.\\
+	Ma l'accoppiamento c'è anche nei mixer usati in eterodina: però in quel caso la frequenza dell'oscillatore locale è diversa da quella del segnale in ingresso, si mette un "filtraccio" a ridosso del moltiplicatore che sbatta via la frequenza di oscillatore locale.
+\end{itemize}
+
+%L'oscillatore locale è alla stessa frequenza della portante. Non c'è problema della frequenza immagine
+
+%Attualmente si ha...
+%FDMA (Frquency Division Multiple Access)
+%Downlink e Uplink su frequenze diverse
+%( boh non so che c'entri)
+
+%Il filtro post mixer è un passa basso con limite di banda $f_{MAX}$, tipicamente pari a qualche centinaia di kHz, quindi facilmente integrabile.
+
+%A parte antenna e filtro a radiofrequenza, sta tutto nel chip. Filtro a condensatori commutati
+
+%Problema: oscillazioni con pari distanza $\Delta f$ dall'oscillatore locale vengono riportati sovrapposti in banda base.
+%Soluzione: si usa un mixer doppio in fase e quadratura.
+%$$cos\alpha cos \beta = \frac{1}{2}  \left[ cos(\alpha + \beta) + cos(\alpha - \beta) \right]$$
+%$$
+%cos\alpha sin \beta = \frac{1}{2}  \left[ cos(\alpha + \beta - \frac{\pi}{2}) + cos(\alpha - \beta + \frac{\pi}{2}) \right]
+%$$
+
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=0.3\linewidth]{img/raster/omodina1}
+%	\caption{fa abbastanza schifo}
+%	\label{fig:omodina1}
+%\end{figure}
+
+%in ingresso: $cos(\omega_0t \pm 2 \pi \Delta f t)$
+
+%in uscita pesco solo quello a frequenza differenza:
+%$$cos(\pm 2 \pi \Delta f t)$$ 
+%$$sin(\mp 2 \pi \Delta f t)$$
+
+%Problemi:
+\section{Architettura Low IF}
+Questa architettura è caratterizzata da un valore della frequenza intermedia talmente basso da rendere praticamente impossibile la realizzazione del filtro a radiofrequenza ($f_{IF} = 100 \div 1000 kHz$, che risulta troppo prossima alla frequenza immagine). Oltre ad essere estremamente selettivo il filtro dovrebbe essere a frequenza centrale variabile perché il range RF si sovrappone al range IM.\\
+Il problema si risolve  utilizzando un particolare tipo di mixer denominato \textit{Mixer a Reiezione della Frequenza Immagine} che è in grado di trattare in maniera differenziata il canale centrato sulla $f_{RF}$, che si trova a sinistra della frequenza dell'oscillatore locale, dal canale immagine che si trova in posizione simmetrica a destra.
+In questa architettura non si ha più bisogno di un filtro fortemente selettivo per la reiezione della frequenza immagine, ma permane comunque un filtro RF per l'eliminazione dei blockers.
+
+\begin{figure}[h]
+	\centering
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.60\linewidth]{img/lowIF}}
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.35\linewidth]{img/lowIF-mixer-reiezione}}
+	\hspace{\fill}
+	\caption{}
+	\label{fig:lowif1}
+\end{figure}
+
+\paragraph{Mixer a reiezione della frequenza immagine}
+Ne è illustrata la struttura di massima in figura \ref{fig:lowif1}. Se non c'è frequenza immagine:
+
+\begin{align*}
+\displaybreak[3]
+%\omega_{IM} &= \omega_{RF}  + 2(\omega_{OL} - \omega_{RF}) = ... = 2 \omega_{OL} -  \omega_{RF} 
+%\\
+V_1 &= \frac{1}{2} \cos [(\omega_{OL}-\omega_{RF}) t]
+\\
+V_2 &= \frac{1}{2} \sin[(\omega_{RF}-\omega_{OL}) t]
+\\
+V_3 &= \frac{1}{2} \sin[(\omega_{RF}-\omega_{OL})t - \nicefrac{\pi}{2}] = -\frac{1}{2} \cos[(\omega_{OL} - \omega_{RF}) t ]
+\\
+V_{OUT} &= V_2-V_3 = \cos(\omega_{OL} - \omega_{RF})t
+\end{align*}
+Se entra anche la frequenza immagine, ossia un'oscillazione a pulsazione $\omega_{IM}$:
+\begin{align*}
+V_1 &= 
+\frac{1}{2} \cos[(\omega_{OL} - \omega_{IM})t]
+=\frac{1}{2} \cos[(\omega_{OL} - 2 \omega_{OL} + \omega_{RF})t] = \frac{1}{2}\cos(\omega_{IF}t)
+\\
+V_2 &= \frac{1}{2} \sin [(\omega_{IM}-\omega_{OL})t] = -\frac{1}{2} \sin [(2 \omega_{OL} - \omega_{RF} - \omega_{OL})t] = - \frac{1}{2} \sin \omega_{IF}t
+\\
+V_3 &= \frac{1}{2} \cos\omega_{IF}t
+\\
+V_{OUT} &= 0
+\end{align*}
+
+La frequenza immagine viene cancellata.
+
+L'implementazione dei blocchi è in parte nota, le portanti sfasate possono essere realizzate con un PLL. Lo sfasamento del segnale \ding{173} viene effettuato tramite un filtro polifase che emula un filtro di Hilbert.
+\\
+Affinché il sistema funzioni correttamente bisogna avere
+pari attenuazioni o amplificazioni sui due canali, le portanti esattamente in quadratura e sfasamento fra \ding{173} e \ding{174} di $\nicefrac{\pi}{2}$.
+
+Viene utilizzato prevalentemente quando la reiezione della frequenza immagine deve essere compresa fra i $35 \div 50 dB$ (tipicamente 40dB).
+
+%In figura è schematizzato l'intero transceiver integrato che non richiede alcuna uscita intermedia dal chip e permette di conseguire enormi vantaggi in termini di costo, ingombro, consumo ed affidabilità.
+
+%Frequenza intermedia bassa , di poco maggiore a metà della banda di canale. Soluzione totalmente integrata, il filtro di canale si fa a condensatori commutati.
+
+%Amplificatore video: banda dalla continua fino a qualche MegaHz, detto così perché usato nelle televisioni BW che dovevano trasmettere sia immagini fisse che rapidamente variabili.
+
+\section{Esempi di ricevitori per alcuni servizi di radiotrasmissione}
+In questa sezione esaminiamo alcuni esempi di ricevitori per determinati standard trasmissivi.
+
+\subsection{Ricevitori per radio AM a onde medie}
+Questo standard prevede di utilizzare un range di frequenze fra 540 kHz $\div$ 1.6 MHz. Ciascun canale porta l'informazione modulata in ampiezza a doppia banda laterale con portante relativa ad un segnale audio la cui banda va da 300 Hz a 9.3 kHz e, pertanto, occupa una banda di 9 kHz. Le
+frequenze centrali di canali adiacenti distano 10 kHz (banda di guardia).
+Nel dimensionare il front-end partiamo dall'ipotesi, realistica ai tempi in cui lo standard è nato, di poter disporre per il filtraggio a frequenza intermedia di filtri con $Q_F = 50$. Sotto queste condizioni la frequenza centrale $f_{IF}$ dello stadio a frequenza intermedia è data dalla seguente relazione:
+\[
+Q_F = \frac{f_{IF}}{B_{ch}}
+\quad\Rightarrow\quad
+f_{IF} = Q_{AFI}  B_{ch} = 450 kHz
+\qquad
+\mbox{Per un accordo fra costruttori si usa $f_{IF}= 455kHz$}
+\]
+Talvolta il LNA non viene utilizzato su questo tipo di applicazione poiché nel range di frequenze assegnate al servizio i disturbi sono di livello elevato e la potenza disponibile del segnale in antenna deve essere abbastanza alta per permettere la ricezione, per cui non è richiesta bassa cifra di rumore.
+
+.....figura.....
+
+In tal caso il filtro a radiofrequenza è seguito direttamente dal mixer. La demodulazione del segnale AM si può effettuare secondo due modalità: con un rivelatore asincrono costituito da un circuito analogo al raddrizzatore a filtro capacitivo a singola semionda oppure con un rivelatore sincrono (con recupero di portante).
+
+\subsubsection{Rivelatore di inviluppo}
+Questo tipo di demodulatore è detto asincrono perché non richiede la ricostruzione della portante. Forniamo alcune indicazioni per il suo corretto dimensionamento:
+$\tau=RC$ è la costante di tempo con cui il condensatore si scarica sulla resistenza R quando il diodo si sgancia. R deve essere di valore abbastanza elevato affinché, durante la scarica, la tensione sul condensatore non si discosti troppo dall'inviluppo del segnale in ingresso. Poiché l'equazione della scarica è data da $V_C = V_{max}e^{-\frac{t}{\tau}}$ si deve avere $\tau \gg T_{IF}=\nicefrac{2\pi}{f_{IF}}$ (dunque $RC \gg \nicefrac{2\pi}{\omega_{IF}}$).
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/ricevitore-rivelatore-inviluppo}
+	\includegraphics[width=0.45\linewidth]{img/ricevitore-inviluppo}
+	\caption{}
+	\label{fig:ricevitore-rivelatore-inviluppo}
+\end{figure}
+
+
+La costante di tempo deve avere anche un limite superiore altrimenti la scarica risulterebbe troppo lenta e la tensione $V_C$ non riuscirebbe a seguire l'inviluppo; in altri termini, il demodulatore tenderebbe a funzionare come rivelatore di picco. Per valutare il massimo valore di $\tau$ compatibile con un corretto funzionamento del demodulatore imponiamo la seguente condizione: la velocità di scarica deve essere, in modulo, maggiore della velocità con la quale varia l'inviluppo (ossia la derivata rispetto al tempo dell'inviluppo medesimo). Supponiamo, per semplificare, che l'inviluppo abbia andamento cosinusoidale con pulsazione $\Omega$. Si suppone che $t^*$ sia l'istante di inizio della scarica.
+
+\begin{align*}
+x(t) &= cos(\Omega t)
+\\
+\left. \frac{\partial}{\partial t}(inviluppo)\right|_{t=t^*} &= - V_{AM}  m_a \Omega\sin(\Omega t^*)
+\\
+\left. \frac{\partial}{\partial t}(scarica)\right|_{t=t^*} &=
+\left. \frac{\partial}{\partial t}
+\left\lbrace
+V_{AM}[1+m_a\cos(\Omega t^*)]e^{-\frac{t}{\tau}}
+\right\rbrace
+\right|_{t=t^*}
+= -\frac{V_{AM}}{\tau} [1+m_a\cos(\Omega t^*)]
+\end{align*}
+
+Ricavati i due termini si impone la condizione:
+\[
+\frac{V_{AM}}{\tau} [1+m_a\cos(\Omega t^*)]
+>
+V_{AM}  m_a \Omega\sin(\Omega t^*)
+\qquad\Rightarrow\qquad
+\tau=\frac{1+m_a\cos(\Omega t^*)}{m_a\Omega\sin(\Omega t^*)}
+\]
+
+Per ogni $t^*$ si ottiene un $\tau$ diverso: affinché la condizione sia sempre verificata è necessario e sufficiente che lo sia in corrispondenza del valore di $t^*$ per cui l'espressione a destra della disuguaglianza è minima. Si cerca il minimo in funzione di $t^*$:
+\begin{align*}
+&
+\frac{\partial}{\partial t^*}
+\left(
+\frac{1+m_a\cos(\Omega t^*)}{m_a\Omega\sin(\Omega t^*)}
+\right) = 0
+\\&
+-m_a\Omega\sin(\Omega t^*) \cdot m_a\Omega\sin(\Omega t^*)
+-[1+m_a\cos(\Omega t^*)]\cdot m_a \Omega^2\cos(\Omega t^*)
+=0
+\\&
+-m_a^{\cancel{2}}\bcancel{\Omega^2} \sin^2(\Omega t^*)
+- \cancel{m_a} \bcancel{\Omega^2}\cos(\Omega t^*)
+- m_a^{\cancel{2}} \bcancel{\Omega^2}\cos^2(\Omega t^*) = 0
+\\&
+\cos(\Omega t^*) = -m_a \cancel{[\sin^2(\Omega t^*)+\cos^2(\Omega t^*)]}
+\end{align*}
+Dunque $t^*$ ha il suo massimo quando $\cos(\Omega t^*) = -m_a$. Inserendo quanto ricavato nella condizione sul $\tau$ ricavata in precedenza, si ha che:
+\[
+\tau < \frac{1-m_a^2}{m_a\Omega\sqrt{1-m_a^2}} = 
+\frac{\sqrt{1-m_a^2}}{m_a\Omega}
+\]
+Nel caso in cui il segnale non sia monocromatico, la valutazione di massimo si fa sostituendo a $\Omega$ la $\Omega_{max}$ del segnale.
+
+%\paragraph{Esempio:} Supponiamo $m_a = 0.9$ e $\Omega_{max}= 2\pi \cdot 500kHz$
+%\[
+%\tau_{max} = \frac{\sqrt{1-m_a^2}}{m_a\Omega_{max}}
+%\simeq 100\mu S
+%\]
+Facciamo adesso alcune considerazioni sull'ampiezza che l'inviluppo deve assumere per una corretta rivelazione. Immaginando di utilizzare un diodo al germanio con $V_\gamma = 0.3 V$, deve risultare
+\[
+V_{IN} = V_{AM}[1+m_ax(t)]\cos(\omega_{IF}t) \gg V_\gamma
+\quad \forall t
+\]
+L'inviluppo varia con $x(t)$, ma sappiamo che $|x(t)| < 1$ quindi nel caso peggiore si ha $x(t) = -1$.
+%Mantenendo le ipotesi del precedente esempio otteniamo
+Supponendo $m_a = 0.9$ otteniamo
+\[
+V_{AM}(1-0.9) > 10V_\gamma = 3V
+\qquad\Rightarrow\qquad
+V_{AM} > 30V
+\]
+Per ottenere questo risultato, ovvero un amplificatore a frequenza intermedia con ampiezza
+massima della tensione di uscita pari a 30 V, bisognerebbe utilizzare una tensione di alimentazione
+ancora maggiore: soluzione incompatibile con i limiti di ingombro, peso e autonomia di qualunque
+sistema portatile. Per ovviare a questo inconveniente si può utilizzare un altro tipo di rivelatore:
+quello sincrono
+
+\subsubsection{Rivelatore sincrono}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/ricevitore-AM-sincrono}
+	\caption{Il filtro passa basso in uscita arresta le componenti a $2\omega_{IF}$.}
+	\label{fig:ricevitore-am-sincrono}
+\end{figure}
+
+Moltiplicando il segnale AM $V_{AFI} = V_{AM}[1+m_ax(t)]\cos(\omega_{IF}t)$ per la portante $\cos(\omega_{IF}t)$ si ottiene, a seguito dei dovuti filtraggi, una traslazione in banda base di $x(t)$.
+\\
+Il recupero della portante può essere fatto con un semplice comparatore, anche perché il mixer è solitamente controllato in commutazione.
+
+\subsubsection{Controllo automatico del guadagno}
+
+Esaminiamo, adesso, un problema tipico dei ricevitori per segnali modulati in ampiezza: quello del
+fading. Poiché le caratteristiche del canale variano in maniera imprevedibile per diverse ragioni,
+l'ampiezza della portante è soggetta ad una variabilità che può essere anche di ordini di grandezza
+nel giro di pochi minuti (ad esempio nel caso di un ricevitore su un mezzo che si muove ad alta
+velocità in ambiente urbano).
+% In realtà V AM è una funzione del tempo lentamente variabile:
+%V AM = V AM (t). Si tratta, comunque, di fluttuazioni molto lente il cui spettro è centrato intorno alla
+%continua e si estende, al massimo, fino a frequenze di qualche Hertz (v. figura)..
+
+Il problema si risolve utilizzando una retroazione che prende il nome di controllo automatico del guadagno: si preleva, dall'uscita demodulata, un segnale proporzionale all'ampiezza della portante e lo si utilizza per variare il guadagno dell'AFI, come schematicamente rappresentato in figura.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/ricevitore-AM-AGC}
+	\includegraphics[width=0.35\linewidth]{img/ricevitore-AM-AGC-1}
+	\caption{}
+	\label{fig:ricevitore-am-agc}
+\end{figure}
+
+
+All'amplificatore dovrà essere aggiunta, dunque, una opportuna rete di regolazione del guadagno controllata in tensione (AGC - Automatic Gain Control). Una possibile implementazione è la seguente, che utilizza un transistor ausiliario per variare il punto di riposo dell'amplificatore in funzione dell'ampiezza della portante: ad una riduzione di ampiezza corrisponderà un aumento del $g_m$ e viceversa.
+\\
+La portante viene recuperata con un filtro passa basso a partire dal segnale demodulato.
+
+
+\subsection{Ricevitori per radio FM}
+Come si era già visto nel capitolo \ref{ch:trasmettitori}, un segnale FM ha una forma del tipo
+\[
+V_{FM}(t) = V_{FM_M} \cos \bigg[ \omega_{RF}t
++\underbrace{\omega_D \int_{0}^{t}x(\tau) d \tau}_\text{$\theta(t)$} \bigg]
+\]
+Calcolarne lo spettro non è facile, per cui si sfrutta una relazione dovuta a Carson che, sotto certe ipotesi, permette di individuare l'intervallo di frequenze che contiene buona parte dell'energia del segnale modulato, detto banda di Carson:
+\[
+B_C = 2B_m(D+1)
+\]
+Come esempio di riferimento analizziamo lo standard che regola il servizio di radiodiffusione FM. L'intervallo di frequenze assegnato al servizio dal Piano Nazionale delle fequenze è compreso tra 88 e 108 MHz. È previsto che ogni canale abbia un'occupazione in banda di $B_C = 180kHz$, e che vi si possano trasmettere segnali con una banda compresa fra $B_m = 30Hz\div15kHz$. Se ne ricava che
+\[
+D = \frac{B_C}{2B_m} -1=  5
+\qquad\Rightarrow\qquad
+f_D = 75kHz
+\]
+Esaminiamo una possibile procedura di dimensionamento del front end il cui schema a blocchi è rappresentato nella seguente figura. Come si vedrà, in questo caso, almeno in linea di principio, il filtro a radiofrequenza può essere fisso dal momento che il range della radiofrequenza e quello della frequenza immagine risultano separati.
+
+Il filtro a frequenza intermedia che immaginiamo contenuto all'interno dell'AFI è, come nel caso precedente, quello che seleziona il canale che si desidera ricevere. Supponiamo anche questa volta che, per renderne possibile la realizzazione a basso costo il suo fattore di qualità sia $Q_F \sim 50$,pertanto risulta $f_{IF} = Q_F B_C ~ 10MHz$.
+Per mantenere il range della frequenza immagine separato da quello della radiofrequenza (vedi figura) le associazioni di costruttori concordarono agli inizi un valore di $f_{IF} = 10.7MHz$.
+Questa scelta, come già detto, consente di usare come filtro di antenna un filtro a frequenza fissa che faccia passare tutto l'intervallo a radiofrequenza reiettando quello a frequenza immagine.
+L'utilizzo per il filtro a radiofrequenza di un filtro fisso (eventualmente di tipo monolitico) permette
+di contare su una forte reiezione nella banda bloccata (dove cade la frequenza immagine) e, quindi,
+di immaginare una soluzione a singola conversione.
+
+%Una volta traslato il segnale a frequenza $f_{IF} = 10.7MHz$ e filtrato il singolo canale, il demodulatore deve estrarre l'informazione che s causate dalle variazioni delle caratteristiche del canale.
+Se si fa passare il segnale $V_{FM_{AFI}} = V_{FM} \cos[\omega_{IF}t + \theta(t) ]$ attraverso un derivatore si ottiene in uscita
+\[
+V_{FM} [\omega_{IF}+\dot\theta(t)] \sin[\omega_{IF}t + \theta(t)]
+\]
+ovvero, un segnale modulato in ampiezza oltre che in frequenza (si ricordi che $\omega_D \ll \omega_{RF}$, dunque
+$\omega_{IF} + \dot\theta(t) > 0 $).
+
+Tramite un rivelatore d'ampiezza si può estrarre l'inviluppo e, quindi, la sua componente variabile proporzionale a x(t). In definitiva il demodulatore può essere realizzato secondo lo schema a blocchi di figura 	\ref{fig:ricevitore-fm-architettura}.
+
+\begin{figure}[hbt]
+	\centering
+	\raisebox{-.5\height}{\includegraphics[width=0.9\linewidth]{img/ricevitore-FM-architettura}}
+	\caption{}
+	\label{fig:ricevitore-fm-architettura}
+\end{figure}
+
+Non è richiesto il controllo automatico del guadagno purché l'ampiezza della portante sia in grado
+di mandare in saturazione l'uscita del limitatore.
+Mediante un filtro passa alto con limite inferiore di banda di alcuni Hertz, si può eliminare la componente continua.
+
+
+Per risolvere il problema del fading che rende $V_{FM}$ una funzione dipendente, sia pure lentamente, dal tempo, si fa passare il segnale modulato, prima della demodulazione, attraverso un limitatore che produce in uscita un'onda quadra di ampiezza $2V_0$ picco-picco indipendentemente dall'ampiezza della portante. La tensione a onda quadra $V_U$ così ottenuta ( si ricordi che si tratta, comunque, di un'onda quadra modulata in frequenza a banda stretta) si filtra con un filtro passa banda centrato sulla frequenza $f_{IF}$ in modo da filtrare la componente spettrale centrata sulla prima armonica.
+
+\subsubsection{Realizzazione del derivatore}
+
+\begin{figure}[hbt]
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.5\linewidth]{img/ricevitore-FM}}
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.3\linewidth]{img/ricevitore-FM-caratteristica}}
+	\hspace{\fill}
+	\caption{}
+	\label{fig:ricevitore-fm-derviatore-2}
+\end{figure}
+
+Esaminiamo adesso una possibile soluzione circuitale per
+la realizzazione del derivatore. Si potrebbe usare un amplificatore trans-conduttivo con carico induttivo come realizzato mediante un FET, come illustrato in figura \ref{fig:ricevitore-fm-derviatore-2}. La tensione di uscita si può scrivere come
+\[
+V_U (t)= V_{DD} - L\frac{dI}{dt} = V_{DD} - L\frac{d}{dt} g_mV_{gs}(t) = V_{DD} - L g_m \dot V_{gs}(t)
+\]
+La caratteristica del derivatore è una retta con pendenza proporzionale ad L. Il guadagno di conversione dunque è tanto più elevato quanto più L è grande.
+
+Come già discusso più volte, la realizzazione di induttanze affidabili e la loro integrazione sono operazioni difficoltose, dunque è vantaggioso sostituirle con un bipolo che presenti un andamento lineare della frequenza solo nella banda occupata dal segnale modulato. Questa funzione può essere assolta da un filtro RLC con una frequenza di risonanza prossima, ma non uguale a $f_{IF}$. Se $f_{IF}$ cade nella zona a sinistra della frequenza di risonanza in cui la pendenza risulta molto maggiore di L, si ottiene un significativo aumento del guadagno di conversione senza utilizzare induttanze di valore eccessivamente elevato.
+
+Eventualmente al posto del carico risonante si potrebbe anche usare un quarzo (filtro monolitico) che presenta un Q elevato e quindi fianchi estremamente ripidi.
+
+\begin{figure}[hbt]
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.5\linewidth]{img/ricevitore-FM-2}}
+	\hspace{\fill}
+	\raisebox{-.5\height}{\includegraphics[width=0.3\linewidth]{img/ricevitore-FM-caratteristica-2}}
+	\hspace{\fill}
+	\caption{}
+	\label{fig:ricevitore-fm-derviatore-4}
+\end{figure}
+
+
+\subsubsection{FM stereo}
+
+Come è noto la maggior parte delle stazioni che utilizzano questo servizio trasmettono un segnale audio stereofonico. Per garantire la compatibilità tra fra ricevitori predisposti e non, si opera una particolare codifica del segnale a partire da un segnale somma (canale destro + canale sinistro) e da un segnale differenza (canale destro - canale sinistro). Il segnale differenza viene modulato in ampiezza senza portante intorno ad una frequenza di $38 kHz$ e, quindi, sommato al segnale somma. Il segnale così ottenuto (che occupa una banda di $53 kHz$) viene quindi modulato in frequenza alla portante di trasmissione in modo da ottenere una banda di Carson di $180 kHz$ e, quindi, da occupare la stessa banda di un canale monofonico.
+
+Un ricevitore FM non stereo sarà comunque in grado di ascoltare il segnale trasmesso: una volta effettuata la demodulazione sarà presente un filtro passa banda a $15kHz$ che selezionerà la sola componente somma.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/trasmettitore-FM-stereo}
+	\caption{Struttura del trasmettitore FM stereo}
+	\label{fig:tx-fm-stereo}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/trasmettitore-FM-stereo-spettro}
+	\caption{Spettro di un segnale FM stereo}
+	\label{fig:spettro-fm-stereo}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/ricevitore-FM-stereo}
+	\caption{Struttura del ricevitore FM stereo}
+	\label{fig:rx-fm-stereo}
+\end{figure}
+%
+%\subsection{avanzi di eterodina}
+%Di solito il primo stadio amplificatore è differenziale. Può capitare di avere un balun (bilanciato a sbilanciato) subito dopo il filtro RF.
+%
+%Perché si filtra due volte, entrando e riuscendo dal chip ancora in RF?\\
+%filtro ingresso attenua Freq. Imm. (un pochino) e arresta segnali broker (interferenti che potrebbero far saturare lo stadio ampli diff di ingresso). Siccome è molto performante (reiezione di tanti db sui bloker), attenua anche in banda e non attenua granché la frequenza immagine. Costruirlo che attenui anche la frequenza immagine ammazzerebbe il segnale (con effetti sulla cifra di rumore, è il primo stadio, vedi Friis)\\
+%il filtro interno arresta quel che resta della frequenza immagine dopo aver amplificato il segnale.
+%
+%\begin{figure}[hb]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/raster/architettura-1}
+%	\caption{cap e xtal non sono integrati}
+%	\label{fig:architettura-1}
+%\end{figure}

@@ -1,0 +1,885 @@
+\chapter{LNA a parametri Y}
+
+\begin{multicols}{3}
+	\includegraphics[width=\linewidth]{img/quadripolo}
+	Quadripolo: generico sistema a quattro terminali;
+	\columnbreak
+	
+	\includegraphics[width=\linewidth]{img/2porte}
+	Circuito 2-porte: quadripolo per cui sussistono le relazioni $I_1 = -I_4$ e $I_2 = -I_3$. Di solito una coppia di terminali sono l'ingresso e l'altra l'uscita;
+	\columnbreak
+	
+	\includegraphics[width=0.9\linewidth]{img/LNA-tripolo}
+	Tripolo: caso particolare di 2-porte dove ingresso e uscita hanno un terminale a comune.
+\end{multicols}
+
+Si può dimostrare che un circuito 2 porte è caratterizzabile e schematizzabile tramite 4 parametri. Note le caratteristiche secondo un set di parametri è (quasi) sempre possibile passare ad un altro.
+
+\begin{multicols}{2}
+	$$\begin{cases}
+	V_1 = Z_I I_1 + Z_R I_2\\
+	V_2 = Z_F I_1 + Z_O I_2\\		
+	\end{cases}
+	~~ \mbox{Parametri Z}$$
+	
+	$$\begin{cases}
+	I_1 = Y_I V_1 + Y_R V_2\\
+	I_2 = Y_F V_1 + Y_O V_2\\		
+	\end{cases}
+	~~ \mbox{Parametri Y}$$
+	
+	$$\begin{cases}
+	V_1 = h_I I_1 + h_R V_2\\
+	I_2 = h_F I_1 + h_O V_2\\		
+	\end{cases}
+	~~ \mbox{Parametri h}$$
+	
+	$$\begin{cases}
+	b_1 = s_{11} a_1 + s_{12} a_2\\
+	b_2 = s_{21} a_1 + s_{22} a_2\\		
+	\end{cases}
+	~~ \mbox{Parametri S}$$
+\end{multicols}
+
+La scelta dei parametri da usare si fa sia in base alle modalità
+operative di misura, che possono risultare più o meno \textit{comode} a seconda della frequenza di lavoro, sia in base alle potenzialità messe a disposizione del progettista da ciascun set di parametri.
+
+Ad esempio, i parametri Z sono misurati lasciando i terminali aperti, mentre i parametri Y chiudendoli in corto circuito.\\
+Un circuito aperto in bassa frequenza è facilmente ottenibile tagliando un filo di connessione o una pista, ma i due monconi a distanza limitata tra loro rappresentano una capacità, ovvero una reattanza, che ad alte frequenze fa si che i due fili non possono più essere considerati un circuito aperto:
+$$ 1pF ~ @ ~ 1GHz \mbox{ costituisce una reattanza pari a }
+\frac{1}{2 \pi \cdot 1pF \cdot 1Ghz} \simeq 160 \Omega
+$$
+Lo stesso vale per un circuito chiuso: una pista o un tratto di filo possono introdurre un'induttanza di pochi nanoHenry:
+$$ 1nH ~ @ ~ 1GHz \mbox{ costituisce una reattanza pari a }
+2 \pi \cdot 1nH \cdot 1Ghz \simeq 6.28 \Omega
+$$
+
+I parametri usuali dell'elettronica di base introducono in alta frequenza errori di misura non trascurabili, difatti negli ultimi anni si è preferito il set di parametri S, utilizzati estensivamente nel campo delle microonde.
+Poiché sono di uso non immediato, si preferirà utilizzare inizialmente il set di parametri Y che presenta maggiore somiglianza con i set di parametri utilizzati in corsi precedenti (come i parametri h e Z).
+
+\paragraph{Relazione tra ammettenza e impedenza}
+Non è superfluo ricordare che l'ammettenza $Z$ è un numero complesso formato da una parte reale, la resistenza $R$, e una immaginaria, la reattenza $X$. Risulta:
+\[Z = R + jX\]
+  Il reciproco dell'impedenza è detto ammettenza. La componente G è la conduttanza mentre B è la suscettanza:
+
+\[Y = \frac{1}{Z} = \frac{1}{R+jX} = \frac{R-jX}{R^2+X^2} = \frac{R}{R^2 + X^2} -j \frac{X}{R^2 + X^2} = G - jB\]
+
+\section{Circuito equivalente a parametri Y}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/parametriY}
+	\caption{}
+\end{figure}
+
+\begin{multicols}{2}
+	$$
+	Y_I = \left. \frac{I_1}{V_1} \right|_{V_2=0}
+	~~~
+	\mbox{Ammettenza di ingresso}
+	$$
+	
+	$$
+	Y_O = \left. \frac{I_2}{V_2} \right|_{V_1=0}
+	~~~
+	\mbox{Ammettenza di uscita}
+	$$
+	
+	$$
+	Y_F = \left. \frac{I_2}{V_1} \right|_{V_2=0}
+	~~~
+	\mbox{Transconduttanza forward}
+	$$
+	
+	$$
+	Y_R = \left. \frac{I_1}{V_2} \right|_{V_1=0}
+	~~~
+	\mbox{Transconduttanza reverse}
+	$$
+\end{multicols}
+
+
+\subsubsection*{\textit{esempio} attenuatore}
+
+\begin{multicols}{2}
+	\includegraphics[width=\linewidth]{img/attenuatore}
+	
+	Nota: la rete è simmetrica
+	
+	$$Y_I = \nicefrac{1}{Z_I} =
+	\frac{1}{R_S + \frac{R_S R_P}{R_S+R_P}} = Y_O$$
+	
+	$$Y_F = -
+	\frac{R_P}{R_S^2 + 2 R_S R_P} = Y_R$$
+\end{multicols}
+
+\subsubsection*{\textit{esempio} circuito equivalente del FET}
+\begin{minipage}{0.5\linewidth}
+	\includegraphics[width=0.9\linewidth]{img/circuitoFET}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+$$
+Y_I = 0
+$$
+$$
+Y_F = g_m
+$$
+$$
+Y_R = 0
+$$
+$$
+Y_O = \nicefrac{1}{Z_0}
+$$
+\end{minipage}
+
+\subsection{Proprietà di quadripoli a parametri Y}\label{sec:quadripoli-parallelo}
+Due quadripoli collegati in parallelo e caratterizzati dalle proprie matrici di parametri Y, hanno una	matrice Y complessiva data dalla somma delle due singole.
+
+\begin{minipage}{.5\linewidth}
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/quadripolo-parallelo}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\begin{align*}
+\begin{cases}
+I_{1_A} = Y_{I_A} V_{1_A}+ Y_{R_A}V_{2_A}\\
+I_{2_A} = Y_{F_A} V_{1_A}+ Y_{O_A}V_{2_A}
+\end{cases}\\\\
+\begin{cases}
+I_{1_B} = Y_{I_B} V_{1_B}+ Y_{R_B}V_{2_B}\\
+I_{2_B} = Y_{F_B} V_{1_B}+ Y_{O_B}V_{2_B}
+\end{cases}\\
+\end{align*}
+\end{minipage}
+
+Poiché sono in parallelo, $V_{1_A} = V_{1_B} = V_1$ e analogamente per $V_2$. Applicando la legge dei nodi al quadripolo complessivo si ha $I_1 = I_{1_A}+I_{1_B}$ e $I_2 = I_{2_A}+I_{2_B}$.
+\[
+\begin{cases}
+I_1 = (Y_{I_A} + Y_{I_B}) V_1 + (Y_{R_A}+Y_{R_B})V_2\\
+I_2 = (Y_{F_A} + Y_{F_B}) V_1 + (Y_{O_A}+Y_{O_B})V_2\\
+\end{cases}
+\]
+
+Come esempio di applicazione di quanto appena visto, poniamo il quadripolo B come una impedenza in reazione. Questo quadripolo è caratterizzato dalla seguente matrice Y.
+
+\begin{minipage}{.5\linewidth}
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/quadripolo-parallelo-impedenza-1}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+	\[
+	\left(
+	\begin{array}{cc}
+	Y_X & -Y_X\\
+	-Y_X& Y_X
+	\end{array}
+	\right)
+	\]
+\end{minipage}
+
+\vspace{1em} %aggiustamento estetico fatto abbrutto
+
+\begin{minipage}{.5\linewidth}
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/quadripolo-parallelo-impedenza-2}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+	Dunque i parametri Y del quadripolo complessivo saranno:
+	\[
+	\left(
+	\begin{array}{cc}
+	Y_I +Y_X & Y_R -Y_X\\
+	Y_F -Y_X & Y_O +Y_X
+	\end{array}
+	\right)
+	\]
+\end{minipage}
+
+
+\section{Guadagni e definizioni}
+
+\paragraph{Rete reciproca:} una rete due porte è reciproca quando, posto un generatore di tensione sulla porta 1 e misurata la corrente sulla porta 2, questa risulta pari alla corrente misurata scambiando le porte. Di conseguenza le matrici Z ed Y sono simmetriche (i termini incrociati coincidono). Le reti con soli componenti passivi sono usualmente reciproche.
+\paragraph{Rete simmetrica:} un due porte è simmetrico quando l'impedenza d'ingresso è uguale a quella di uscita; in altri termini, lo stesso generatore di prova posto sulla porta 1 o sulla porta 2 è attraversato da pari corrente. Di conseguenza nelle matrici Z o Y i termini 11 sono uguali ai 22.
+
+\begin{figure}[hb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/2porte-analisi}
+	\caption{mettere correnti}
+	\label{fig:2porte-analisi}
+\end{figure}
+
+
+\paragraph{Guadagno di tensione} $A_V = \frac{V_2}{V_1}$
+
+$$V_2 = -\frac{Y_F}{Y_O + Y_L} V_1
+~~ \Rightarrow ~~
+A_V = -\frac{Y_F}{Y_O + Y_L}$$
+
+\paragraph{Ammettenza di ingresso} $Y_{IN} = \frac{I_1}{V_1}$
+
+$$I_1 = Y_I V_1 + Y_R V_2=
+Y_I V_1 - \frac{Y_F Y_R}{Y_O + Y_L} V_1
+~~ \Rightarrow ~~
+Y_{IN} = Y_I - \frac{Y_F Y_R}{Y_O + Y_L}$$
+
+Se il due porte è unilaterale ($Y_R = 0$) $Y_{IN}$ coincide con $Y_I$ (l'ammettenza di ingresso non dipende dal carico).
+
+  \paragraph{Ammettenza di uscita} $Y_{OUT} = \frac{I_2}{V_2}$
+      
+  Si ripetono analoghi calcoli alla porta di uscita:
+\[Y_{OUT} = Y_O - \frac{Y_F Y_R}{Y_I + Y_S}\]
+
+Si noti che sia $Y_{OUT}$ che $Y_{IN}$ dipendono rispettivamente da $Y_S$ e $Y_L$. Ne consegue che, a una variazione dell'ammettenza di carico (o di sorgente), si ha una variazione anche nell'ammettenza di ingresso (o uscita).
+      
+\paragraph{Guadagno operativo di potenza} $G_P = \frac{P_{L}}{P_{IN}}$
+
+Dove $P_L = \frac{V_{2_m}^2}{2}g_L$ e $P_{IN} = \frac{V_{1_m}^2}{2} g_{IN}$ sono rispettivamente la potenza dissipata sul carico e la potenza erogata dal generatore in ingresso\footnote{Questo perché, schematizzando l'uscita del quadripolo con l'equivalente Norton, la tensione $V_2$ è applicata ai capi di $Y_L$. In caso di carico puramente resistivo è chiaro che $g_L = \nicefrac{1}{R_L}$}.
+
+
+
+\paragraph{Guadagno di potenza disponibile} $G_A = \frac{P_{A_{OUT}}}{P_{A_{IN}}}$
+
+$P_{A_{OUT}}$ e $P_{A_{IN}}$ sono, rispettivamente, le potenze disponibili in uscita e in ingresso.
+Si definisce potenza disponibile $P_A$ la massima potenza che un generatore può erogare su un carico opportunamente scelto.
+
+Ipotizzando di avere un generatore con impedenza interna $Z_S = R_S + jX_S$ che pilota un carico $Z_L = R_L + jX_L$ si può dimostrare che, se $R_S > 0$\footnote{Se invece si ha $R_S < 0$, scegliendo un carico $Z_L = - Z_S$ si realizzerebbe una maglia a impedenza nulla, dunque si avrebbe potenza erogata dal generatore $\rightarrow \infty$.}, la condizione di massimo trasferimento di potenza si ha con adattamento complesso coniugato ($Z_L = Z^*_S$).\\
+
+Applicando quanto detto al quadripolo, schematizzato con circuito equivalente di Thevenin, possiamo calcolarne la potenza disponibile in ingresso\footnote{Questa volta, avendo schematizzato l'ingresso con equivalente Thevenin, è più comodo lavorare con la corrente che scorre nella serie $Z_S$ e $Z_{IN}$.}:
+
+$$\begin{aligned}
+&I_{S_m} = \frac{V_{S_m}}{|Z_{IN} + Z_S|} \overset{Z_{IN} = Z_{S}^*}{=} \frac{V_{S_m}}{|R_{IN} + jX_{IN} + R_{IN} - jX_{IN}|} = \frac{V_{S_m}}{2R_{IN}}\\
+&P_{A_{IN}} = \frac{1}{2} \Re{Z_{IN}} I_{S_m}^2 =
+\frac{1}{2} R_{S} \frac{V_{S_m}^2}{4R_{S}^2} =
+\frac{V_{S_m}^2}{8 R_S}
+\end{aligned}$$
+
+Si procede analogamente per la potenza disponibile in uscita. Ricapitolando:
+$$\mbox{Potenza disponibile di sorgente: }
+P_{A_{IN}} = \frac{V_{S_m}^2}{8 R_S}$$
+$$\mbox{Potenza disponibile di uscita: }
+P_{A_{OUT}} = \frac{V_{OUT_m}^2}{8 R_L}$$
+  Realizzare l'adattamento complesso coniugato in ingresso e uscita non è, in genere, un'operazione banale. Immaginiamo di adattare un quadripolo partendo dalla resistenza di sorgente. Si adatta la $Y_S$ facendo vedere alla porta di ingresso $Y_S'=Y_{IN}^*$. Si passa poi ad adattare la $Y_L$, inserendo sul carico una resistenza $Y_L' = Y_{OUT}^*$. Quest'ultima operazione, come visto nel calcolo di $Y_{IN}$ e $Y_{OUT}$, altera l'ammettenza di ingresso, quindi non c'è più adattamento sulla porta 1. Si redige nuovamente l'adattamento con $Y_S''=Y_{IN}^*$, ma questo altera $Y_{OUT}$ e così via. Vedremo in seguito che queste iterazioni avranno una convergenza solo in determinati casi. In generale, quindi, il $G_A$ è un guadagno virtuale, in certi casi impossibile da raggiungere.
+      
+\paragraph{Guadagno di trasduttore} $G_T = \frac{P_{L}}{P_{A_{IN}}}$
+
+Questo tipo di guadagno è molto usato per la progettazione in radiofrequenza, dove sono note la potenza disponibile del \textit{sensore} (che solitamente è l'antenna) con cui si interfaccia l'amplificatore, e quanta potenza effettiva deve essere erogata al carico (che potrebbero essere gli altoparlanti).
+
+\subparagraph{Espressioni dei guadagni}
+A partire dal guadagno di tensione e dalla definizione di guadagno operativo di potenza, è facile ricavare l'espressione di quest'ultimo:
+$$G_P = \frac{V_{2_m}^2}{2} g_L \cdot \frac{2}{V_{1_m}^2 g_{IN}} = \frac{|Y_F|^2}{|Y_L + Y_O|^2} ~ \frac{g_L}{g_{IN}}$$
+
+Si noti che $G_P$ è funzione della sola impedenza di carico.
+
+Discutiamo il segno di $G_P$:
+\begin{itemize}
+	\item $P_L$ solitamente è positivo perché si fa riferimento a carichi passivi (quindi $g_L > 0$);
+	\item $P_{IN}$ può anche essere negativo (flusso di potenza uscente) se $g_{IN}<0$;
+	\item [$\Rightarrow$] $G_P$ ha lo stesso segno di $g_{IN}$
+\end{itemize}
+
+Con opportune elaborazioni, a partire dalle definizioni possiamo calcolare anche il guadagno di potenza disponibile e quello di trasduttore. Si ottiene:
+      \[G_A = \frac{|Y_F|^2 ~ g_S}{\Re{ (Y_O Y_S + Y_O Y_I - Y_R Y_F)(Y_I + Y_S)^*}}\]
+      Si noti che $G_A$ è funzione solo dell'impedenza di sorgente.
+      
+\begin{equation}
+G_T = \frac{4 g_S g_L |Y_F|^2}{|(Y_S + Y_I) (Y_O + Y_L) - Y_R Y_F)|^2}
+\label{eq:gt-yparam}
+\end{equation}
+  Questo guadagno è funzione sia dell'impedenza di sorgente che di carico: dei tre è senza dubbio il guadagno più significativo per lo studio degli LNA.
+  \\Data l'espressione del guadagno di trasduttore si può ricavare il \textbf{guadagno di potenza unilateralizzato}, un parametro di bontà dell'amplificatore ottenuto rendendo unilaterale la rete ($Y_R = 0$) e massimizzando il $G_T$. Dalla precedente equazione \ref{eq:gt-yparam} si ha
+\[G_{T_{UI}} = \frac{4 g_S g_L |Y_F|^2}{|(Y_S + Y_I) (Y_O + Y_L)|^2}\]
+
+Essendo unilaterale, vale
+$\begin{cases} Y_{IN} = Y_I \\
+Y_{OUT} = Y_O \end{cases}$	ed il massimo trasferimento di potenza si ha per
+$\begin{cases}
+Y_S = Y_I^* &
+\rightarrow
+Y_S + Y_I = g_S - jb_I + g_I + jb_I = 2g_I
+\\
+Y_L = Y_O^* &
+\rightarrow
+Y_O + Y_L = g_O + jb_O + g_L - jb_L = 2g_O\end{cases}$.
+Sostituendo, si ottiene:
+
+$$G_{T_{UI ~ max}} = \frac{4 g_I g_O |Y_F|^2}{|4 g_I g_O|^2}$$
+
+
+\subparagraph{Osservazione 1:} Se $g_O < 0$ allora $G_{T_{UI ~ max}} \rightarrow \infty$
+\\
+Poniamo $Y_S \rightarrow \infty$ (cortocircuito). $Y_{OUT} = Y_O - \cancel{ \frac{Y_R Y_F}{Y_I + Y_S} } = - |g_O| + jb_O$. Per massimizzare $G_T$ si può variare l'impedenza di carico $Y_L$. Ponendo $Y_L = -Y_O = |g_O| - jb_O$ si ha però una maglia di uscita a impedenza nulla: la corrente che vi scorre è infinita, $P_{OUT} \rightarrow \infty$, dunque $G_T \rightarrow \infty$
+
+\subparagraph{Osservazione 2:} Se l'ingresso è adattato $G_T = G_P$. Se l'uscita è adattata $G_T = G_A$.\\
+Supponendo che tutte le potenze siano positive, valgono le relazioni $G_T \leqslant G_A$ e $G_T \leqslant G_P$
+
+\section{Rete di polarizzazione RF}
+\begin{minipage}{.5\linewidth}
+La rete di polarizzazione è perfettamente analoga a quella utilizzata nell'elettronica a basse frequenze, con una eccezione: per evitare inutile dissipazione di potenza non si usa una resistenza di collettore, che è sostituita da una induttanza (RFC - Radio Frequency Choke) oppure da un circuito risonante parallelo con pulsazione di risonanza $\omega_0$ in modo che:
+\begin{itemize}
+	\item a riposo scorra la corrente di polarizzazione;
+	\item alla frequenza d'uso $\omega_0$ appaia come un circuito aperto così da trasferire interamente il segnale al carico.
+\end{itemize}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\null \vfill
+\includegraphics[width=\linewidth]{img/RetePolarizzazioneRF}
+\null \vfill
+
+\end{minipage}
+
+Più recentemente si preferisce l'uso di configurazioni differenti che riescano a funzionare a tensioni notevolmente ridotte, dell'ordine degli $1 \div 2.5 V$.
+
+Il transistor utilizzato nel corso è il 2N4957, le cui caratteristiche forniscono parametri relativi ad un punto di riposo con $V_{CE} = -10V$ e $I_C = -2mA$.
+
+\begin{minipage}{0.7\linewidth}
+\paragraph{Dimensionamento di $R_1$ ed $R_2$}
+Ipotesi di partitore pesante. Ricorrendo all'equivalente Thevenin sulla base:
+\begin{align*}
+&V_{BB} = V_{CC} \frac{R_2}{R_1 + R_2} \gg R_B |I_B| = \frac{R_1 R_2}{R_1 + R_2} |I_B|\\
+&V_{CC} \gg R_1 |I_{B_{max}}| = R_1 \frac{|I_C|}{h_{FE_{min}}}
+\end{align*}
+\end{minipage}
+\begin{minipage}{0.28\linewidth}
+\includegraphics[width=0.6\linewidth]{img/LNA-partitore-pesante}
+\end{minipage}
+\paragraph{Dimensionamento dei $C_A$}
+I condensatori $C_A$ devono risultare chiusi alla frequenza di lavoro, dunque devono avere reattanza trascurabile rispetto ad almeno una delle resistenze che hanno in serie.
+
+\begin{multicols}{2}
+	\begin{center}
+		\includegraphics{img/dimensionamento-CA}
+	\end{center}
+              \columnbreak
+	In ingresso... Solitamente, sia la resistenza vista dalla base che le resistenze di polarizzazione sono molto maggiori di $R_S$, quindi basta verificare che $\frac{1}{\omega_0 C_A} \ll R_S$
+      \end{multicols}	
+\begin{multicols}{2}
+\begin{center}
+	\includegraphics[width=0.55\linewidth]{img/dimensionamento-CA-out}
+\end{center}
+      \columnbreak
+		In uscita... È sufficiente che $C_A$ sia trascurabile rispetto al carico, dunque $\frac{1}{\omega_0 C_A} \ll R_L$
+\end{multicols}
+
+\paragraph{Dimensionamento di $C_E$}
+Allo stesso modo il condensatore $C_E$ deve risultare chiuso alla frequenza di lavoro. Si usa una regola operativa visto il valore ridotto delle resistenze in gioco:
+\[\frac{1}{\omega_0 C_E} = 0.1 \Omega\]
+
+
+\begin{multicols}{2}
+	\paragraph{Dimensionamento di RFC}
+	Alla frequenza di lavoro l'induttanza RFC deve risultare un circuito aperto nei confronti del carico:
+	$$\omega_0 L \gg R_L$$
+	\vfill\null
+	\columnbreak
+	\paragraph{Dimensionamento del parallelo LC}
+	La squadra LC deve risuonare alla frequenza di lavoro, così da assumere impedenza teoricamente infinita:
+	
+	$$\omega_0 = \sqrt{\frac{1}{LC}}$$
+	
+	Ovviamente la presenza di $R_L$ e delle componenti parassite nell'induttanza e nel condensatore non daranno mai una impedenza infinita.
+	
+\end{multicols}
+
+\section{Rumore negli amplificatori}
+\subsection{Cifra di rumore}
+Un amplificatore, a causa delle sorgenti di rumore presenti al suo interno, presenterà, tipicamente,
+un rapporto segnale rumore in uscita minore di quello in ingresso. Nel migliore dei casi il rapporto segnale rumore rimarrà invariato. L'effetto di degrado di tale rapporto introdotto dall'amplificatore si misura mediante un parametro denominato ``Cifra di Rumore" indicato, in
+genere, con la sigla $NF$ (Noise Figure) ed espresso in $dB$:
+
+\[NF = \frac{\mbox{Potenza di rumore totale in uscita}}{\mbox{Potenza di rumore in  uscita dovuta alla sorgente}} = \frac{N_{U_{TOT}}}{N_{U_{IN}}}\]
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/quadripolo-sorgenti-rumore}
+	\caption{}
+	\label{fig:cifrarumore-1}
+\end{figure}
+
+Il rumore in uscita dovuto a $Z_S$ corrisponde al rumore che si avrebbe in uscita se il quadripolo fosse noiseless,	ovvero se agisse solo la sorgente di rumore termico di $Z_S$. In tal caso la cifra di rumore sarebbe	unitaria. In generale $NF \ge 1$.\\
+Il rumore totale in uscita si ottiene integrando la DSP di rumore in uscita su tutta la banda di
+interesse. Se la banda di interesse è ridotta o si vuole definire una cifra di rumore puntuale ad una
+certa frequenza (o spot), NF è un rapporto di DSP.
+Si può dimostrare che un quadripolo rumoroso è equivalente, ai fini di una determinata uscita, ad
+una rete priva di rumore con una coppia opportuna di generatori, di tensione e di corrente, in ingresso.
+
+\begin{minipage}{0.7\linewidth}
+\paragraph{Potenza disponibile di rumore} Data una sorgente di rumore di tensione $e_t$ con impedenza serie $Z_S$, se chiudiamo il circuito in serie ad un'impedenza $Z_S^*$, si vuole ricavare la potenza dissipata su $Z_S^*$:
+      \[I_t = \frac{e_t}{|Z_S + Z_S^*|} = \frac{e_t}{|R_{S} + jX_{S} + R_{S} - jX_{S}|} = \frac{e_t}{2R_{S}}\]\\
+\[V_d = I_t R_S = e_t \frac{R_S}{R_S + R_S} = \frac{e_t}{2}\]
+\[S_{V_d} = \frac{S_{e_t}}{4}~~\left[\frac{V^2}{Hz}\right]\]
+\end{minipage}
+\begin{minipage}{0.3\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/quadripolo-potenza-disponibile-rumore}
+\end{minipage}
+
+Poiché questa scelta è quella che realizza l'adattamento complesso coniugato, essa è anche quella
+che permette di trasferire sul carico la massima potenza disponibile. La densità spettrale di potenza disponibile sarà:
+\[S_{A_n} = \frac{S_{V_d}}{R_S} = \frac{S_{e_t}}{4R_S} = \frac{4KTR_S}{4R_S} = KT~~\left[\frac{W}{Hz}\right]\]
+Più in generale, dato un generatore di rumore di tensione in serie a un'impedenza si definisce la sua
+densità spettrale di potenza disponibile come segue:
+\[S_{A_X} = \frac{S_X}{4R_S}\]
+La potenza disponibile $P_A$ nell'intervallo di frequenza $f_1-f_2$ è data da:
+\[P_A = \int_{f_1}^{f_2} S_{A_X} df \]
+Essa rappresenta la massima potenza che il generatore di rumore può cedere a un carico nell'intervallo frequenziale $f_1-f_2$. Tale risultato si consegue in condizioni di adattamento complesso coniugato.
+
+Tornando all'analisi del quadripolo, il rumore totale in uscita è dovuto sia ai generatori interni (sorgenti $e_n$ e $i_n$), sia all'impedenza del generatore di segnale che è affetta da rumore termico $e_t$.
+%	, mentre il rumore in uscita dovuto a $Z_S$ dipende solo da $e_t$.
+Sotto certe condizioni, dette ``di indipendenza" tra i diversi processi aleatori, lo spettro del processo risultante si ottiene semplicemente sommando i singoli spettri. Lo stesso vale, quindi, per le 	potenze di rumore.
+\begin{align*}
+&NF = \frac{N_{U_{e_t}} + N_{U_{e_n, i_n}}}{N_{U_{e_t}}} = 1+ \frac{N_{U_Q}}{N_{U_{e_t}}}
+\\
+&N_{U_{e_t}} = S_{A_{e_t}} \Delta f G_T = KT \Delta f G_T\\
+&N_{U_Q} = S_{A_Q} \Delta f G_T =\frac{S_{e_n} + S_{i_n}|Z_S|^2}{4R_S} \Delta f G_T
+\end{align*}
+
+Si ricava infine:
+\[NF = 1 + \frac{S_{e_n} + S_{i_n}|Z_S|^2}{4KTR_S}\]
+
+\subsection{Progetto di amplificatori a basso rumore}
+Vogliamo progettare un amplificatore a basso rumore (LNA, Low Noise Amplifier). La cifra di rumore dipende dal quadripolo, attraverso i generatori equivalenti di rumore $S_{e_n}$ e $S_{i_n}$ e dal generatore di segnale, attraverso $Z_S$. Progettare a basso rumore, una volta scelto il dispositivo attivo, equivale a individuare la terminazione ottima per quando riguarda il rumore, ovvero, quella che minimizza NF. Procediamo,
+quindi, alla ricerca del minimo di NF al variare di $Z_S$, osservando che, certamente, NF sarà minimo per
+$X_S$=0.
+
+\[NF = 1 + \frac{S_{e_n} + S_{i_n}(R_S^2 + X_S^2)}{4KTR_S}\]
+
+Si pone $X_S =  0$ e poi si cerca il massimo osservando dove si annulla la derivata:
+\[\frac{dNF}{dR_S} = \frac{2R_S S{i_n} 4KTR_S - \left(S_{e_n} + R_S^2 S_{i_n}\right)4KT}{(4KTR_S)^2} = 0\]
+\[Z_{ON} = R_{ON}= \sqrt{\frac{S_{e_n}}{S_{i_n}}}\]
+
+Poiché $Z_S$ è, di norma, fissata dalle specifiche di progetto, bisognerà introdurre delle reti di 	trasformazione di impedenza tra la sorgente e l'ingresso dell'amplificatore per far sì che esso veda	l'impedenza ottima dal punto di vista del rumore.
+Per valutare l'effetto di tali reti su NF utilizziamo una formula dovuta a Friis che permette di calcolare la cifra di rumore globale di una rete costituita dalla cascata di due o più quadripoli.
+Con ovvio simbolismo si ottiene per la cifra di rumore totale $NF_{TOT}$:
+\[NF_{TOT} = NF_1 + \frac{NF_2 - 1}{G_{A_1}} + \frac{NF_3 - 1}{G_{A_2}} + ...\]
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/quadripolo-NF-friis}
+	\caption{}
+	\label{fig:cifrarumore-3}
+\end{figure}
+
+La formula di Friis mostra in termini analitici una considerazione ovvia: per minimizzare la cifra di
+rumore totale di un sistema, bisogna usare come primo stadio quello a cifra di rumore più bassa ed
+assicurarsi che introduca un guadagno quanto maggiore possibile.
+Nel caso in cui $Q_1$ sia una rete di adattamento (passiva, reciproca e non dissipativa) la sua cifra di
+rumore $NF_1$ sarà unitaria (non contiene generatori interni di rumore) come anche il suo guadagno di
+potenza disponibile $G_{A1}$. Pertanto $NF_{TOT} = NF_2$, ovvero la cifra di rumore totale coincide con quella del quadripolo attivo.
+
+Si può facilmente dimostrare, infine, che la cifra di rumore così come è stata definita, coincide col
+rapporto tra il rapporto segnale rumore in ingresso e quello in uscita:
+\[NF = \frac{SNR_I}{SNR_U} = \frac{\frac{S_I}{N_I}}{\frac{S_U}{N_U}}\]
+
+Infine, per calcolare la potenza di rumore o l'SNR in uscita su una certa banda $\Delta f$ ricordiamo che:
+
+\begin{align*}
+&NF = \frac{N_{U_{TOT}}}{N_{U_{IN}}} = \frac{N_{U_{TOT}}}{KT G_T \Delta f}\\
+&N_{U_{TOT}} = KT \Delta f \cdot G_T \cdot NF\\
+&S_{U} = P_{A_{IN}} G_T = \frac{V_{S_M}^2}{8R_S} G_T
+\end{align*}
+
+\section{Criterio di Barkhausen e stabilità}
+
+Supponendo di saper variare a piacimento  le impedenze di ingresso e uscita di un sistema 2 porte, se ne vuole valutare la stabilità.
+
+\paragraph{Criterio di Barkhausen:} se esiste una coppia di impedenze d'ingresso e uscita $Y_S$ e $Y_L$ tali che $\begin{cases}
+| \beta A (Y_S,Y_L) | = 1\\
+\angle \beta A (Y_S,Y_L)  = 0
+\end{cases}$ allora la rete sostiene autonomamente l'oscillazione alla frequenza $f_0$.
+
+\paragraph{Criterio di Barkhausen all'innesco:} se esiste una coppia di impedenze d'ingresso e uscita $Y_S$ e $Y_L$ tali che $\begin{cases}
+| \beta A (Y_S,Y_L) | > 1\\
+\angle \beta A (Y_S,Y_L)  = 0
+\end{cases}$ allora la rete innesca un'oscillazione che si autoesalta.
+
+\paragraph{Stabilità incondizionata:} il circuito due porte è incondizionatamente stabile $\Leftrightarrow$ non esiste una coppia $Y_S, Y_L$ (con $\Re{Y_S}>0$ e $\Re{Y_L}>0$) che soddisfi i criteri di Barkhausen alla frequenza $f_0$. Una definizione equivalente di Stabilità Incondizionata è:
+\[
+\begin{cases}
+\forall ~ Y_S : \Re{Y_S} \ge 0 & \Rightarrow ~ Y_{OUT} : \Re{Y_{OUT}}>0\\
+\forall ~ Y_L : \Re{Y_L} \ge 0 & \Rightarrow ~ Y_{IN} : \Re{Y_{IN}}>0\\
+\end{cases}
+\]
+
+Dimostriamo quest'ultima relazione in un senso, ovvero che il verificarsi delle condizioni suddette è necessario alla stabilità incondizionata.
+%	Dunque si dimostra che se una di queste due condizioni non si verifica il	quadripolo è potenzialmente instabile e può essere utilizzato per realizzare un oscillatore.
+
+Se esiste una $\overline{Y}_S$ tale che la parte reale di $Y_{OUT}$ è negativa (così come la $\Re{Z_{OUT}}$) allora è possibile realizzare una maglia di uscita ad impedenza nulla, utilizzando come $Z_L$ un'impedenza pari a $-Z_{OUT}$. Pertanto $I_{OUT}\rightarrow \infty$ e siamo in condizioni di instabilità.
+
+\begin{figure}[tbh]
+	\centering
+	\hspace{\fill}
+	\includegraphics[height=5em]{img/quadripolo-impedenza-nulla-1}
+	\hspace{\fill}
+	\includegraphics[height=5em]{img/quadripolo-impedenza-nulla-2}
+	\hspace{\fill}
+	\caption{Maglia ad impedenza nulla sull'uscita}
+	\label{fig:instabilita}
+\end{figure}
+
+Consideriamo adesso un quadripolo caratterizzato a parametri Y, di cui se ne vuol calcolare il $\beta A$ tramite teorema di scomposizione.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\linewidth]{img/scomposizione}
+\caption{}
+\label{fig:stabilita-quadripolo-taglio1}
+\end{figure}
+
+Per prima cosa dobbiamo individuare un taglio e, quindi, un anello di reazione. Il quadripolo è
+intrinsecamente reazionato tramite la $Y_R$ la quale riporta in ingresso l'effetto dell'uscita.
+Con il taglio effettuato individuiamo la reazione:
+
+$$\beta A = \left. \frac{V_R}{V_P} \right|_{V_S=0}  ~~~
+A = \left. \frac{V_U}{V_P} \right|_{V_S=0}~~
+\beta = \left. \frac{V_R}{V_U} \right|_{V_S=0}$$
+
+Il taglio è tale per cui $\rho = 0 ~ \rightarrow ~ Z_P = Z_I = \frac{V_P}{I_P}$.
+
+\begin{align}
+Y_P &= Y_O + Y_L
+\n
+V_R &= -\frac{Y_F V_1}{Y_O + Y_L} = -\frac{Y_F}{Y_O + Y_L} \left( - \frac{Y_R V_2}{Y_S+Y_I} \right) \qquad \mbox{nota: } V_2 = V_P
+\n
+\beta A &= \frac{Y_F Y_R}{(Y_I + Y_S)(Y_O+Y_L)}
+\end{align}
+
+Verifiche:\\
+Se il quadripolo è unilaterale ($Y_R = 0$): $\beta A = 0$ perché non c'è reazione;\\
+cortocircuitando l'uscita ($Y_L \rightarrow \infty$): $\beta A = 0$;\\
+cortocircuitando l'ingresso ($Y_S \rightarrow \infty$): $\beta A = 0$;
+
+
+Il $\beta A$ ci permette di analizzare in termini analitici le condizioni di Barkhausen
+$$\begin{cases}
+| \beta A (Y_S,Y_L) | > 1\\
+\angle \beta A (Y_S,Y_L)  = 0
+\end{cases}$$
+Dal sistema, mediante elaborazioni di una certa complessità che in questa sede non vengono
+riportate, si ricava un criterio basato sul cosiddetto \textbf{Fattore di Stern K}:
+
+Fissati $g_S$ e $g_L$, se
+$\displaystyle K = \frac{2(g_I+g_S)(g_O + g_L)}{\Re{Y_R Y_F}	+  |Y_R Y_F|} > 1$ allora il sistema non ha soluzione, $\forall$ coppia $(b_S,~b_L)$
+
+\subparagraph{Osservazione:} si esclude il caso $g_I<0$ e $g_O<0$ perché si ha un due porte sicuramente non stabile:
+supponiamo $g_I < 0$ e uscita chiusa in corto circuito: $Y_{IN} = Y_I - \frac{Y_R Y_F}{Y_O + Y_L} \overset{\mathrm{Y_L \rightarrow \infty}}{=} Y_I
+= g_I + jb_I$
+\\
+Provando ad adattare l'ingresso si è obbligati a porre $Y_S = -Y_{IN}$: si genera dunque una maglia a impedenza nulla, quindi qualunque sia la sollecitazione del generatore di ingresso la risposta tende a divergere ($I \rightarrow \infty$).
+
+La condizione sul fattore di Stern è molto utile alle radiofrequenze, poiché gli accoppiamenti capacitivi e induttivi spuri possono far variare le parti reattive delle impedenze di sorgente e di carico e generare oscillazioni, tranne se $K>1$.\\
+Attenzione: $K>1$ non equivale a dire che il quadripolo è incondizionatamente stabile, perché si riferisce ad una particolare coppia ($g_S$ ,$g_L$).
+
+Si vede che K è una funzione crescente di $g_S$ e $g_L$. Il denominatore è la somma di una parte reale e del modulo
+dello stesso vettore che è maggiore sia della parte reale che di quella immaginaria. Perciò il
+denominatore è sicuramente positivo.\\
+Se calcoliamo K nella situazione peggiore ($g_S =0$ e $g_L =0$) e verifichiamo che esso risulta positivo, sicuramente continuerà ad esserlo per ogni coppia $g_S >0$, $g_L > 0$	ovvero il quadripolo risulterà incondizionatamente stabile.
+	
+In altri termini, i quadripoli che verificano la condizione:
+\begin{align*}
+&
+\frac{2 g_I g_O}{\Re{Y_R Y_F} + |Y_R Y_F|} > 1
+~~~
+\mbox{sono certamente Incondizionatamente Stabili}\\
+&
+2 g_I g_O > \Re{Y_R Y_F} + |Y_R Y_F|
+\\
+&
+|Y_R Y_F| < 2 g_I g_O - \Re{Y_R Y_F}
+\end{align*}
+\begin{align}
+C = \frac{|Y_R Y_F|}{2 g_I g_O - \Re{Y_R Y_F}} < 1
+\end{align}
+
+C prende il nome di  \textbf{fattore di Linvill}, ed è compreso fra 0 ed 1 se e solo se il quadripolo è incondizionatamente stabile.
+
+\paragraph{Caso particolare:} $Y_R =0 \rightarrow C=0$, quadripolo unilaterale,	situazione di marginale stabilità, va trattata separatamente.
+$$
+\mbox{Se }
+\begin{cases}
+g_I > 0 \\
+g_O > 0
+\end{cases}
+~~
+\Rightarrow
+~
+\mbox{Incondizionata Stabilità}
+$$
+
+	
+Poiché il fattore di Stern dipende da $g_S$ e $g_L$ può essere fornito dal costruttore che, in genere,	fornisce il fattore di Linvill al variare della frequenza. Nel range di frequenze in cui C è compreso tra 0 e 1 il quadripolo è caratterizzato da Incondizionata Stabilità (IS).
+
+\subsection{Effetto della stabilità incondizionata sui guadagni}
+
+Dalla I.S. discende che, qualunque sia la coppia di impedenze di carico e di sorgente, purché a parte
+reale positiva, risulta:
+\[
+\begin{cases}
+\Re{ Y_{IN} } > 0\\
+\Re{ Y_{OUT} } > 0
+\end{cases}
+\]
+Pertanto: $ G_P > 0 \quad G_A > 0 \quad G_T > 0$.
+
+È possibile dimostrare che, se un quadripolo è incondizionatamente stabile, è possibile realizzare contemporaneamente l'adattamento complesso coniugato in ingresso e in uscita, ovvero esiste (ed è unica) la soluzione del sistema di equazioni:
+\[
+\begin{cases}
+Y_{IN} ( Y_L ) = Y_S^*\\
+Y_{OUT} ( Y_S ) = Y_L^*
+\end{cases}
+\]
+È anche possibile dimostrare che i valori di $Y_S$ e $Y_L$ soluzioni del sistema coincidono con il punto di massimo della funzione $G_T (Y_S, Y_L)$, ovvero sono i valori di ammettenza di sorgente e di carico che massimizzano il guadagno di trasduttore.
+Detto ancora in altri termini: se si studia $G_T$ come una funzione di 4 variabili e limitatamente al caso $g_L >0,~ g_S >0$, la ricerca del massimo ha soluzione, unica se e solo se il quadripolo è incondizionatamente stabile.
+\[\exists (Y_{S_{opt}}; Y_{L_{opt}})
+: G_T (Y_{S_{opt}}, Y_{L_{opt}}) = G_{T_{max}}
+\Leftrightarrow 
+\mbox{il quadripolo è Incondizionatamente Stabile}
+\]
+
+\subsubsection{Massimizzazione dei guadagni}
+Il problema di ricerca del massimo è prettamente analitico e non lo trattiamo nel dettaglio.	Le ammettenze ottime di carico e sorgente, ovvero quelle che massimizzano $G_T$, sono anche quelle	che realizzano l'adattamento complesso coniugato in ingresso e uscita.
+\[
+\begin{cases}
+Y_{IN} (Y_{L_{opt}}) = Y_{S_{opt}}^*\\
+Y_{OUT} (Y_{S_{opt}}) = Y_{L_{opt}}^*
+\end{cases}
+\]
+
+Dato l'adattamento vale $G_{T_{max}} = G_A(Y_{S_{opt}}) = G_{P}(Y_{L_{opt}})$, inoltre $G_A(Y_{S_{opt}}) = G_{A_{max}}$.
+Dimostriamolo supponendo, per assurdo, di avere una $\overline{Y}_S \neq Y_{S_{opt}}$ per cui il guadagno $G_A$ sia maggiore rispetto al caso ottimo.
+\\
+Effettuiamo l'adattamento complesso coniugato in uscita, ponendo $\overline{Y}_L = Y_{OUT}^*(\overline{Y}_S)$:
+\[\Rightarrow G_T(\overline{Y}_S, \overline{Y}_L)=
+G_A(\overline{Y}_S) \overset{\mbox{per HP}}{>}
+G_A(Y_{S_{opt}}) = G_{A_{max}} = G_{T_{max}}\]
+Ma questo è assurdo.
+
+\subsubsection{Terminazioni ottime}
+Si può dimostrare che, dati i parametri Y di un quadripolo incondizionatamente stabile, le sue terminazioni ottime sono:
+\begin{align*}
+&g_{S_{opt}} = \frac{\sqrt{\left[
+2g_Ig_O - \Re{Y_RY_F} \right]^2
+-|Y_R Y_F|^2}}
+{2g_O}\\
+&g_{L_{opt}} = g_{S_{opt}} \frac{g_O}{g_I}\\
+&b_{S_{opt}} = -b_I + \frac{\Im{Y_RY_F}}{2g_O}\\
+&b_{L_{opt}} = -b_O + \frac{\Im{Y_RY_F}}{2g_I}
+\end{align*}
+\textbf{Nota:} dire che l'argomento della radice presente sia in $g_{S_{opt}}$ che in $g_{L_{opt}}$ è positivo significa imporre la condizione di Linvill.
+
+\section{Reti di adattamento}
+Quando si progetta un amplificatore il generatore e il carico sono fissati. In genere viene richiesto di	massimizzare il guadagno di trasduttore e/o di minimizzare la cifra di rumore.	Per fare ciò si possono utilizzare opportune reti di trasformazione d'impedenza, che fanno sì che il quadripolo \textit{veda} le impedenze opportune al conseguimento dell'obiettivo fissato a specifica. I quadripoli utilizzati come trasformatori di impedenza prendono il nome di Reti di Adattamento.
+Tali reti dovranno avere le seguenti caratteristiche:
+\begin{itemize}
+	\item essere reti lineari;
+	\item essere passive per non introdurre ulteriori stadi con componenti attivi che sono causa di dissipazione di potenza e introduzione di rumore;
+	\item essere non dissipative (ovvero prive di resistenze) per non causare attenuazione di potenza e non introdurre sorgenti di rumore termico.
+\end{itemize}
+
+Esse risultano necessariamente reciproche (fatto salvo l'improbabile caso di impiego di componenti passivi non isotropi, quali, ad esempio, le ferriti che dissimmetrizzano la matrice delle
+impedenze della rete).
+
+\begin{multicols}{2}
+	\includegraphics[width=0.8\linewidth]{img/trasformatore-impedenza}
+	
+	Una semplice rete di adattamento si può fare utilizzando un trasformatore. Purtroppo questa soluzione è difficilmente integrabile.
+	
+	$$R_V = \left( \frac{N_1}{N_2} \right) R$$
+	
+\end{multicols}
+
+\subsection{Teorema delle reti di adattamento}
+In un quadripolo passivo, non dissipativo e reciproco, se si realizza adattamento complesso coniugato su una delle due porte allora anche sull'altra porta si ottiene adattamento complesso coniugato.
+
+\paragraph{Dimostrazione}
+Per ipotesi la potenza in ingresso coincide con la potenza disponibile perché si è effettuato l'adattamento:
+$Z_{IN} = Z_1^* \Rightarrow
+P_{IN} = P_{A_{IN}} = \frac{V_{1_m}^2}{8R_1}$
+
+La rete è non dissipativa:
+$P_{IN} = P_{OUT} = R_2 \frac{I_{1_m}^2}{2}
+\Rightarrow \left( \frac{I_{2_m}}{V_{1_m}} \right) ^2 = \frac{1}{4 R_1 R_2}$
+
+La rete è reciproca, quindi scambiando l'ingresso con l'uscita non si hanno variazioni su tensioni e correnti:
+
+$\left( \frac{I_{1_m}}{V_{2_m}} \right) ^2 = \frac{1}{4 R_1 R_2} \Rightarrow
+I_{1_m}^2 = \frac{V_{2_m}^2}{4 R_1 R_2}$
+
+$P_1 = \frac{I_{1_m}^2}{2} R_1 = \frac{V_{2_m}^2}{4 R_1 R_2} \frac{R_1}{2} = \frac{V_{2_m}^2}{8R_2}$
+
+Siccome la rete è passiva non dissipativa $P_1 = P_2 = P_{A_2}$.
+
+Siccome il generatore sta erogando una potenza pari a quella disponibile si sta verificando la condizione di adattamento in uscita.
+
+\paragraph{Corollario:} Il guadagno di potenza disponibile di una rete passiva non dissipativa e reciproca è unitario ($G_A = 1$)
+
+Si sceglie $Z_L$ in modo da avere adattamento complesso coniugato in uscita. In base al teorema precedente questo comporta adattamento anche in ingresso: il generatore eroga la massima potenza $P_{A_{IN}}$, che coincide con $P_{A_{OUT}}$ perché la rete è passiva non dissipativa.\\
+Dunque $G_A = \frac{P_{A_{OUT}}}{P_{A_{IN}}} = 1$
+
+\subsection{Quadripoli in cascata}
+Ponendo più quadripoli in cascata sarà utile conoscere il guadagno complessivo del sistema a partire dai guadagni dei singoli stadi. Questo ci sarà utile sia per valutare l'effetto dell'inserzione di reti di adattamento, sia per studiare il comportamento di amplificatori multistadio.
+\\
+Calcoliamo il guadagno di trasduttore $G_T$ nel caso di un sistema a due blocchi:
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/adattamento}
+	\caption{}
+	\label{fig:adatttamento}
+\end{figure}
+
+
+\[
+G_{T_{TOT}} = \frac{P_L}{P_{A_{IN_1}}}=
+\frac{P_{A_{IN_2}}}{P_{A_{IN_1}}}
+\frac{P_L}{P_{A_{IN_2}}} =
+\frac{P_{A_{OUT_1}}}{P_{A_{IN_1}}}
+\frac{P_L}{P_{A_{IN_2}}}
+=
+G_{A_1} G_{T_2}
+\]
+
+Generalizzando al caso di N quaripoli,
+$G_{T_{TOT}} = G_{T_N} \prod_{n=1}^{N-1} G_{A_n}$,
+ossia il guadagno di trasduttore totale è pari al guadagno di trasduttore dell'ultimo stadio moltiplicato per i guadagni di potenza disponibile di tutti gli stadi precedenti.
+
+
+Vediamo, come caso particolare, come si modificano le potenze di un amplificatore con reti di adattamento in ingresso ed uscita.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/adattamento-2}
+	\caption{}
+	\label{fig:adatttamento1}
+\end{figure}
+\[
+G_{T_{TOT}} = \frac{P_L}{P_{A_{IN}}}
+=
+\frac{P_{OUT}}{P_{A_{IN}}}
+=
+G_{A_1} G_{T_Q}(Y_{S_V}, Y_{L_V})
+= G_{T_Q}(Y_{S_V}, Y_{L_V})
+\]
+
+Per il corollario prima dimostrato il $G_A$ delle reti di adattamento è unitario, pertanto il guadagno di trasduttore dell'amplificatore con le reti di adattamento coincide con quello del quadripolo attivo, ma calcolato in corrispondenza delle ammettenze viste (che sono in genere diverse da quelle effettive di sorgente e di carico $Y_S$ e $Y_L$). Si possono, quindi, scegliere valori opportuni per $Y_{S_V}$ e $Y_{L_V}$ in modo da ottenere il valore di $G_T$ desiderato.
+%	Il problema, quindi, si riduce a quello di progettare opportunamente le reti di adattamento in modo da trasformare Y S e Y L in Y SV e Y LV rispettivamente.
+
+\subsection{Trasformazioni serie $\Leftrightarrow$ parallelo}
+	
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/parallelo-serie}
+	\caption{}
+	\label{fig:parallelo-serie}
+\end{figure}
+
+Dato un gruppo RC parallelo, è possibile trovarne un equivalente serie ad una frequenza fissata.
+
+\begin{align*}
+&Y_P = \nicefrac{1}{R_P} + j \omega C_P\\
+&Z_S = \nicefrac{1}{Y_P} =
+\frac{1}{\nicefrac{1}{R_P} + j \omega C_P} =
+\frac{R_P}{1 + j \omega R_P C_P} = 
+\frac{R_P (1- j \omega R_P C_P)}{1 + \omega^2 R_P^2 C_P^2} = \frac{R_P}{1 + \omega^2 R_P^2 C_P^2} - j \frac{\omega R_P^2 C_P}{1 + \omega^2 R_P^2 C_P^2}\\
+&\mbox{Si definisce } Q_P = \omega_0 R_P C_P\\
+& Z_S = \frac{R_P}{1 + Q_P^2} - j \frac{R_P Q_P}{1 + Q_P^2} = 
+\frac{R_P}{1 + Q_P^2} + \frac{Q_P^2}{j \omega_0
+	C_P (1 + Q_P^2)}
+\end{align*}
+
+Affinché i due bipoli siano equivalenti bisogna che abbiano uguale parte reale e parte immaginaria.
+\begin{equation}
+\Rightarrow ~~~ R_S = \frac{R_P}{1+Q_P^2}
+\qquad
+C_S = C_P \frac{(1+Q_P^2)}{Q_P^2}
+\end{equation}
+
+\paragraph{Esempio:} Progettare una opportuna rete che, alla frequenza $f_0 = 100MHz$, trasformi una resistenza $Z_1 = 100 + 25j \Omega$ in una $Z_2 = 50 +15j \Omega$.
+
+Poiché $R_2 < R_1$ la trasformazione è \textbf{in discesa}, dunque poniamo in parallelo a $Z_1$ un bipolo che ne riduca il valore della resistenza.
+La trasformazione è, pertanto, da parallelo a serie, e conviene lavorare in termini di ammettenze su $Z_1$ ed in termini di impedenze su $Z_2$.
+Nota: per praticità si impone $R_S = R_2$ e $R_P = \frac{1}{\Re{Y_1}}$
+
+\begin{minipage}{0.7\linewidth}
+\begin{align*}
+& Y_1 = \frac{1}{100+25j} = 9.4-2.3j mS\\
+& R_P = \frac{1}{\Re{Y_1}} = 106.4 \Omega\\
+&\mbox{Innanzitutto si elimina la componente reattiva di $Y_1$}\\
+& B_X = -B_1 = 2.3 mS\\
+&\mbox{Si pone in parallelo una capacità, in modo da avere}\\
+&\mbox{l'equivalente serie con resistenza $R_S$ desiderata.}\\
+&\mbox{Dalla relazione fra $R_S$ ed $R_P$ si ricava...}\\
+& Q_P = \sqrt{\frac{R_P-R_S}{R_S}} = 1.06\\
+& Q_P = R_P \omega_0 C_P
+\quad\Rightarrow\quad
+C_P = \frac{Q_P}{R_P \omega_0} = 15.9 pF\\
+& C_S = C_P \frac{(1+Q_P^2)}{Q_P^2} = 30 pF
+\end{align*}
+Dunque, la trasformazione serie parallelo introduce in serie alla resistenza da noi voluta una capacità del valore di 30pF, che non è la componente reattiva desiderata. Questa può essere ``aggiustata" inserendo in serie una reattanza apposita:
+\begin{align*}
+&X_2 = 15\Omega = -\frac{1}{\omega_0C_S} + X_S\\
+&X_S = X_2 +\frac{1}{\omega_0C_S} = 15+68 \Omega
+= 83\Omega > 0 \\
+&\mbox{Poiché la reattanza è positiva si tratta di un'induttanza}\\
+&L = \frac{X_S}{\omega_0} = 132nH
+\end{align*}
+Si può compiere una ulteriore semplificazione nel circuito, accorpando il condensatore $C_P$ e la suscettanza $B_X$, ottenendo:
+\begin{align*}
+&B_{TOT} = B_X + \omega_0C_P = 12.3mS > 0\\
+&\mbox{Una suscettanza negativa è una capacità, dunque...}\\
+&C_{P_TOT} = \frac{B_{TOT}}{\omega_0} = 19pF
+\end{align*}
+\end{minipage}
+\begin{minipage}{0.3\linewidth}
+\centering
+
+\includegraphics[width=0.7\linewidth]{img/adattamento-esempio-1}
+\vspace{2em}
+
+\includegraphics[width=0.7\linewidth]{img/adattamento-esempio-2}
+
+\vspace{2em}
+\includegraphics[width=0.7\linewidth]{img/adattamento-esempio-3}
+
+\vspace{2em}
+\includegraphics[width=0.7\linewidth]{img/adattamento-esempio-4}
+
+\vspace{2em}
+\includegraphics[width=0.7\linewidth]{img/adattamento-esempio-5}
+\end{minipage}
+
+Dunque, per realizzare la rete di adattamento servono soltanto una capacità da $19pF$ ed un'induttanza da $132nH$.
+
+\subsection{Trasformazioni parallelo $\Leftrightarrow$ serie}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/serie-parallelo}
+	\caption{all'incontro}
+	\label{fig:serie-parallelo}
+\end{figure}
+
+Dato un gruppo RC serie, è possibile trovarne un equivalente parallelo ad una frequenza fissata.
+
+\[Z_S = {R_S} + \frac{1}{j \omega C_S}\]
+\begin{align*}
+& Y_P  = \nicefrac{1}{Z_P} =
+\frac{1}{R_S + \frac{1}{j \omega C_S}} =
+\frac{j \omega C_S}{1+j\omega R_S C_S}
+\cdot
+\frac{1-j\omega R_S C_S}{1-j\omega R_S C_S}
+=
+\frac{\omega R_S^2 C_S^2 + j\omega C_S}{1 + \omega^2 R_S^2 C_S^2}
+\\
+&\mbox{Si definisce } Q_S = \frac{1}{\omega_0 R_S C_S}
+\\
+&Y_P = \frac{\nicefrac{1}{R_S Q_S^2} - j\omega C_S}{1 + \nicefrac{1}{Q_S^2}}
+= \frac{1}{R_S} \frac{1}{1+Q_S^2}
++ j \omega C_S \frac{Q_S^2}{1+Q_S^2}
+\end{align*}
+
+Poiché il parallelo è $Y_P = \nicefrac{1}{R_P} + j\omega C_P$, affinché le due reti siano uguali si impone l'uguaglianza delle parti reali e delle parti immaginarie:
+\begin{equation}
+\Rightarrow ~~~ R_P = R_S (1+Q_P^2)
+\qquad
+C_P = C_S \frac{Q_P^2}{(1+Q_P^2)}
+\end{equation}

@@ -1,0 +1,412 @@
+\chapter{PLL}
+Il PLL (Phase Locked Loop - anello ad aggancio di fase) è un sistema la cui uscita è un segnale con frequenza pari a quella del segnale di ingresso ed una relazione di fase fissa rispetto a questo. La forma d'onda del segnale di uscita (ovvero il suo contenuto armonico) può essere diversa	da quella del segnale di ingresso: si piò avere, ad esempio, un'onda quadra in ingresso e una sinusoide in uscita, agganciata alla prima armonica di dell'ingresso.\\
+Il PLL è molto usato nei sistemi di telecomunicazioni, ad esempio come sintetizzatore di frequenza o modulatore.
+In questo capitolo dapprima sarà illustrato il funzionamento di un semplice PLL, e successivamente
+saranno illustrate alcune applicazioni.
+
+\begin{figure}[hb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL}
+	\caption{}
+	\label{fig:pll}
+\end{figure}
+
+In figura \ref{fig:pll} è mostrato lo schema a blocchi semplificato di un PLL. L'anello ad aggancio di fase è
+costituito da:
+\begin{itemize}
+	\item un Phase Detector (PD), che dà in uscita un segnale proporzionale allo sfasamento fra il segnale di riferimento $V_{REF}$ e l'uscita $V_{OUT}$;
+	\item un filtro passa basso $F(s)$, solitamente realizzato con una rete RC a polo dominante a bassissima frequenza. È usato per estrarre un segnale $V_D (t)$ continuo a partire dall'uscita del Phase Detector;
+	\item un oscillatore controllato in tensione (VCO) con frequenza di riposo $\omega_0$ che genera una sinusoide a una frequenza che si discosta da quella di riposo di una quantità proporzionale a $V_D (t)$;
+\end{itemize}
+
+\section{Funzione di trasferimento del PLL}
+Il segnale in uscita è dato da $V_{OUT} (t) = V_{{OUT}_m} cos \left[ \omega_0 t + \theta_0(t) \right]$, dove $\theta_0(t)$ è un termine di fase aggiuntivo dipendente da $V_D(t)$.
+
+La pulsazione istantanea del segnale in uscita dal VCO è definita come:
+\[\omega_i = \omega_0 + \frac{d \theta_0}{dt}\]
+\[\frac{d\theta_0}{dt} = K_D V_D(t)\]
+
+Lo scostamento è inoltre definito come:
+\[\omega_i - \omega_0 = \frac{d \theta_0}{dt} = K_D V_D (t)\]
+
+Integrando la relazione $\frac{d\theta_0}{dt} = K_D V_D(t)$:
+\[\theta_0(t) = K_D \int_{0}^{t} V_D (\tau) d \tau\]
+
+Passando nel dominio di Laplace e ricordando che un'integrazione nel tempo corrisponde in $\mathscr{L}$ a una divisione per s:
+\[\theta_0(s) = \frac{K_D}{s} V_D(s)\]
+
+All'ingresso del Phase Detector avremo $V_{REF} (t) = V_{{REF}_m} cos\left[ \omega_0 (t) + \theta_{REF}(t)\right]$ e $V_{OUT}(t)= V_{{OUT}_m} cos\left[ \omega_0 (t) + \theta_0 (t) \right]$. L'uscita è pari alla differenza di fase a meno di un coefficiente $K_E$ dipendente dal Phase Detector scelto:
+\[V_E(s) = K_E\left[ \theta_{REF} (s) - \theta_0 (s)\right] = K_E \theta_E (s) \] 
+\[V_D (s) = V_E (s) F(s) = K_E \theta_E (s) F(s)\]
+
+Riprendendo il risultato precedente:
+\[\theta_0(s) = \frac{K_D}{s} V_D(s) = \frac{K_D}{s} K_E \theta_E (s) F(s) = \frac{K_D}{s} K_E\left[ \theta_{REF} (s) - \theta_0 (s)\right] F(s)\]
+\[\theta_0(s) \left[ s + K_D K_E F(s) \right] = K_D K_E F(s) \theta_{REF} (s)\]
+
+Possiamo dunque ricavare la funzione di trasferimento del PLL:
+\[H(s) = \frac{\theta_0}{\theta_{REF}} = \frac{K_D K_E F(s)}{s + K_D K_E F(s)}\]
+
+\section{Risposta al gradino di fase}
+Supponiamo ora che a un certo istante la fase del segnale in ingresso passi da $0$ a $\Delta\theta$. La trasformata di Laplace di questo gradino di fase sarà $\frac{\Delta\theta}{s}$.
+\[\theta_0 = \frac{\Delta\theta}{s} H(s) \]
+$$\mbox{Teorema del valore finale: } \lim\limits_{t \rightarrow \infty} \theta_0 (t) = 
+\lim\limits_{s \rightarrow 0} s \cdot \frac{\Delta\theta}{s} H(s) = 
+\lim\limits_{s \rightarrow 0} s \cdot \frac{\Delta \Theta}{s} \frac{K_D K_E F(s)}{s + K_D K_E F(s)} =
+\Delta \theta
+$$
+
+Dunque, al termine del transitorio anche la fase in uscita avrà subito una variazione $\Delta\theta$.
+L'andamento esatto del transitorio dipende, ovviamente, dall'andamento della funzione F(s), ma il
+valore finale è, comunque, $\Delta \theta$.\\
+Attenzione! Non è detto che la fase di uscita e la fase di ingresso abbiano stesso valore a regime. Quanto ricavato dice che ogni \textbf{variazione} di fase sull'ingresso viene replicata sull'uscita. In base a come si realizzano il \textit{phase detector}, il \textit{filtro} $F(s)$ ed il \textit{VCO} è possibile ricavare l'esatto rapporto di fase fra ingresso e uscita.
+
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/PLL-gradino}
+	\caption{Gradino di fase e di frequenza}
+	\label{fig:pll-gradino}
+\end{figure}
+
+
+\section{Risposta al gradino di frequenza}
+La funzione di trasferimento del PLL che lega le frequenze dei segnali in uscita ed in ingresso al PLL è la medesima di quella che lega le fasi:
+
+$$\begin{array}{lr}
+\Delta \Omega_0 = \mathscr{L} \left\lbrace 
+\Delta \omega_0
+\right\rbrace=
+s \theta_0\\
+\Delta \Omega_{REF} = \mathscr{L} \left\lbrace 
+\Delta \omega_{REF}
+\right\rbrace=
+s \theta_{REF}
+\end{array}
+~~
+\Rightarrow
+~~
+\frac{\Delta \Omega_0}{\Delta \Omega_{REF}} =
+\frac{\theta_0}{\theta_{REF}} = H(s)
+$$
+
+Si supponga che la pulsazione istantanea del segnale in ingresso al PLL (inizialmente pari a $\omega_0$) subisca una variazione brusca pari a $\Delta \omega$:
+$$V_{REF}(t) = V_{{REF}_m} cos \left[ (\omega_0 + \Delta \omega) t \right]
+$$
+
+La trasformata di Laplace del gradino di frequenza è pari a $\frac{\Delta \omega}{s}$. Come già visto nel caso del gradino di fase, applicando il teorema del valore finale si vede come la frequenza del segnale di uscita a regime tende ad agganciarsi a quella dell'ingresso.
+
+$$
+\lim\limits_{t \rightarrow \infty} \omega_0 (t) = \lim\limits_{s \rightarrow 0} s \cdot \frac{\Delta \omega}{s} H(s) =
+\lim\limits_{s \rightarrow 0} s \cdot \frac{\Delta \omega}{s} \frac{K_D K_E F(s)}{s + K_D K_E F(s)}
+= \Delta \omega$$
+
+A regime (per $t \rightarrow \infty$) dunque, la pulsazione del segnale di uscita avrà un valore $\omega_i \neq \omega_0$; ciò vuol dire che il segnale in ingresso al VCO sarà $V_D(t) \neq 0$ e più precisamente
+\[V_D ( s ) K_D = \Delta\omega \] 
+
+Il segnale in ingresso al VCO a regime sarà pari a:
+\[V_D (s) = K_E \left[\theta_{REF} (0) - \theta_0 (0)\right] F(0)\]
+
+Sostituendo a $V_D(s)$ il termine $\frac{\Delta \omega}{K_D}$ si ha:
+
+$$
+\Delta \omega = K_D K_E \left[ \theta_{REF}(0) - \theta_0(0) \right] F(0)
+$$
+$$
+\theta_{REF}(0) - \theta_0(0) = \frac{\Delta \omega}{K_D K_E F(0)}
+$$
+
+Affinché il PLL assuma la stessa fase a regime del segnale in ingresso, deve essere $\theta_{REF}(0) - \theta_0(0) = 0$. Da quest'ultima espressione si può vedere che l'unico modo affinché il PLL	possa agganciare la fase del segnale in ingresso di riferimento anche ad una pulsazione $\omega_i \neq \omega_0$ è che risulti $F (0) \rightarrow\infty$. Un quadripolo che ha un guadagno che tende all'infinito per $s \rightarrow 0$ è l'integratore, che ha una risposta del tipo:
+$$F(s) = \frac{A_0}{s}$$
+
+La funzione di trasferimento risulta quindi:
+\[H(s) = \frac{K_D K_E \frac{A_0}{s}}{s+ K_D K_E \frac{A_0}{s}} = \frac{K_D K_E A_0}{s^2 + K_D K_E A_0}\]
+
+Notiamo che i poli sono immaginari puri e che di conseguenza il sistema è marginalmente stabile. Dovremo introdurre compensazione.
+\[\beta A (s) = - \frac{K_E K_D A_0}{s^2}\]
+\[\beta A (j\omega) = \frac{K_E K_D A_0}{\omega^2}\]
+
+%	\begin{figure}[tbh]
+%		\centering
+%		\includegraphics[width=0.5\linewidth]{img/pll-integratore-compensato}
+%		\caption{}
+%		\label{fig:pll-integratore-compensato}
+%	\end{figure}
+
+
+%	Immaginando di lavorare con un integratore ad amplificatore operazionale per semplicità. Inserendo R per compensare si ottiene:
+%	\[ F(s) = F_{\infty} \frac{s-s_0}{s} = - \frac{R_1 + R}{R_1} \frac{\frac{1}{(R_1 + R)C} + s}{s}\]
+
+Effettuando la compensazione inserendo uno zero si ottiene una funzione di trasferimento dell'integratore con la seguente forma:
+\[ F(s) = F_{\infty} \frac{s-s_0}{s}\]
+
+Adesso:
+\[H(s) = \frac{K_D K_E F_{\infty} \frac{s-s_0}{s}}{s+K_D K_E F_{\infty} \frac{s-s_0}{s}} = \frac{K_D K_E F_{\infty} (s-s_0)}{s^2 + K_D K_E F_{\infty} s - K_D K_E F_{\infty} s_0}\]
+
+Applicando la regola di Cartesio si vede che il polinomio al denominatore adesso presenta due permanenze di segno ($s_0$ è minore di zero). Le radici sono allora entrambe negative e quindi il sistema è stabile.
+\\
+In certi casi può essere utile, per eliminare disturbi interni al PLL, scegliere un polo a bassa frequenza mentre per una risposta rapida può essere più efficace  scegliere un polo ad alte frequenze.
+%Dai diagrammi di Bode si vede bene che il margine di fase è $\frac{\pi}{2}$. Non è possibile spostare troppo in alto $\omega_0$, altrimenti il margine peggiora ma possiamo vedere cosa succede a 45 gradi:
+%\[\arrowvert \beta A (j\omega) \arrowvert = 1\]
+%	\[K_E K_D \frac{F_{\infty}}{\omega_0 ^2} \sqrt{\omega_0^2+\omega_0^2} = 1   \Rightarrow \omega_0 = K_E K_D F_{\infty} \sqrt{2}\]
+%	
+%Che forma di $H(s)$ preferisco? 
+%\[H(s) = \frac{K_D K_E F_{\infty} (s-s_0)}{s^2 + K_D K_E F_{\infty} (s-s_0)} \]	
+
+\section{Parametri Caratterizzanti di un PLL}
+\paragraph{Ordine del PLL:} grado del polinomio al denominatore della funzione di trasferimento $H(s)$.
+
+\paragraph{Variabile di aggancio:} $V_A = \begin{cases}
+1 & \mbox{se il PLL è agganciato}\\
+0 & \mbox{se il PLL non è agganciato}
+\end{cases}$
+
+\paragraph{Range di aggancio:} intervallo frequenziale per cui il PLL riesce ad \textit{agganciarsi}, ovvero a generare un segnale in uscita che insegue quello in ingresso.
+\paragraph{Range di mantenimento:} intervallo frequenziale per cui il PLL riesce a mantenere l'uscita agganciata all'ingresso. In genere il range di mantenimento è maggiore del range di aggancio.
+
+\begin{figure}[thb]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/PLL-caratteristica}
+	\caption{Caratteristica del PLL}
+	\label{fig:caratteristica del PLL}
+\end{figure}
+
+
+\section{Implementazioni del Phase Detector}
+I blocchi interni al PLL sono quasi tutti oggetti noti: il Voltage Controlled Oscillator si può fare con un oscillatore di Clapp, visto al capitolo \ref{sub:VCO}, il blocco $F(s)$ si può fare con una generica rete passiva (a massimo 3 poli).\\
+L'unico blocco ancora non analizzato è il Phase Detector, di cui si illustrano 3 possibili implementazioni.
+
+
+\subsection{Moltiplicatore (PLL analogico)}
+Questo Phase Detector è di tipo analogico perché realizzato a partire da un mixer i cui ingressi sono la pulsazione di riferimento $V_{REF}(t)$ e l'uscita $V_{OUT}(t)$. Al solito, dal segnale di uscita si seleziona la sola componente a frequenza differenza, ipotizzando che tale operazione introduca un fattore moltiplicativo C.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.55\linewidth]{img/PLL-moltiplicatore}
+	\caption{}
+	\label{fig:pll-moltiplicatore}
+\end{figure}
+
+\begin{align*}
+V_E(t) & =  C \cdot V_{REF}(t) V_{OUT}(t) = C \cdot  V_{{REF}_m} cos \left[ \omega_0 t + \theta_{REF}(t)\right]
+V_{{OUT}_m} cos \left[ \omega_0 t + \theta_0(t)\right]
+\\
+V_D(t) & = \frac{1}{2} \cdot C \cdot V_{{REF}_m}V_{{OuT}_m} cos \left[ \theta_{REF}(t) -\theta_0(t) \right]
+\end{align*}
+
+
+\begin{multicols}{2}
+	Il PLL è a regime quando la tensione applicata al VCO è nulla, ossia per $V_D(t) = 0$. Dal grafico in figura a lato si vede che questo si ha per\\ $\theta_{REF} (t) - \theta_0(t) = \begin{cases}\nicefrac{\pi}{2}\\\nicefrac{3\pi}{2}\end{cases}$
+	\\ma $\nicefrac{\pi}{2}$ è un punto di equilibrio instabile\footnote{La derivata della caratteristica è negativa, dunque una piccola variazione dal punto di stabilità comporta effetti che tendono a destabilizzare ulteriormente il sistema}.
+	
+	Poiché la fase è definita a meno di una costante, si può porre $\theta_{REF} = 0$. Ne consegue che $\theta_0 = \theta_{REF} - \frac{3}{2}\pi$, quindi $\theta_0 = \frac{\pi}{2}$: l'oscillazione di riferimento e quella di uscita sono una coppia di segnali in quadratura.	
+	
+	\columnbreak
+	\centering
+	\null\vfill
+	\includegraphics[width=0.8\linewidth]{img/cosx}
+	\vfill\null
+\end{multicols}
+
+\subsection{XOR}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL-xor}
+	\caption{}
+	\label{fig:pll-XOR}
+\end{figure}
+
+
+In questo caso il PD è realizzato a partire da una porta XOR che prende in ingresso le due oscillazioni. Poiché è un componente digitale si provvede a \textit{squadrare} i segnali attraverso opportuni comparatori. Ciò non influenzerà la forma dell'uscita, poiché il VCO produce sempre segnali sinusoidali.
+
+A regime, l'uscita della XOR è un treno di impulsi a frequenza $f_0$ e con larghezza correlata allo sfasamento fra riferimento e oscillazione d'uscita. Il filtro passa basso estrae il valor medio del segnale (anch'esso proporzionale allo sfasamento), che una volta traslato($V_D$) funge da segnale pilota per il VCO.
+
+La traslazione è necessaria perché il VCO ha bisogno di una tensione sia positiva che negativa.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/PLL-XOR-waveform}
+	\includegraphics[width=0.45\linewidth]{img/PLL-XOR-charat}
+	\caption{Si sono indicate con $V'_{REF}$ e $V'_{OUT}$
+		le ``versioni squadrate'' dei rispettivi segnali.}
+	\label{fig:pll-xor-waveform}
+\end{figure}
+
+Supponendo che l'uscita della XOR $V_E$ vada da 0 a $V_0$, analizziamone l'andamento e il conseguente valor medio:
+\begin{itemize}
+	\item se le oscillazioni sono perfettamente in fase l'uscita è sempre nulla. Il valor medio traslato è, pertanto, $-\nicefrac{V_0}{2}$;
+	\item con un certo sfasamento l'uscita è un treno di impulsi, per cui il valor medio cresce;
+	\item quando $V'_REF$ e $V'_OUT$ sono in quadratura l'uscita è esattamente un'onda quadra. Il suo valor medio è $\nicefrac{V_0}{2}$, pertanto in ingresso al VCO arriva un segnale nullo: questo è un potenziale punto di stabilità;
+	\item al crescere dello sfasamento l'uscita aumenta, fino ad arrivare al massimo quando i segnali sono in opposizione di fase: l'uscita della XOR è costante a $V_0$;
+	\item aggiungendo ulteriore sfasamento l'andamento è simmetrico.
+\end{itemize}
+
+Tracciando l'andamento di $V_D$ (l'uscita della XOR filtrata e traslata) in funzione dello sfasamento si ottiene la curva illustrata in figura \ref{fig:pll-xor-waveform}, e si può constatare che il punto effettivo di stabilità non è in $\nicefrac{3 \pi}{2}$ bensì in $\nicefrac{\pi}{2}$. Anche con questa configurazione l'uscita è in quadratura con l'ingresso.
+% si può accennare al fatto che il funzionamento è non lineare al picco
+
+\subsection{Flip Flop SR}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL-flipflop}
+	\caption{}
+	\label{fig:pll-SR}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/PLL-SR-waveform}
+	\includegraphics[width=0.45\linewidth]{img/PLL-SR-charat}
+	\caption{}
+	\label{fig:pll-SR-waveform}
+\end{figure}
+
+Il principio di funzionamento è analogo alla precedente configurazione, per cui si può passare direttamente all'analisi a regime:
+\begin{itemize}
+	\item se le oscillazioni sono perfettamente in fase l'uscita è sempre nulla e l'ingresso del VCO è $-\nicefrac{V_0}{2}$;
+	\item quando i segnali sono in opposizione di fase l'uscita è un'onda quadra: il valor medio è $\nicefrac{V_0}{2}$ e in ingresso al VCO arriva un valore nullo;
+	\item la larghezza degli impulsi cresce con lo sfasamento, e torna bruscamente a zero quando si raggiunge nuovamente la condizione di pari fase (o di sfasamento a $2\pi$).
+\end{itemize}
+
+Qui si ha un solo punto con ingresso nullo al VCO, ossia per sfasamento $\theta_{REF} - \theta_0 = \pi$, ed è un punto di equilibrio stabile.
+Questa configurazione da' luogo a due segnali in opposizione di fase.
+% si può dire che la zona lineare è il doppio di quella a XOR
+
+\section{Applicazioni del PLL}
+Abbiamo visto che possiamo configurare il PLL come generatore di oscillazioni in fase e quadratura. Vediamo adesso qualche altra applicazione tipica.
+\subsection{Sintetizzatore di frequenza}
+Una delle configurazioni più diffuse del PLL è il sintetizzatore di frequenza: un sistema in grado di generare un insieme discreto di valori di frequenza a partire da un'oscillazione di riferimento fissata. Questo oggetto trova impiego negli oscillatori locali, nelle reti per il clock per i circuiti digitali integrati e nella strumentazione di precisione.
+
+Esso consente, al variare di N, di ottenere, a partire da una oscillazione generata mediante un oscillatore stabile (in genere un oscillatore al quarzo), un set di frequenze caratterizzate dalla stessa stabilità relativa dell'oscillatore di riferimento e distanti l'una dall'altra di una quantità pari a $\frac{\omega_0}{M}$ che rappresenta la risoluzione in frequenza del sintetizzatore.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/PLL-sintetizzatore}
+	\caption{}
+	\label{fig:pll-sintetizzatore}
+\end{figure}
+
+
+Lo schema a blocchi prevede l'introduzione di due divisori di frequenza agli ingressi del Phase Detector. All'equilibrio:
+
+\[\frac{\omega_0}{N} = \frac{\omega_{REF}}{M} \Rightarrow \omega_0 = \frac{N}{M} \omega_{REF}  \]
+
+$\omega_0$, al fine del corretto funzionamento del sistema, deve comunque rimanere nei range di aggancio e mantenimento. Si osservi inoltre che il PD lavora ad una frequenza pari alla risoluzione ed a fronte di una variazione dell'ingresso è necessario un tempo almeno dello stesso ordine di grandezza del periodo $\frac{2 \pi M}{\omega_Q}$ perché l'uscita vada a regime.
+\subsection{Traslatore di frequenza}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL-traslatore}
+	\caption{}
+	\label{fig:pll-traslatore}
+\end{figure}
+
+Inseriamo stavolta un moltiplicatore all'uscita del VCO, seguito da un filtro passa basso che elimina la componente in uscita a frequenza $f_0 + f_1$. All'equilibrio si ottiene:
+
+\[ f_{REF} = f_0 - f_1 \Rightarrow f_0 = f_{REF} + f_1 \]
+
+Se $V_{REF}(t)$ è un segnale modulato in frequenza vado a traslarlo a una frequenza più alta. Vediamo perché può essere più comodo: il mixer lavora in commutazione quindi in uscita ottengo una serie di armoniche che va filtrata per ottenere un segnale che non vada a interferire con i canali adiacenti. Se si necessita di cambiare la frequenza portante di trasmissione il filtro dovrà essere accordabile. Il traslatore di frequenza permette di evitare il filtro accordabile: si modula il segnale a una frequenza nota e si varia la frequenza di trasmissione accordando $f_1$
+
+\subsection{Demodulatore FM}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL-demodulatoreFM}
+	\caption{}
+	\label{fig:pll-traslatore}
+\end{figure}
+
+Prendiamo stavolta la configurazione classica del PLL e scegliamo $V_D$ come uscita. Se l'ingresso è un segnale FM si ottiene:
+\[V_{REF}(t) = V_{FM} \cdot cos\left[ \omega_0 t + \omega_D \int_{0}^{t} x(\tau) d\tau \right]  \]
+
+La frequenza istantanea del segnale in ingresso è:
+\[ \omega_I (t) = \omega_0 + \omega_D x(t) \]
+
+Passando nel dominio di Laplace:
+\[\omega_D \frac{x(s)}{s} = \theta_{REF}(s)  \]
+\[V_E = K_E (\theta_{REF} - \theta_0) = K_E \left[\omega_D \frac{x(s)}{s} - \theta_0\right] \]
+\[V_D = F(s) K_E \left[\omega_D \frac{x(s)}{s} - \theta_0\right] \]
+
+Ricordando dai risultati precedenti che $\theta_0 s = K_D V_D $:
+\[V_D = F(s) K_E \left[\omega_D \frac{x(s)}{s} - \frac{K_D V_D}{s} \right] \]
+\[V_D \left[ 1+\frac{K_E K_D}{s} F(s) \right] = K_E \frac{\omega_D F(s)x(s)}{s}  \]
+\[V_D(s) = \frac{K_E \omega_D F(s)}{s+K_E K_D F(s)} x(s) \]
+\[V_D(j\omega) = \frac{K_E \omega_D F(j\omega)}{s+K_E K_D F(j\omega)} x(j\omega) \]
+
+Se immaginiamo $F(s)$ costante in banda di $x(t)$, ovvero che $B_x$ è molto minore della frequenza di taglio del passa basso:
+\[ V_D(j\omega) = \frac{K_E \omega_D F(0)}{s+K_E K_D F(0)} x(j\omega) \]
+
+La funzione di trasferimento $V_D (j\omega)$ ha un polo in $\omega_p$. Se $B_x \ll \omega_p$ allora:
+
+\[ V_D(j\omega) = \frac{K_E \omega_D F(0)}{K_E K_D F(0)} x(j\omega) = \frac{\omega_D}{K_D} x(j\omega)\]
+
+Quindi mettendo un segnale FM in ingresso otteniamo il segnale modulante in uscita. Possiamo vedere lo stesso risultato nel dominio del tempo. Se il VCO riesce a inseguire l'ingresso si ha:
+\[\omega_I = \omega_0 + \omega_D x(t)  \]
+\[\omega_D x(t) = K_D V_D \Rightarrow V_D = \frac{\omega_D}{K_D} x(t)\]
+
+\subsection{Modulatore FM Indiretto}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL-modFM}
+	\caption{}
+	\label{fig:pll-modfm}
+\end{figure}
+
+
+In questo caso l'oscillazione di riferimento viene fornita da un oscillatore stabile (ad esempio un
+oscillatore al quarzo) ed il segnale modulante $x(t)$ viene prima integrato, quindi inserito nell'anello
+di controllo attraverso un sommatore. 
+La tecnica di modulazione non si basa sulla variazione di un parametro circuitale dell'oscillatore e per questo si parla di modulatore indiretto. La soluzione opposta, il modulatore diretto, si basa invece su una stimolazione diretta di un parametro circuitale (solitamente un varicap inserito in un oscillatore di Clapp). Questa operazione risulta poco precisa in quanto la caratteristica del varicap, sebbene linearizzabile in un intorno di $f_0$, non è perfettamente rettilinea. In più gli errori di processo e gli effetti di deriva dei parametri dovuti alla temperatura e all'invecchiamento contribuiscono a peggiorare la qualità della modulazione. Vedremo che con una soluzione diretta a PLL sarà possibile esulare dai problemi sopra citati e ottenere una modulazione molto più precisa.
+
+Imponendo, senza perdita di generalità $\theta_{REF} = 0$: 
+\[V_E (s) = K_E(\theta_{REF} - \theta_{0}) = -K_E\theta_{0}\]
+\[V_E'(s) = -K_E\theta_{0} + \omega_D \frac{x(s)}{s} \]
+\[V_D (s) = F(s)\left(-K_E\theta_{0} + \omega_D \frac{x(s)}{s}\right) \]
+\[\theta_{0}s = K_D V_D (s) = K_D F(s)\left(-K_E\theta_{0} + \omega_D \frac{x(s)}{s}\right) \]
+\[\theta_{0}s = \frac{K_D F(s) \omega_D}{s+K_D K_E F(s)} x(s)\]
+
+Ipotizzando nuovamente che $B_x \ll f_t$ (e quindi $F(s) \simeq F(0)$) e che $B_x \ll \omega_p$:
+\[\dot{\theta_{0}} \simeq \frac{\omega_D}{K_E} x(t)\]
+
+Ho quindi realizzato una modulazione in frequenza dipendente solo da parametri costanti del circuito, quali $K_E$ e $\omega_D$.
+	
+\section{Effetti del rumore sul PLL}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/PLL-noise}
+	\caption{}
+	\label{fig:pll-noise}
+\end{figure}
+
+Osservando una qualsiasi oscillazione sinusoidale generata da un sistema reale si può verificare che questa oscillazione non si mantiene sempre perfettamente periodica ma, aleatoriamente, la fase subisce delle variazioni che perturbano l'andamento temporale. Questo avviene a causa del cosiddetto rumore di fase (Jitter) e le variazioni che subisce la fase sono tanto più grandi quanto il rumore è alto. Chiaramente questo costituisce un problema importante nella generazione di un'oscillazione precisa: una componente di rumore di fase alta può ad esempio provocare campionamenti imprecisi in un un ricevitore radio digitale\footnote{in un sistema di trasmissione digitale con simboli a coseno rialzato, per rispettare la condizione di Nyquist per la cancellazione dell'interferenza intersimbolica, è necessario avere un campionamento idealmente privo di errore} e conseguentemente peggiorare la qualità della ricezione. Possiamo esprimere un'oscillazione affetta da rumore di fase nel seguente modo:
+\[V_{OL}(t) = V_{OL_{m}} cos(\omega_0 t + \theta_n (t))  \]
+
+Si può misurare l'ammontare del rumore di fase con un analizzatore di spettro a scansione: si manda in ingresso al sistema la sinusoide generata dall'oscillatore. Così facendo l'analizzatore restituisce sul display la forma del filtro a frequenza intermedia. Si procede dunque a restringere il filtro a frequenza intermedia, passando dal meno selettivo al più selettivo. Quando, nonostante si abbassi la selettività del filtro, non si noteranno variazioni nel display si sarà valutata l'entità del rumore di fase.
+
+Un PLL può essere affetto da rumore di fase in diversi punti del circuito. Immaginiamo che il rumore sia dovuto al Phase Detector inserendo, con un sommatore, il rumore dopo di esso:
+\[V_E(s) = -K_E \theta_0 \]
+\[V_E' (s) = -K_E \theta_0 + v_n  \]
+\[V_D (s) = F(s)\left(-K_E \theta_0 + v_n\right)\]
+\[\theta_0 s = K_D V_D = K_D F(s)\left(-K_E \theta_0 + v_n\right)\]
+\[\theta_0 = \frac{v_n K_D F(s)}{s + K_D K_E F(s)} \]
+\[\frac{\theta_0}{v_n} = \frac{K_D F(s)}{s + K_D K_E F(s)} = \frac{H(s)}{K_E} = H_{n1}(s)\]
+
+Con $F(s) = F_{\infty}\frac{s-s_0}{s}$:
+\[H(s) = \frac{K_D K_E F_{\infty} (s-s_0)}{s^2 + K_D K_E F_{\infty} s - K_D K_E F_{\infty} s_0} \]
+\[H_{n1}(s) = \frac{K_D F_{\infty} (s-s_0)}{s^2 + K_D K_E F_{\infty} s - K_D K_E F_{\infty} s_0}  \]
+
+Come si scelgono i poli? Se si prendono a basse frequenze (PLL a banda stretta) cala il rumore di fase ma si rallentano i transitori di cambio frequenza e si rischia di alterare la stabilità.
+
+Se invece immaginiamo che sia il VCO il dispositivo affetto da rumore di fase, allora otteniamo dei risultati diversi:
+
+\[V_E(s) = -K_E \theta_{0} \]
+\[V_D(s) = -K_E \theta_{0}F(s)\]
+
+In uscita dal VCO si avrà:
+\[\omega_I =\omega_0 + \dot{\theta_0} = \omega_0 + K_D V_D + \dot{\theta_n} (t)  \]
+\[ \theta_{0}s = K_D V_D + \theta_n s \Rightarrow V_D = \frac{\theta_{0}-\theta_n}{K_D} s = -K_E \theta_{0}F(s)\]
+\[\theta_0 = \frac{\theta_n s}{s + K_D K_E F(s)}\]
+\[\frac{\theta_0}{\theta_n} = \frac{s}{s + K_D K_E F(s)}\]
+
+Questa è la funzione di trasferimento del rumore di fase riportato sull'uscita. Sostituendo l'espressione completa di $F(s)$:
+\[\frac{\theta_0}{\theta_n} = \frac{s^2}{s^2 + K_D K_E s F_{\infty} -K_D K_E F_{\infty} s_0} \]
+
+Adesso conviene inserire poli più alti possibile: in questo modo si filtra più possibile il rumore di fase alle basse frequenze. Si parla in questo caso di PLL a banda larga.
