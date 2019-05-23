@@ -1,5 +1,7 @@
 # Dispense-ETLC
-Dispense del corso di Elettronica per le Telecomunicazioni - UniPI
+Dispense del corso di Elettronica per le Telecomunicazioni - UniPi
+
+Il PDF è scaricabile nella sezione [release](https://github.com/giuliof/Dispense-ETLC/releases).
 
 Il repository contiene solamente il sorgente .tex, è necessario
 scaricare a parte le immagini.
